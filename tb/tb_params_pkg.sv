@@ -42,6 +42,6 @@ endclass
 typedef rf_agent_cfg #(HMC::HMC_RF_WWIDTH, HMC::HMC_RF_RWIDTH, HMC::HMC_RF_AWIDTH) rf_agent_cfg_t;
 typedef rf_agent     #(HMC::HMC_RF_WWIDTH, HMC::HMC_RF_RWIDTH, HMC::HMC_RF_AWIDTH) rf_agent_t;
 
-typedef virtual rf_bfm #(HMC::HMC_RF_WWIDTH, HMC::HMC_RF_RWIDTH, HMC::HMC_RF_AWIDTH) rf_bfm_t;
+typedef virtual rf_if #(HMC::HMC_RF_WWIDTH, HMC::HMC_RF_RWIDTH, HMC::HMC_RF_AWIDTH) rf_if_t;
 
 endpackage
