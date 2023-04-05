@@ -12,7 +12,7 @@ POSTED_MISC_WRITE_TYPE = 6'h20, // 6'b100_xxx
 MODE_READ_TYPE         = 6'h28, // 6'b101_xxx
 READ_TYPE              = 6'h30, // 6'b110_xxx
 RESPONSE_TYPE          = 6'h38  // 6'b111_xxx
-} cmd_type;
+} cmd_type_e;
 
 typedef enum bit [5:0] {
 // Flow
@@ -64,6 +64,6 @@ WR_RS    = 6'h39, // 6'b111_001
 MD_RD_RS = 6'h3A, // 6'b111_010
 MD_WR_RS = 6'h3B, // 6'b111_011
 ERROR_RS = 6'h3E  // 6'b111_110
-} cmd_encoding;
+} cmd_encoding_e;
   
 endpackage : cmd_pkg

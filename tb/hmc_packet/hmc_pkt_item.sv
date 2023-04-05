@@ -10,7 +10,7 @@ class hmc_pkt_item extends  uvm_sequence_item;
   rand   bit   [8:0]      tag;                 // TAG    [23:15]
   rand   bit   [3:0]      duplicate_length;    // DLN    [14:11]
   rand   bit   [3:0]      length;              // LNG    [10: 7]
-  rand   cmd_encoding     command;             // CMD    [ 5: 0]
+  rand   cmd_encoding_e   command;             // CMD    [ 5: 0]
 
   bit    [127:0]          payload[$];          // data payload queue, multiples of 16-byte FLITs
 
@@ -57,7 +57,7 @@ class hmc_pkt_item extends  uvm_sequence_item;
     `uvm_field_int      (tag,              UVM_DEFAULT | UVM_NOPACK | UVM_DEC)
     `uvm_field_int      (duplicate_length, UVM_DEFAULT | UVM_NOPACK | UVM_DEC)
     `uvm_field_int      (length,           UVM_DEFAULT | UVM_NOPACK | UVM_DEC)
-    `uvm_field_enum(cmd_encoding, command, UVM_DEFAULT | UVM_NOPACK )
+    `uvm_field_enum(cmd_encoding_e, command, UVM_DEFAULT | UVM_NOPACK )
 
     `uvm_field_queue_int(payload,          UVM_DEFAULT | UVM_NOPACK)
 
@@ -180,7 +180,7 @@ class hmc_pkt_item extends  uvm_sequence_item;
   //*****************************************************************************//
   extern function new(string name = "");
   extern function void post_randomize();
-  extern function cmd_type get_command_type();
+  extern function cmd_type_e get_command_type();
   extern function bit [31:0] calculate_crc();
   extern function bit [31:0] calc_crc(bit bitstream[]);
 
@@ -340,7 +340,7 @@ function hmc_pkt_item::new(string name = "");
   super.new(name);
 endfunction : new
 
-function cmd_type hmc_pkt_item::get_command_type();
+function cmd_type_e hmc_pkt_item::get_command_type();
   case(command & `TYPE_MASK)
     FLOW_TYPE:              return FLOW_TYPE;
     WRITE_TYPE:             return WRITE_TYPE;
