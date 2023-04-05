@@ -1,6 +1,6 @@
-class reg_control #(LOG_MAX_RX_TOKENS = 8) extends  uvm_reg;
+class reg_control extends  uvm_reg;
 
-  `uvm_object_param_utils(reg_control #(LOG_MAX_RX_TOKENS))
+  `uvm_object_utils(reg_control)
   
   rand uvm_reg_field  p_rst_n;
   rand uvm_reg_field  hmc_init_cont_set;
@@ -45,7 +45,7 @@ virtual function void build();
   this.first_cube_ID.configure             (this, 3, 5, "RW", 0, 3'h0, 1, 0, 1);
   this.debug_halt_on_error_abort.configure (this, 1, 8, "RW", 0, 1'h0, 1, 0, 1);
   this.debug_halt_on_tx_retry.configure    (this, 1, 9, "RW", 0, 1'h0, 1, 0, 1);
-  this.rx_token_count.configure            (this, LOG_MAX_RX_TOKENS, 16, "RW", 0, {LOG_MAX_RX_TOKENS{1'b1}}, 1, 0, 1);
+  this.rx_token_count.configure            (this, 10, 16, "RW", 0, {10{1'b1}}, 1, 0, 1);
   this.irtry_received_threshold.configure  (this, 5, 32, "RW", 0, 5'h10, 1, 0, 1);
   this.irtry_to_send.configure             (this, 5, 40, "RW", 0, 5'h18, 1, 0, 1);
   
