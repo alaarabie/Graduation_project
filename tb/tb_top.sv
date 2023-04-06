@@ -36,11 +36,14 @@ module tb_top
   import uvm_pkg::*;
   import tb_params_pkg::*;
 
+  logic clk;
+  logic res_n;
+
 
   rf_if #(.HMC_RF_WWIDTH(HMC::HMC_RF_WWIDTH),
           .HMC_RF_RWIDTH(HMC::HMC_RF_RWIDTH),
           .HMC_RF_AWIDTH(HMC::HMC_RF_AWIDTH))
-        RF ();
+    RF (.clk(clk), .res_n(res_n));
 
 
   openhmc_top #(.FPW(FPW),
@@ -66,45 +69,57 @@ module tb_top
                 .XIL_CNT_PIPELINED(XIL_CNT_PIPELINED),
                 .BITSLIP_SHIFT_RIGHT(BITSLIP_SHIFT_RIGHT),
                 .DBG_RX_TOKEN_MON(DBG_RX_TOKEN_MON))
-              dut (.clk_hmc(),
-                   .res_n_hmc(),
-                   //axi interface
-                   .s_axis_tx_TVALID(),
-                   .s_axis_tx_TREADY(),
-                   .s_axis_tx_TDATA(),
-                   .s_axis_tx_TUSER(),
-                   .m_axis_rx_TVALID(),
-                   .m_axis_rx_TREADY(),
-                   .m_axis_rx_TDATA(),
-                   .m_axis_rx_TUSER(),
-                   // transceiver
-                   .phy_data_tx_link2phy(),
-                   .phy_data_rx_phy2link(),
-                   .phy_bit_slip(), //Must be connected if DETECT_LANE_POLARITY==1 AND CTRL_LANE_POLARITY=0
-                   .phy_lane_polarity(), //All 0 if CTRL_LANE_POLARITY=1
-                   .phy_tx_ready(), //Optional information to RF
-                   .phy_rx_ready(), //Release RX descrambler reset when PHY ready
-                   .phy_init_cont_set(), //Can be used to release transceiver reset if used
-                   // hmc
-                   .P_RST_N(),
-                   .LXRXPS(),
-                   .LXTXPS(),
-                   .FERR_N(),
-                   // register file
-                   .rf_address(RF.rf_address),
-                   .rf_read_data(RF.rf_read_data),
-                   .rf_invalid_address(RF.rf_invalid_address),
-                   .rf_access_complete(RF.rf_access_complete),
-                   .rf_read_en(RF.rf_read_enable),
-                   .rf_write_en(RF.rf_write_enable),
-                   .rf_write_data(RF.rf_write_data)
-                   );
+    dut (.clk_hmc(clk),
+         .res_n_hmc(res_n),
+         //axi interface
+         .s_axis_tx_TVALID(),
+         .s_axis_tx_TREADY(),
+         .s_axis_tx_TDATA(),
+         .s_axis_tx_TUSER(),
+         .m_axis_rx_TVALID(),
+         .m_axis_rx_TREADY(),
+         .m_axis_rx_TDATA(),
+         .m_axis_rx_TUSER(),
+         // transceiver
+         .phy_data_tx_link2phy(),
+         .phy_data_rx_phy2link(),
+         .phy_bit_slip(), //Must be connected if DETECT_LANE_POLARITY==1 AND CTRL_LANE_POLARITY=0
+         .phy_lane_polarity(), //All 0 if CTRL_LANE_POLARITY=1
+         .phy_tx_ready(), //Optional information to RF
+         .phy_rx_ready(), //Release RX descrambler reset when PHY ready
+         .phy_init_cont_set(), //Can be used to release transceiver reset if used
+         // hmc
+         .P_RST_N(),
+         .LXRXPS(),
+         .LXTXPS(),
+         .FERR_N(),
+         // register file
+         .rf_address(RF.rf_address),
+         .rf_read_data(RF.rf_read_data),
+         .rf_invalid_address(RF.rf_invalid_address),
+         .rf_access_complete(RF.rf_access_complete),
+         .rf_read_en(RF.rf_read_enable),
+         .rf_write_en(RF.rf_write_enable),
+         .rf_write_data(RF.rf_write_data)
+         );
 
 
 initial begin
   uvm_config_db#(rf_if_t)::set(null, "uvm_test_top", "RF", RF);
 
   run_test();
+end
+
+initial begin
+  res_n <= 1;
+  clk <= 0;
+  repeat(10) begin
+    #10ns clk <= ~clk;
+  end
+  res_n <= 0;
+  forever begin
+    #10ns clk <= ~clk;
+  end
 end
 
 endmodule : tb_top
