@@ -2,6 +2,9 @@
 `define assert_clk(arg) \
   assert property (@(posedge clk) disable iff (!rst_n) arg)
 
+`define assert_async_rst(arg) \
+  assert property (@(posedge clk) arg)
+
 module openhmc_sva #(
     //Define width of the datapath
     parameter FPW                   = 4,        //Legal Values: 2,4,6,8
@@ -50,31 +53,31 @@ module openhmc_sva #(
     //----------------------------------
     //From AXI to HMC Ctrl TX
     input  wire                         s_axis_tx_TVALID,
-    input wire                         s_axis_tx_TREADY,
+    input  wire                         s_axis_tx_TREADY,
     input  wire [DWIDTH-1:0]            s_axis_tx_TDATA,
     input  wire [NUM_DATA_BYTES-1:0]    s_axis_tx_TUSER,
     //From HMC Ctrl RX to AXI
-    input wire                         m_axis_rx_TVALID,
+    input  wire                         m_axis_rx_TVALID,
     input  wire                         m_axis_rx_TREADY,
-    input wire [DWIDTH-1:0]            m_axis_rx_TDATA,
-    input wire [NUM_DATA_BYTES-1:0]    m_axis_rx_TUSER,
+    input  wire [DWIDTH-1:0]            m_axis_rx_TDATA,
+    input  wire [NUM_DATA_BYTES-1:0]    m_axis_rx_TUSER,
 
     //----------------------------------
     //----Connect Transceiver
     //----------------------------------
-    input wire  [DWIDTH-1:0]           phy_data_tx_link2phy,//Connect!
+    input  wire  [DWIDTH-1:0]           phy_data_tx_link2phy,//Connect!
     input  wire  [DWIDTH-1:0]           phy_data_rx_phy2link,//Connect!
-    input wire  [NUM_LANES-1:0]        phy_bit_slip,       //Must be connected if DETECT_LANE_POLARITY==1 AND CTRL_LANE_POLARITY=0
-    input wire  [NUM_LANES-1:0]        phy_lane_polarity,  //All 0 if CTRL_LANE_POLARITY=1
+    input  wire  [NUM_LANES-1:0]        phy_bit_slip,       //Must be connected if DETECT_LANE_POLARITY==1 AND CTRL_LANE_POLARITY=0
+    input  wire  [NUM_LANES-1:0]        phy_lane_polarity,  //All 0 if CTRL_LANE_POLARITY=1
     input  wire                         phy_tx_ready,       //Optional information to RF
     input  wire                         phy_rx_ready,       //Release RX descrambler reset when PHY ready
-    input wire                         phy_init_cont_set,  //Can be used to release transceiver reset if used
+    input  wire                         phy_init_cont_set,  //Can be used to release transceiver reset if used
 
     //----------------------------------
     //----Connect HMC
     //----------------------------------
-    input wire                         P_RST_N,
-    input wire                         LXRXPS,
+    input  wire                         P_RST_N,
+    input  wire                         LXRXPS,
     input  wire                         LXTXPS,
     input  wire                         FERR_N,
 
@@ -82,13 +85,20 @@ module openhmc_sva #(
     //----Connect RF
     //----------------------------------
     input  wire  [HMC_RF_AWIDTH-1:0]    rf_address,
-    input wire  [HMC_RF_RWIDTH-1:0]    rf_read_data,
-    input wire                         rf_invalid_address,
-    input wire                         rf_access_complete,
+    input  wire  [HMC_RF_RWIDTH-1:0]    rf_read_data,
+    input  wire                         rf_invalid_address,
+    input  wire                         rf_access_complete,
     input  wire                         rf_read_en,
     input  wire                         rf_write_en,
     input  wire  [HMC_RF_WWIDTH-1:0]    rf_write_data
 );
+
+// AXI assertions
+tx_valid_hold_until_ready_active :
+  `assert_clk ((s_axis_tx_TVALID == 1 && s_axis_tx_TREADY == 0) |=> (s_axis_tx_TVALID==1))
+
+rx_valid_hold_until_ready_active :
+  `assert_clk ((m_axis_rx_TVALID == 1 && m_axis_rx_TREADY == 0) |=> (m_axis_rx_TVALID==1))
 
 
 
