@@ -103,6 +103,30 @@ module tb_top
          .rf_write_data(RF.rf_write_data)
          );
 
+  bind openhmc_top : dut openhmc_sva #(.FPW(FPW),
+                                       .LOG_FPW(LOG_FPW),
+                                       .DWIDTH(DWIDTH),
+                                       .LOG_NUM_LANES(LOG_NUM_LANES),
+                                       .NUM_DATA_BYTES(NUM_DATA_BYTES),
+                                       .HMC_RF_WWIDTH(HMC_RF_WWIDTH),
+                                       .HMC_RF_RWIDTH(HMC_RF_RWIDTH),
+                                       .HMC_RF_AWIDTH(HMC_RF_AWIDTH),
+                                       .LOG_MAX_RX_TOKENS(LOG_MAX_RX_TOKENS),
+                                       .LOG_MAX_HMC_TOKENS(LOG_MAX_HMC_TOKENS),
+                                       .HMC_RX_AC_COUPLED(HMC_RX_AC_COUPLED),
+                                       .DETECT_LANE_POLARITY(DETECT_LANE_POLARITY),
+                                       .CTRL_LANE_POLARITY(CTRL_LANE_POLARITY),
+                                       .CTRL_LANE_REVERSAL(CTRL_LANE_REVERSAL),
+                                       .CTRL_SCRAMBLERS(CTRL_SCRAMBLERS),
+                                       .OPEN_RSP_MODE(OPEN_RSP_MODE),
+                                       .RX_RELAX_INIT_TIMING(RX_RELAX_INIT_TIMING),
+                                       .RX_BIT_SLIP_CNT_LOG(RX_BIT_SLIP_CNT_LOG),
+                                       .RX_BIT_SLIP_CNT_LOG(RX_BIT_SLIP_CNT_LOG),
+                                       .SYNC_AXI4_IF(SYNC_AXI4_IF),
+                                       .XIL_CNT_PIPELINED(XIL_CNT_PIPELINED),
+                                       .BITSLIP_SHIFT_RIGHT(BITSLIP_SHIFT_RIGHT),
+                                       .DBG_RX_TOKEN_MON(DBG_RX_TOKEN_MON)) 
+                         openhmc_sva_1 (.*);
 
 initial begin
   uvm_config_db#(rf_if_t)::set(null, "uvm_test_top", "RF", RF);
