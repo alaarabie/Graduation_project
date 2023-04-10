@@ -1,4 +1,4 @@
-class rf_control_configuration_seq extends  rf_base_seq;
+class rf_control_configuration_seq extends  base_seq;
 
   `uvm_object_utils(rf_control_configuration_seq)
 

@@ -1,4 +1,4 @@
-class rf_reset_seq extends  rf_base_seq;
+class rf_reset_seq extends  base_seq;
 
   `uvm_object_utils(rf_reset_seq)
 
