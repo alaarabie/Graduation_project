@@ -8,7 +8,7 @@ class base_seq extends  uvm_sequence #(uvm_sequence_item);
 
   // Properties used by the various register access methods:
   rand uvm_reg_data_t data;  // For passing data
-  uvm_status_e status;       // Returning access statu
+  uvm_status_e status;       // Returning access status
 
   extern function new (string name = "");
   extern task body();
