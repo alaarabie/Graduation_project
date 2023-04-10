@@ -16,6 +16,6 @@ task rf_control_sleep_seq::body();
   super.body();
 
   rf_rb.m_reg_control.set_hmc_sleep.set(1'h1);
-  rf_rb.m_reg_control.update();
+  rf_rb.m_reg_control.update(status, .path(UVM_FRONTDOOR), .parent(this));
 
 endtask : body
