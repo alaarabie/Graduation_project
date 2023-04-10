@@ -32,7 +32,6 @@ endfunction : build_phase
 
 task rf_monitor::run_phase(uvm_phase phase);
 
-  fork
 
     forever begin
 
@@ -54,7 +53,5 @@ task rf_monitor::run_phase(uvm_phase phase);
       end
       rf_ap.write(m_item);
     end
-
-  join_none
 
 endtask: run_phase
