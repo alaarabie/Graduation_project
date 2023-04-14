@@ -2,8 +2,8 @@ class driver_hmc_agent extends uvm_driver #(rf_request_item, hmc_pkt_item, init_
      `uvm_component_utils(driver_hmc_agent)
 
 
-    bit [127:0] current_FLIT,prev_FLIT ;
-    bit [127:0] current_packet[$] ;
+    bit current_request_packet[$] ;
+    bit [FPW*128:0] current_response_packet[$] ;    
     bit [3:0] LNG ;
 
 
@@ -43,10 +43,15 @@ class driver_hmc_agent extends uvm_driver #(rf_request_item, hmc_pkt_item, init_
             end
          else
             begin
-             packing_FLITS(response_packet) ;
-             seq_item_port.get_next_item(response_packet) ; 
-             hmc_agent_if.send_hmc(response_packet) ;  // to send the response packet to the DUT
-             seq_item_port.item_done() ;  
+             assert(hmc_agent_if.phy_data_tx_link2phy[127:0]==128'b0)
+              begin  
+                packing_FLITS(response_packet) ;
+                response_packet.unpack(current_request_packet) ;
+                seq_item_port.get_next_item(response_packet) ;
+                response_packet.pack(current_response_packet) ;
+                hmc_agent_if.send_hmc(response_packet) ;  // to send the response packet to the DUT
+                seq_item_port.item_done() ;  
+             end
             end
         end: response_loop
      endtask : run_phase
@@ -106,42 +111,52 @@ class driver_hmc_agent extends uvm_driver #(rf_request_item, hmc_pkt_item, init_
 
 task packing_FLITS(hmc_pkt_item response_packet);
      
-     shortint i,j ;
-     bit k ;
+     shortint i ;
 
      // for (i=0 ;i<=15 ;i++)
      //   @(posedge hmc_agent_if.clk) ;
      //   current_FLIT[(7+8*i):8*i] = hmc_agent_if.in_lanes ;  //to get the Header fields separately at first
      // end
      
-     k = 0;
+     current_request_packet.push_front(hmc_agent_if.phy_data_tx_link2phy[127:0])  ;  //to get the Header fields separately at first     
+     LNG = current_request_packet[10:7] ;
+     LNG = LNG-1 ;
 
-     current_FLIT = hmc_agent_if.phy_data_tx_link2phy[127:0] ;
+     // current_FLIT = hmc_agent_if.phy_data_tx_link2phy[127:0] ;
+
+     i=1 ;     
      
-     for (i=0 ;i<=3 ;i++)     
+     while(LNG>4'b0)  
       begin
+
+        assert(i<=3)
+          begin
+           @(posedge hmc_agent_if.clk) ;
+           i=1 ;  
+          end
+
         assert(hmc_agent_if.phy_data_tx_link2phy[127+(128*i):(128*i)]==128'b0)
           begin
-             
-             k=1 ;
+
+
              // @(posedge hmc_agent_if.clk) ;
-             assert(k=)
-             current_packet.push_front(hmc_agent_if.phy_data_tx_link2phy)  ;  //to get the Header fields separately at first     
 
+             current_request_packet.push_front(hmc_agent_if.phy_data_tx_link2phy[127+(128*i):(128*i)])  ;  //to get the Header fields separately at first     
 
-             LNG = current_packet[10:7] ;
-             response_packet.unpack(current_packet) ; //FLIT number 1 in the packet in the request item 
+             LNG=LNG-1'b1 ;
+             i=i+1 ;
 
-             for (j=1 ;j<LNG; j++)
-                begin
-                   @(posedge hmc_agent_if.clk) ;
-                   for (i=0 ;i<=3 ;i++)
-                      begin
-                         // @(posedge hmc_agent_if.clk) ;
-                         current_packet.push_front(hmc_agent_if.phy_data_tx_link2phy[127+(128*i):(128*i)])  ; //to get the input bits on each lane from the if to the driver and pack them in FLIT
-                      end
-                   response_packet.packet[j]= current_FLIT ;
-                end
+             // response_packet.do_unpack(current_request_packet) ; //FLIT number 1 in the packet in the request item 
+             // for (j=1 ;j<LNG; j++)
+             //    begin
+             //       @(posedge hmc_agent_if.clk) ;
+             //       for (i=0 ;i<=3 ;i++)
+             //          begin
+             //             // @(posedge hmc_agent_if.clk) ;
+             //             current_request_packet.push_front(hmc_agent_if.phy_data_tx_link2phy[127+(128*i):(128*i)])  ; //to get the input bits on each lane from the if to the driver and pack them in FLIT
+             //          end
+             //       response_packet.packet[j]= current_FLIT ;
+             //    end
      
           end
       end
