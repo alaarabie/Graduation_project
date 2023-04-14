@@ -1,6 +1,6 @@
 class rf_monitor #(HMC_RF_WWIDTH = 64,
                   HMC_RF_RWIDTH = 64,
-                  HMC_RF_AWIDTH = 4) extends uvm_component;
+                  HMC_RF_AWIDTH = 4) extends uvm_monitor;
   
   `uvm_component_param_utils(rf_monitor #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH))
 
