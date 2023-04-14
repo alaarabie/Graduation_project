@@ -49,6 +49,9 @@ class hmc_pkt_item extends  uvm_sequence_item;
   rand     bit            poisoned;       // a flag, if CRC is inverted
   rand     bit            crc_error;      // a flag, if CRC isn't matching
 
+  rand bit  is_state_item;
+  rand bit [1:0] init_state;
+
   //*****************************************************************************//
 
   `uvm_object_utils_begin(hmc_pkt_item)
@@ -80,6 +83,11 @@ class hmc_pkt_item extends  uvm_sequence_item;
   //*****************************************************************************//
   //***************************      Constraints      ***************************//
   //*****************************************************************************//
+  constraint init_state_c {
+    is_state_item == 0;
+    init_state == 0;
+  }
+
   constraint cube_id_c {
     cube_ID == 0;
   }
