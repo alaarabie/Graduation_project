@@ -81,7 +81,7 @@ class hmc_pkt_item extends  uvm_sequence_item;
   //***************************      Constraints      ***************************//
   //*****************************************************************************//
   constraint cube_id_c {
-    cube_ID = 0;
+    cube_ID == 0;
   }
 
   constraint address_c {
@@ -134,27 +134,27 @@ class hmc_pkt_item extends  uvm_sequence_item;
   }
 
   constraint source_link_id_c {
-    source_link_ID = 0;
+    source_link_ID == 0;
   }
 
   constraint return_tag_c {
-    return_tag = 0;
+    return_tag == 0;
   }
 
   constraint error_status_c {
-    soft  error_status = 0;
+    soft  error_status == 0;
   }
 
   constraint data_invalid_c {
-    soft  data_invalid = 0;
+    soft  data_invalid == 0;
   }
 
   constraint poisoned_c {
-    poisoned = 0;
+    poisoned == 0;
   }
 
   constraint crc_error_c {
-    crc_error = 0;
+    crc_error == 0;
   }
 
   // Flow packets
@@ -164,17 +164,17 @@ class hmc_pkt_item extends  uvm_sequence_item;
   }
 
   constraint retry_pointer_return_c { // PRET
-    (command == PRET) ->  forward_retry_ptr = 0;  // FRP = 0, not saved in retry pointer
-    (command == PRET) ->  sequence_number   = 0;  // SEQ = 0, not saved in retry pointer
-    (command == PRET) ->  return_token_cnt  = 0;  // RTC = 0, tokens shouldn't be returned
+    (command == PRET) ->  forward_retry_ptr == 0;  // FRP = 0, not saved in retry pointer
+    (command == PRET) ->  sequence_number   == 0;  // SEQ = 0, not saved in retry pointer
+    (command == PRET) ->  return_token_cnt  == 0;  // RTC = 0, tokens shouldn't be returned
   }
 
   constraint init_retry_c {  // IRTRY
     (command == IRTRY)                      -> start_retry != clear_error_abort;
-    ((command == IRTRY)&&start_retry)       -> forward_retry_pointer == 1;  // FRP[0] = 1
-    ((command == IRTRY)&&clear_error_abort) -> forward_retry_pointer == 2;  // FRP[1] = 1
+    ((command == IRTRY)&&start_retry)       -> forward_retry_ptr == 1;  // FRP[0] = 1
+    ((command == IRTRY)&&clear_error_abort) -> forward_retry_ptr == 2;  // FRP[1] = 1
     (command == IRTRY)                      -> sequence_number    == 0;  // SEQ = 0, not saved in retry pointer
-    (command == IRTRY)                      -> return_token_cnt   =  0;  // RTC = 0, tokens shouldn't be returned
+    (command == IRTRY)                      -> return_token_cnt   == 0;  // RTC = 0, tokens shouldn't be returned
   }
 
   //*****************************************************************************//
@@ -276,11 +276,10 @@ class hmc_pkt_item extends  uvm_sequence_item;
     super.do_unpack(packer);
     packer.big_endian = 0;
 
-    packer.unpack_bits(bitstream); // unpack all into this bitstream
-
     //for (int i = 0; i <32; i++) begin
     //  crc[i] = bitstream[bitstream.size()-32 +i];
     //end
+    packer.get_bits(bitstream); // unpack all into this bitstream
     calculated_crc = calc_crc(bitstream);
 
     //---------------------------------------------------------------------------------------------------//
@@ -321,8 +320,8 @@ class hmc_pkt_item extends  uvm_sequence_item;
     clear_error_abort = (command == IRTRY ? forward_retry_ptr[1] : 1'b0);
 
     
-    poisoned = (packet_crc == ~calculated_crc) ? 1'b1 : 1'b0;
-    if (packet_crc != calculated_crc &&  !poisoned ) begin
+    poisoned = (crc == ~calculated_crc) ? 1'b1 : 1'b0;
+    if (crc != calculated_crc &&  !poisoned ) begin
       crc_error = 1;
     end else begin
       crc_error = 0;

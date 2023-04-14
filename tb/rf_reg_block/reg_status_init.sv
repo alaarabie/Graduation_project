@@ -1,6 +1,6 @@
-class reg_status_init #(NUM_LANES = 8) extends  uvm_reg;
+class reg_status_init extends  uvm_reg;
 
-  `uvm_object_param_utils(reg_status_init #(NUM_LANES))
+  `uvm_object_utils(reg_status_init)
 
   rand uvm_reg_field  lane_descramblers_locked;
   rand uvm_reg_field  descrambler_part_alligned;
@@ -25,12 +25,12 @@ virtual function void build();
   this.status_init_tx_init_state = uvm_reg_field::type_id::create("status_init_tx_init_state");
 
   // Configure each field (parent, size, lsb_pos, access, volatile, reset, has_reset, is_rand, individually_accessible)
-  this.lane_descramblers_locked.configure  (this, NUM_LANES,  0, "RO", 0,  'h0, 1, 0, 1);
-  this.descrambler_part_alligned.configure (this, NUM_LANES, 16, "RO", 0,  'h0, 1, 0, 1);
-  this.descrambler_alligned.configure      (this, NUM_LANES, 32, "RO", 0,  'h0, 1, 0, 1);
-  this.all_descramblers_alligned.configure (this,         1, 48, "RO", 0,  'h0, 1, 0, 1);
-  this.status_init_rx_init_state.configure (this,         3, 49, "RO", 0, 3'h0, 1, 0, 1);
-  this.status_init_tx_init_state.configure (this,         2, 53, "RO", 0, 2'h0, 1, 0, 1);
+  this.lane_descramblers_locked.configure  (this, 8,  0, "RO", 0,  8'h0, 1, 0, 1);
+  this.descrambler_part_alligned.configure (this, 8, 16, "RO", 0,  8'h0, 1, 0, 1);
+  this.descrambler_alligned.configure      (this, 8, 32, "RO", 0,  8'h0, 1, 0, 1);
+  this.all_descramblers_alligned.configure (this, 1, 48, "RO", 0,  'h0, 1, 0, 1);
+  this.status_init_rx_init_state.configure (this, 3, 49, "RO", 0, 3'h0, 1, 0, 1);
+  this.status_init_tx_init_state.configure (this, 2, 53, "RO", 0, 2'h0, 1, 0, 1);
   
 endfunction : build
 

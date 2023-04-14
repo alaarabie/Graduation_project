@@ -17,6 +17,7 @@ package rf_reg_block_pkg;
 `include "reg_status_general.sv"
 `include "reg_status_init.sv"
 `include "reg_tx_link_retries.sv"
+`include "reg_control.sv"
 
 `include "rf_reg_block.sv"
   

@@ -16,7 +16,6 @@ class rf_agent#(HMC_RF_WWIDTH = 64,
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual function void connect_phase(uvm_phase phase);
 
-  extern function void get_vif();
 
 endclass : rf_agent
 
@@ -46,7 +45,7 @@ function void rf_agent::build_phase(uvm_phase phase);
 endfunction : build_phase
 
 
-function void tinyalu_agent::connect_phase(uvm_phase phase);
+function void rf_agent::connect_phase(uvm_phase phase);
   super.connect_phase(phase);
 
    if (cfg.active == UVM_ACTIVE) begin

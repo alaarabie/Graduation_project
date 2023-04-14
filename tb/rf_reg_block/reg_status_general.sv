@@ -1,9 +1,6 @@
-class reg_status_general #(LOG_MAX_RX_TOKENS = 8, 
-                           LOG_MAX_HMC_TOKENS = 10, 
-                           NUM_LANES = 8
-                          ) extends  uvm_reg;
+class reg_status_general extends  uvm_reg;
 
-  `uvm_object_param_utils(reg_status_general #(LOG_MAX_RX_TOKENS, LOG_MAX_HMC_TOKENS, NUM_LANES))
+  `uvm_object_utils(reg_status_general)
 
   rand uvm_reg_field  link_up;
   rand uvm_reg_field  link_training;
@@ -43,9 +40,9 @@ virtual function void build();
   this.lanes_reversed.configure         (this, 1, 4, "RO", 0, 1'h0, 1, 0, 1);
   this.phy_tx_ready.configure           (this, 3, 8, "RO", 0, 3'h0, 1, 0, 1);
   this.phy_rx_ready.configure           (this, 1, 8, "RO", 0, 1'h0, 1, 0, 1);
-  this.hmc_tokens_remaining.configure   (this, LOG_MAX_HMC_TOKENS, 16, "RO", 0, 'h0, 1, 0, 1);
-  this.rx_tokens_remaining.configure    (this, LOG_MAX_RX_TOKENS, 32, "RO", 0, 'h0, 1, 0, 1);
-  this.lane_polarity_reversed.configure (this, NUM_LANES, 48, "RO", 0, 'h0, 1, 0, 1);
+  this.hmc_tokens_remaining.configure   (this, 10, 16, "RO", 0, 10'h0, 1, 0, 1);
+  this.rx_tokens_remaining.configure    (this, 8,  32, "RO", 0, 8'h0, 1, 0, 1);
+  this.lane_polarity_reversed.configure (this, 8,  48, "RO", 0, 8'h0, 1, 0, 1);
   
 endfunction : build
   

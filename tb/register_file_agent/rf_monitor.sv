@@ -31,15 +31,14 @@ function void rf_monitor::build_phase(uvm_phase phase);
 endfunction : build_phase
 
 task rf_monitor::run_phase(uvm_phase phase);
-
+    rf_item m_item;
 
     forever begin
-
       @(posedge vif.clk);
 
       if(vif.res_n & (vif.rf_read_enable | vif.rf_write_enable)) begin
 
-        rf_item m_item = rf_item::type_id::create("m_item");
+        m_item = rf_item::type_id::create("m_item");
 
         m_item.addr = vif.rf_address;
         m_item.write_flag = vif.rf_write_enable;

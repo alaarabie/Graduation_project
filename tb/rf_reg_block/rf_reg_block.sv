@@ -16,6 +16,7 @@ class rf_reg_block extends  uvm_reg_block;
   rand reg_run_length_bit_flip        m_reg_run_length_bit_flip;
   rand reg_error_abort_not_cleared    m_reg_error_abort_not_cleared;
 
+
   uvm_reg_map rf_map; // Block map
 
 function new(string name = "");
