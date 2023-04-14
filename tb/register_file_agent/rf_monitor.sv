@@ -2,7 +2,7 @@ class rf_monitor #(HMC_RF_WWIDTH = 64,
                   HMC_RF_RWIDTH = 64,
                   HMC_RF_AWIDTH = 4) extends uvm_component;
   
-  `uvm_object_param_utils(rf_monitor #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH))
+  `uvm_component_param_utils(rf_monitor #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH))
 
   virtual rf_bfm #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH) vif;
   rf_agent_cfg #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH) cfg;

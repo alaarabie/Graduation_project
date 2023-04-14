@@ -2,7 +2,7 @@ class rf_driver #(HMC_RF_WWIDTH = 64,
                   HMC_RF_RWIDTH = 64,
                   HMC_RF_AWIDTH = 4) extends  uvm_driver #(rf_item);
   
-  `uvm_object_param_utils(rf_driver #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH))
+  `uvm_component_param_utils(rf_driver #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH))
 
   virtual rf_if #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH) vif;
   rf_agent_cfg #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH) cfg;
