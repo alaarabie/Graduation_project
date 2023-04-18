@@ -18,13 +18,17 @@ class env_cfg extends uvm_object;
   //Register block
   rf_reg_block rf_rb;
 
+  //HMC_agent interface
+  virtual hmc_agent_if hmc_agent_if ;
+
   //extern static function env_cfg get_config( uvm_component c);
-  extern function new(string name = "");
+  extern function new(string name = "",virtual hmc_agent_if hmc_agent_if);
  
 endclass : env_cfg
 
-function env_cfg::new(string name = "");
+function env_cfg::new(string name = "",virtual hmc_agent_if hmc_agent_if);
   super.new(name);
+  this.hmc_agent_if = hmc_agent_if ;
 endfunction : new
 /*
 function env_cfg env_cfg::get_config( uvm_component c );

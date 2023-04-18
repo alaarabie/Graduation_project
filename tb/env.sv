@@ -11,8 +11,9 @@ class env extends  uvm_env;
   rf_reg2hmc_adapter m_rf_reg2hmc_adapter;
   // Register predictor
   uvm_reg_predictor#(rf_item) m_rf_hmc2reg_predictor;
-
-
+// HMC agent and configuration
+  hmc_agent hmc_agent_h ;
+  hmc_agent_config hmc_agent_config_h ;
 
 
   extern function new(string name, uvm_component parent);
@@ -44,6 +45,14 @@ function void env::build_phase(uvm_phase phase);
 
 
   m_vseqr    = vsequencer::type_id::create("m_vseqr" , this);
+
+  virtual hmc_agent_if hmc_agent_if ;
+
+  hmc_agent_config_h = new(.interface(cfg.hmc_agent_if), .is_active(UVM_ACTIVE));
+
+  uvm_config_db #(hmc_agent_config)::set(this, "hmc_agent_h*", "config", hmc_agent_config_h);
+
+  hmc_agent_h = new("hmc_agent_h",this) ;  
 
 endfunction : build_phase
 
