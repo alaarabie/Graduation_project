@@ -32,6 +32,9 @@ module tb_top
   //Debug Params
   parameter DBG_RX_TOKEN_MON      = 1;    //Set to 0 to remove the RX Link token monitor, saves logic
 
+  parameter FLIT_SIZE = 128;
+  parameter CLK_PERIOD = 4.27 ; 
+
   `include "uvm_macros.svh"
   import uvm_pkg::*;
   import tb_params_pkg::*;
@@ -44,6 +47,12 @@ module tb_top
           .HMC_RF_RWIDTH(HMC::HMC_RF_RWIDTH),
           .HMC_RF_AWIDTH(HMC::HMC_RF_AWIDTH))
     RF (.clk(clk), .res_n(res_n));
+
+  hmc_agent_if #(.DWIDTH(HMC::DWIDTH), 
+                 .NUM_LANES(HMC::NUM_LANES), 
+                 .FPW(HMC::FPW),
+                 .FLIT_SIZE(HMC::FLIT_SIZE))
+  HMC_IF (.clk(clk), .res_n(res_n));
 
 
   openhmc_top #(.FPW(FPW),
@@ -81,18 +90,18 @@ module tb_top
          .m_axis_rx_TDATA(),
          .m_axis_rx_TUSER(),
          // transceiver
-         .phy_data_tx_link2phy(),
-         .phy_data_rx_phy2link(),
-         .phy_bit_slip(), //Must be connected if DETECT_LANE_POLARITY==1 AND CTRL_LANE_POLARITY=0
-         .phy_lane_polarity(), //All 0 if CTRL_LANE_POLARITY=1
-         .phy_tx_ready(), //Optional information to RF
-         .phy_rx_ready(), //Release RX descrambler reset when PHY ready
-         .phy_init_cont_set(), //Can be used to release transceiver reset if used
+         .phy_data_tx_link2phy(HMC_IF.phy_data_tx_link2phy),
+         .phy_data_rx_phy2link(HMC_IF.phy_data_rx_phy2link),
+         .phy_bit_slip(HMC_IF.phy_bit_slip), //Must be connected if DETECT_LANE_POLARITY==1 AND CTRL_LANE_POLARITY=0
+         .phy_lane_polarity(HMC_IF.phy_lane_polarity), //All 0 if CTRL_LANE_POLARITY=1
+         .phy_tx_ready(HMC_IF.phy_tx_ready), //Optional information to RF
+         .phy_rx_ready(HMC_IF.phy_rx_ready), //Release RX descrambler reset when PHY ready
+         .phy_init_cont_set(HMC_IF..phy_init_cont_set), //Can be used to release transceiver reset if used
          // hmc
-         .P_RST_N(),
-         .LXRXPS(),
-         .LXTXPS(),
-         .FERR_N(),
+         .P_RST_N(HMC_IF.P_RST_N),
+         .LXRXPS(HMC_IF.LXRXPS),
+         .LXTXPS(HMC_IF.LXTXPS),
+         .FERR_N(HMC_IF.FERR_N),
          // register file
          .rf_address(RF.rf_address),
          .rf_read_data(RF.rf_read_data),
@@ -130,19 +139,24 @@ module tb_top
 
 initial begin
   uvm_config_db#(rf_if_t)::set(null, "uvm_test_top", "RF", RF);
+  uvm_config_db#(hmc_agent_if_t)::set(null, "uvm_test_top", "HMC_IF", HMC_IF);
 
   run_test();
 end
 
 initial begin
-  res_n <= 1;
+  res_n <= 0;
   clk <= 0;
   repeat(10) begin
-    #10ns clk <= ~clk;
+    //#10ns
+    #(CLK_PERIOD/2)
+     clk <= ~clk;
   end
-  res_n <= 0;
+  res_n <= 1;
   forever begin
-    #10ns clk <= ~clk;
+    //#10ns 
+    #(CLK_PERIOD/2)
+    clk <= ~clk;
   end
 end
 

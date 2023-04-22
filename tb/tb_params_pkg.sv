@@ -1,6 +1,7 @@
 package tb_params_pkg;
 
 import rf_agent_pkg::*;
+import hmc_agent_pkg::*;
 
 class HMC;
 
@@ -38,11 +39,16 @@ class HMC;
   //Debug Params
   localparam DBG_RX_TOKEN_MON      = 1     //Set to 0 to remove the RX Link token monitor, saves logic
   */
+  localparam FLIT_SIZE = 128
 endclass
 
 typedef rf_agent_cfg #(HMC::HMC_RF_WWIDTH, HMC::HMC_RF_RWIDTH, HMC::HMC_RF_AWIDTH) rf_agent_cfg_t;
 typedef rf_agent     #(HMC::HMC_RF_WWIDTH, HMC::HMC_RF_RWIDTH, HMC::HMC_RF_AWIDTH) rf_agent_t;
 
+typedef hmc_agent_config #(HMC::DWIDTH, HMC::NUM_LANES, HMC::FPW, FLIT_SIZE::FLIT_SIZE) hmc_agent_config_t;
+typedef hmc_agent        #(HMC::DWIDTH, HMC::NUM_LANES, HMC::FPW, FLIT_SIZE::FLIT_SIZE) hmc_agent_t;
+
 typedef virtual rf_if #(HMC::HMC_RF_WWIDTH, HMC::HMC_RF_RWIDTH, HMC::HMC_RF_AWIDTH) rf_if_t;
+typedef virtual hmc_agent_if #(HMC::DWIDTH, HMC::NUM_LANES, HMC::FPW, FLIT_SIZE::FLIT_SIZE) hmc_agent_if_t;
 
 endpackage
