@@ -20,10 +20,17 @@ logic                         LXRXPS ;			   // input
 logic                         LXTXPS ;			   // output
 logic                         FERR_N ;			   // output
 
-task send_to_DUT(hmc_pkt_item response_packet);
-    bit [3:0] LNG ;
+monitor_hmc_agent proxy ;
+hmc_pkt_item response_packet ;
+bit vif_request_packet[] ;
+bit [3:0] LNG ;
+shortint j,k,z ;
+
+task send_to_DUT(hmc_pkt_item packet);
+    response_packet = packet ;
 	LNG = response_packet[10:7] ;
-	assert(LNG>FPW)
+	j=1 ;
+	if(LNG<=FPW)
 	 begin
 	     phy_data_rx_phy2link = {response_packet[0:$],((LNG-FPW)*FLIT_SIZE)'b0} ;	
 	 end
@@ -41,5 +48,22 @@ task send_to_DUT(hmc_pkt_item response_packet);
 	  end
 
 endtask : send_to_DUT
+
+task run();
+	always @(posedge clk)
+	 begin
+	 	if (j==1) begin
+	        proxy.notify_res_transaction(response_packet) ;	
+	        j=0 ;
+	 	end
+	 	
+	 	else if ((k==1)&&(z==1)) begin
+            proxy.notify_req_transaction(vif_request_packet) ;
+            k=0 ;
+            z=0 ;	
+	 	end
+	 
+	 end
+endtask : run
 
 endinterface : hmc_agent_if

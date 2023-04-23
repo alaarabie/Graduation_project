@@ -7,13 +7,14 @@ class driver_hmc_agent #(DWIDTH = 512 ,
      `uvm_component_param_utils(driver_hmc_agent#(DWIDTH, NUM_LANES, FPW, FLIT_SIZE))
 
 
-    bit current_request_packet[] ;
-    bit [(FPW*FLIT_SIZE)-1:0] current_response_packet[] ;    
-    bit [3:0] LNG ;
+     bit current_request_packet[] ;
+     bit [(FPW*FLIT_SIZE)-1:0] current_response_packet[] ;    
+     bit [3:0] LNG ;
 
 
      virtual hmc_agent_if #(DWIDTH, NUM_LANES, FPW, FLIT_SIZE) vif ;
      hmc_agent_config #(DWIDTH, NUM_LANES, FPW, FLIT_SIZE) hmc_agent_config_h;
+
 
      
      function new (string name, uvm_component parent);
@@ -45,15 +46,19 @@ class driver_hmc_agent #(DWIDTH = 512 ,
         // tx_init_state = rf_read_data[HMC_RF_WWIDTH-11:HMC_RF_WWIDTH-12] ;
         // seq_item_port.item_done() ;
 
-    current_request_packet = {} ;            
+     current_request_packet.delete() ;  
+     vif.vif_request_packet.delete() ;             
      
-      if (vif.phy_data_tx_link2phy[FLIT_SIZE-1:0]=='b0) begin
-         response_packet.new_request=1'b0 ; 
+      if (vif.phy_data_tx_link2phy[FLIT_SIZE-1:0]!='b0) begin
+         response_packet.new_request=1'b0 ;
+         vif.k=1 ;          
       end else begin
         response_packet.new_request=1'b1; 
       end 
       
-      packing_FLITS(response_packet) ;
+      packing_FLITS() ;
+      vif.vif_request_packet=current_request_packet ;      
+      vif.z=1 ;
       response_packet.unpack(current_request_packet) ;
       seq_item_port.get_next_item(response_packet) ;
       response_packet.pack(current_response_packet) ;
@@ -79,7 +84,7 @@ class driver_hmc_agent #(DWIDTH = 512 ,
         end: response_loop
      endtask : run_phase 
 
- task packing_FLITS(hmc_pkt_item response_packet);
+ task packing_FLITS();
      
      shortint i ;
 
@@ -88,8 +93,14 @@ class driver_hmc_agent #(DWIDTH = 512 ,
      //   current_FLIT[(7+8*i):8*i] = vif.in_lanes ;  //to get the Header fields separately at first
      // end
      
-     current_request_packet.push_front(vif.phy_data_tx_link2phy[FLIT_SIZE-1:0])  ;  //to get the Header fields separately at first     
-     LNG = current_request_packet[10:7] ;
+     LNG = vif.phy_data_tx_link2phy[10:7] ;     
+
+     current_request_packet = new[LNG*FLIT_SIZE] ;
+     vif.vif_request_packet = new[LNG*FLIT_SIZE] ;     
+
+     current_request_packet [FLIT_SIZE-1:0] = vif.phy_data_tx_link2phy[FLIT_SIZE-1:0]  ;  //to get the Header fields separately at first     
+
+
      LNG = LNG-1 ;
 
      // current_FLIT = vif.phy_data_tx_link2phy[127:0] ;
@@ -99,19 +110,19 @@ class driver_hmc_agent #(DWIDTH = 512 ,
      while(LNG>4'b0)  
       begin
 
-        if(i<=3)
+        if(i>3)
           begin
            @(posedge vif.clk) ;
            i=1 ;  
           end
 
-        if(vif.phy_data_tx_link2phy[FLIT_SIZE-1+(FLIT_SIZE*i):(FLIT_SIZE*i)]=='b0)
+        if(vif.phy_data_tx_link2phy[FLIT_SIZE-1+(FLIT_SIZE*i):(FLIT_SIZE*i)]!='b0)
           begin
 
 
              // @(posedge vif.clk) ;
 
-             current_request_packet.push_front(vif.phy_data_tx_link2phy[FLIT_SIZE-1+(FLIT_SIZE*i):(FLIT_SIZE*i)])  ;  //to get the Header fields separately at first     
+             current_request_packet [FLIT_SIZE-1+(FLIT_SIZE*i):(FLIT_SIZE*i)] = vif.phy_data_tx_link2phy[FLIT_SIZE-1+(FLIT_SIZE*i):(FLIT_SIZE*i)]  ;  //to get the Header fields separately at first     
 
              LNG=LNG-1'b1 ;
              i=i+1 ;

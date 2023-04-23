@@ -8,7 +8,8 @@ class hmc_agent#(DWIDTH = 512 ,
 
   hmc_agent_config#(DWIDTH, NUM_LANES, FPW, FLIT_SIZE) hmc_agent_config_h ;
 
-  uvm_analysis_port #(hmc_pkt_item) mon_ap ;
+  uvm_analysis_port #(hmc_pkt_item) mon_req_ap ;
+  uvm_analysis_port #(hmc_pkt_item) mon_res_ap ;  
 
   sequencer_hmc_agent sequencer_hmc_agent_h ;
   driver_hmc_agent#(DWIDTH, NUM_LANES, FPW, FLIT_SIZE) driver_hmc_agent_h ;
@@ -30,13 +31,15 @@ class hmc_agent#(DWIDTH = 512 ,
 
   	monitor_hmc_agent_h = monitor_hmc_agent#(DWIDTH, NUM_LANES, FPW, FLIT_SIZE)::type_id::create("monitor_hmc_agent_h",this);
 
-  	mon_ap = new("mon_ap",this);
+  	mon_req_ap = new("mon_req_ap",this);
+    mon_res_ap = new("mon_res_ap",this);    
 
   endfunction : build_phase
 
   function void connect_phase(uvm_phase phase);
   	driver_hmc_agent_h.seq_item_port.connect(sequencer_hmc_agent_h.seq_item_export);
-  	monitor_hmc_agent_h.ap.connect(mon_ap);
+  	monitor_hmc_agent_h.req_ap.connect(mon_req_ap);
+    monitor_hmc_agent_h.res_ap.connect(mon_res_ap);   
   endfunction : connect_phase
 
 endclass : hmc_agent
