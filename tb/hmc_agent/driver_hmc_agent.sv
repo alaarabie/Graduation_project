@@ -76,9 +76,11 @@ class driver_hmc_agent #(DWIDTH = 512 ,
         seq_item_port.item_done() ; 
 
         seq_item_port.get_next_item(response_packet) ;
-        response_packet.pack(current_response_packet) ;
+        assert (response_packet.pack(current_response_packet)); // call do_pack
+//      response_packet.pack(current_response_packet) ;
         vif.send_to_DUT(response_packet) ;  // to send the response packet to the DUT
         seq_item_port.item_done() ; 
+      end  
       else if (response_packet.init_state==2'b01) begin
 //Training Sequence        
          for (i = 4'b0; i <= 4'b0111; i++) begin
@@ -87,7 +89,7 @@ class driver_hmc_agent #(DWIDTH = 512 ,
             vif.phy_data_rx_phy2link[127+(j*64):64+(j*64)] = {48'b0,4'b1111,4'b0,4'b0101,i} ;               
             end
             vif.phy_data_rx_phy2link[511:448] = {48'b0,4'b1111,4'b0,4'b1100,i} ;
-            (@posedge vif.clk) ;
+            @(posedge vif.clk) ;
          end           
       end
       //else begin
@@ -160,7 +162,8 @@ class driver_hmc_agent #(DWIDTH = 512 ,
 
              // @(posedge vif.clk) ;
 
-             current_request_packet [FLIT_SIZE-1+(FLIT_SIZE*i):(FLIT_SIZE*i)] = vif.phy_data_tx_link2phy[FLIT_SIZE-1+(FLIT_SIZE*i):(FLIT_SIZE*i)]  ;  //to get the Header fields separately at first     
+//             current_request_packet [FLIT_SIZE-1+(FLIT_SIZE*i):(FLIT_SIZE*i)] = vif.phy_data_tx_link2phy[FLIT_SIZE-1+(FLIT_SIZE*i):(FLIT_SIZE*i)]  ;  //to get the Header fields separately at first    
+             current_request_packet [FLIT_SIZE-1+(FLIT_SIZE*i) +: (FLIT_SIZE-1)] = vif.phy_data_tx_link2phy[FLIT_SIZE-1+(FLIT_SIZE*i) +: (FLIT_SIZE-1)]  ;  //to get the Header fields separately at first      
 
              LNG=LNG-1'b1 ;
              i=i+1 ;

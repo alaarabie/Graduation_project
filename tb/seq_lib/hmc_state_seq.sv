@@ -9,11 +9,11 @@ class hmc_state_seq extends base_seq ;
 
 endclass : hmc_state_seq
 
-  hmc_state_seq::new (string name = "");
+  function hmc_state_seq:: new (string name = "");
     super.new(name);
   endfunction : new
 
-  hmc_state_seq::task body();
+  task hmc_state_seq:: body();
     super.body();
    
     start_item(response_packet) ;

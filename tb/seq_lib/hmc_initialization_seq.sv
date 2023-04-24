@@ -27,7 +27,6 @@ class hmc_initialization_seq extends base_seq  ;
         bit init_end ;         // A flag to check that initialization is complete 
         
         case(request_packet.init_state)
-         init_end = 1'b0 ;
 
          2'b00 : begin //INIT_TX_NULL_1
 
@@ -35,7 +34,7 @@ class hmc_initialization_seq extends base_seq  ;
                  assert(response_packet.randomize() with {command==NULL;}) ;
                  finish_item(response_packet) ;
 
-                 end : 2'b00 :d
+                 end
 
          2'b10 : begin //INIT_TX_NULL_2
                  
@@ -43,7 +42,7 @@ class hmc_initialization_seq extends base_seq  ;
                  assert(response_packet.randomize() with {command==NULL;}) ;                 
                  finish_item(response_packet) ;
                  
-                 end : 2'b10 :d 
+                 end 
 
         endcase // tx_state
 

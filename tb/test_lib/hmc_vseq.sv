@@ -13,8 +13,7 @@ class hmc_vseq extends vseq_base ;
   rf_status_init_mirror_seq rf_status_init_mirror_seq_h;  
 
   extern function new (string name = "");
-  extern task body();
-  extern task TX_FSM();  
+  extern task body(); 
 
 endclass : hmc_vseq
 
