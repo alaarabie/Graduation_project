@@ -1,8 +1,10 @@
-class hmc_initialization_seq extends base_seq #(hmc_pkt_item) ;
+class hmc_initialization_seq extends base_seq  ;
 
  `uvm_object_utils(hmc_initialization_seq)
 
  hmc_pkt_item response_packet ;
+ hmc_pkt_item request_packet ;
+ bit [3:0] i ; 
 
  function new (string name = "");
     super.new(name);
@@ -11,6 +13,12 @@ class hmc_initialization_seq extends base_seq #(hmc_pkt_item) ;
  task body() ;
    super.body();
 
+    response_packet=hmc_pkt_item::type_id::create("response_packet") ;
+    request_packet=hmc_pkt_item::type_id::create("request_packet")  ;
+
+   start_item(request_packet) ;
+   finish_item(request_packet) ;
+
    TX_FSM() ;
 
  endtask : body
@@ -18,36 +26,24 @@ class hmc_initialization_seq extends base_seq #(hmc_pkt_item) ;
   task TX_FSM();
         bit init_end ;         // A flag to check that initialization is complete 
         
-        case(response_packet.tx_state)
+        case(request_packet.init_state)
          init_end = 1'b0 ;
 
          2'b00 : begin //INIT_TX_NULL_1
 
                  start_item(response_packet) ;
-                 
+                 assert(response_packet.randomize() with {command==NULL;}) ;
                  finish_item(response_packet) ;
 
                  end : 2'b00 :d
 
-         2'b01 : begin //INIT_TX_TS1
-                 
-                 start_item(response_packet) ;
-                 
-                 finish_item(response_packet) ;
-                 
-                 end : 2'b01 :d
-
          2'b10 : begin //INIT_TX_NULL_2
                  
                  start_item(response_packet) ;
-                 
+                 assert(response_packet.randomize() with {command==NULL;}) ;                 
                  finish_item(response_packet) ;
                  
-                 end : 2'b10 :d
-
-        default : begin
-                   init_end = 1'b0 ;
-                  end : default
+                 end : 2'b10 :d 
 
         endcase // tx_state
 

@@ -10,6 +10,8 @@ class driver_hmc_agent #(DWIDTH = 512 ,
      bit current_request_packet[] ;
      bit [(FPW*FLIT_SIZE)-1:0] current_response_packet[] ;    
      bit [3:0] LNG ;
+     hmc_pkt_item request_packet ;
+     bit [3:0] i ;
 
 
      virtual hmc_agent_if #(DWIDTH, NUM_LANES, FPW, FLIT_SIZE) vif ;
@@ -50,20 +52,56 @@ class driver_hmc_agent #(DWIDTH = 512 ,
      vif.vif_request_packet.delete() ;             
      
       if (vif.phy_data_tx_link2phy[FLIT_SIZE-1:0]!='b0) begin
-         response_packet.new_request=1'b0 ;
+         response_packet.new_request=1'b1 ;
          vif.k=1 ;          
       end else begin
-        response_packet.new_request=1'b1; 
+        response_packet.new_request=1'b0; 
       end 
       
       packing_FLITS() ;
       vif.vif_request_packet=current_request_packet ;      
       vif.z=1 ;
-      response_packet.unpack(current_request_packet) ;
+
+//    
+
+//for state sequence
       seq_item_port.get_next_item(response_packet) ;
-      response_packet.pack(current_response_packet) ;
-      vif.send_to_DUT(response_packet) ;  // to send the response packet to the DUT
       seq_item_port.item_done() ; 
+
+      if((response_packet.init_state!=2'b11)&&(response_packet.init_state!=2'b01))
+      begin
+//hmc_initialization sequence(NULL) 
+        seq_item_port.get_next_item(request_packet) ;      
+        request_packet.init_state=response_packet.init_state ;
+        seq_item_port.item_done() ; 
+
+        seq_item_port.get_next_item(response_packet) ;
+        response_packet.pack(current_response_packet) ;
+        vif.send_to_DUT(response_packet) ;  // to send the response packet to the DUT
+        seq_item_port.item_done() ; 
+      else if (response_packet.init_state==2'b01) begin
+//Training Sequence        
+         for (i = 4'b0; i <= 4'b0111; i++) begin
+            vif.phy_data_rx_phy2link[63:0] = {48'b0,4'b1111,4'b0,4'b0011,i} ;
+            for (int j = 0; j <6 ; j++) begin
+            vif.phy_data_rx_phy2link[127+(j*64):64+(j*64)] = {48'b0,4'b1111,4'b0,4'b0101,i} ;               
+            end
+            vif.phy_data_rx_phy2link[511:448] = {48'b0,4'b1111,4'b0,4'b1100,i} ;
+            (@posedge vif.clk) ;
+         end           
+      end
+      //else begin
+//hmc_response sequence 
+        // seq_item_port.get_next_item(request_packet) ;
+        // request_packet.unpack(current_request_packet) ;              
+        // seq_item_port.item_done() ; 
+
+        // seq_item_port.get_next_item(response_packet) ;
+        // response_packet.pack(current_response_packet) ;        
+        // vif.send_to_DUT(response_packet) ;  // to send the response packet to the DUT
+        // seq_item_port.item_done() ; 
+      //end
+
 
          // assert(tx_init_state==2'b11)
          //    begin

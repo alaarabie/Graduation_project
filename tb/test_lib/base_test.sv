@@ -3,9 +3,14 @@ class base_test extends  uvm_test;
   
   // handles
   env m_env;
-  
+
+  virtual hmc_agent_if_t m_hmc_if ;  
   virtual rf_if_t m_rf_if;
-  env_cfg cfg;
+  env_cfg m_env_cfg;
+  hmc_agent_config_t m_hmc_cfg ;
+  rf_agent_cfg_t m_rf_cfg ;
+  rf_reg_block rf_rb ;
+
 
   extern function new(string name, uvm_component parent);
   extern function void build_phase(uvm_phase phase);
@@ -24,13 +29,25 @@ endfunction : new
 function void base_test::build_phase(uvm_phase phase);
   super.build_phase(phase);
 
-
-  if(!uvm_config_db #(virtual rf_if_t)::get(this, "","m_rf_if", m_rf_if))
+  if(!uvm_config_db #(virtual hmc_agent_if_t)::get(this, "","m_hmc_if",  m_hmc_cfg.vif))
+  `uvm_fatal("TEST", "Failed to get hmc_if")
+  if(!uvm_config_db #(virtual rf_if_t)::get(this, "","m_rf_if", m_rf_cfg.vif))
   `uvm_fatal("TEST", "Failed to get rf_if")
 
-  cfg = new("cfg");
-      
-  uvm_config_db #(env_cfg)::set(this, "m_env*", "cfg", cfg);
+  m_env_cfg = env_cfg::type_id::create ("m_env_cfg");
+  m_hmc_cfg = hmc_agent_config_t::type_id::create("m_hmc_cfg") ;
+  rf_rb = rf_reg_block::type_id::create("rf_rb") ; 
+  rf_rb.build() ;
+  m_rf_cfg = rf_agent_cfg_t::type_id::create("m_rf_cfg") ;  
+
+  m_hmc_cfg.active=UVM_ACTIVE ;
+  m_rf_cfg.active=UVM_ACTIVE ;
+
+  m_env_cfg.rf_rb=rf_rb ;
+  m_env_cfg.m_hmc_agent_cfg=m_hmc_cfg ;
+  m_env_cfg.m_rf_agent_cfg=m_rf_cfg ;
+
+  uvm_config_db #(env_cfg)::set(this, "*", "m_env_cfg", m_env_cfg);
 
   m_env = env::type_id::create("m_env",this);
 endfunction : build_phase

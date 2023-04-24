@@ -51,6 +51,7 @@ class hmc_pkt_item extends  uvm_sequence_item;
 
   rand bit  is_state_item;
   rand bit [1:0] init_state;
+  rand bit  new_request ;
 
   //*****************************************************************************//
 
@@ -86,6 +87,7 @@ class hmc_pkt_item extends  uvm_sequence_item;
   constraint init_state_c {
     is_state_item == 0;
     init_state == 0;
+    new_request == 0 ;
   }
 
   constraint cube_id_c {
