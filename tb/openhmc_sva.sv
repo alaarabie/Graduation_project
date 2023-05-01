@@ -1,10 +1,3 @@
-// macros
-`define assert_clk(arg) \
-  assert property (@(posedge clk) disable iff (!rst_n) arg)
-
-`define assert_async_rst(arg) \
-  assert property (@(posedge clk) arg)
-
 module openhmc_sva #(
     //Define width of the datapath
     parameter FPW                   = 4,        //Legal Values: 2,4,6,8
@@ -93,29 +86,57 @@ module openhmc_sva #(
     input  wire  [HMC_RF_WWIDTH-1:0]    rf_write_data
 );
 
+// macros
+`define assert_clk(arg) \
+  assert property (@(posedge clk_hmc) disable iff (!res_n_hmc) arg);
+
+`define assert_async_rst(arg) \
+  assert property (@(posedge res_n_hmc) arg);
+
 //------------------------------------------------------------------------------------------//
 //--------------------------------- AXI Assertions -----------------------------------------//
 //------------------------------------------------------------------------------------------//
 tx_valid_hold_until_ready_active :
-  `assert_clk ((s_axis_tx_TVALID == 1 && s_axis_tx_TREADY == 0) |=> (s_axis_tx_TVALID==1))
+  `assert_clk ( (s_axis_tx_TVALID == 1 && s_axis_tx_TREADY == 0) |=> (s_axis_tx_TVALID==1) )
 
 rx_valid_hold_until_ready_active :
-  `assert_clk ((m_axis_rx_TVALID == 1 && m_axis_rx_TREADY == 0) |=> (m_axis_rx_TVALID==1))
+  `assert_clk ( (m_axis_rx_TVALID == 1 && m_axis_rx_TREADY == 0) |=> (m_axis_rx_TVALID==1) )
 
-logic [8*DATA_BYTES-1:0] m_data;
-logic [TUSER_WIDTH-1:0]  m_user;
+  property tx_user_hold_p;
+    //-- if TVALID is set TUSER must not be changed until TREADY
+    logic [NUM_DATA_BYTES-1:0] m_user;
+    (s_axis_tx_TVALID == 1 && s_axis_tx_TREADY == 0, m_user = s_axis_tx_TUSER) |=> (s_axis_tx_TUSER == m_user);
+  endproperty : tx_user_hold_p
+
+  tx_user_hold_until_ready_active : 
+  `assert_clk ( tx_user_hold_p )
+
+  property rx_user_hold_p;
+    //-- if TVALID is set TUSER must not be changed until TREADY
+    logic [NUM_DATA_BYTES-1:0] m_user;
+    (m_axis_rx_TVALID == 1 && m_axis_rx_TREADY == 0, m_user = m_axis_rx_TUSER) |=> (m_axis_rx_TUSER == m_user);
+  endproperty : rx_user_hold_p
+
+  rx_user_hold_until_ready_active :
+  `assert_clk ( rx_user_hold_p )
+
+  property tx_data_hold_p;
+    //-- if TVALID is set TDATA must not be changed until TREADY
+    logic [DWIDTH-1:0] m_data;
+      (s_axis_tx_TVALID == 1 && s_axis_tx_TREADY == 0, m_data = s_axis_tx_TDATA) |=> (s_axis_tx_TDATA == m_data);
+  endproperty : tx_data_hold_p
 
 tx_data_hold_until_ready_active :
-  `assert_clk ((s_axis_tx_TVALID == 1 && s_axis_tx_TREADY == 0, m_data = s_axis_tx_TDATA) |=> (s_axis_tx_TDATA == m_data))
+  `assert_clk ( tx_data_hold_p )
+
+  property rx_data_hold_p;
+    //-- if TVALID is set TDATA must not be changed until TREADY
+    logic [DWIDTH-1:0] m_data;
+      (m_axis_rx_TVALID == 1 && m_axis_rx_TREADY == 0, m_data = m_axis_rx_TDATA) |=> (m_axis_rx_TDATA == m_data);
+  endproperty : rx_data_hold_p
 
 rx_data_hold_until_ready_active :
-  `assert_clk ((m_axis_rx_TVALID == 1 && m_axis_rx_TREADY == 0, m_data = m_axis_rx_TDATA) |=> (m_axis_rx_TDATA == m_data))
-
-tx_user_hold_until_ready_active :
-  `assert_clk ((s_axis_tx_TVALID == 1 && s_axis_tx_TREADY == 0, m_user = s_axis_tx_TUSER) |=> (s_axis_tx_TUSER == m_user))
-
-rx_user_hold_until_ready_active :
-  `assert_clk ((m_axis_rx_TVALID == 1 && m_axis_rx_TREADY == 0, m_user = m_axis_rx_TUSER) |=> (m_axis_rx_TUSER == m_user))
+  `assert_clk ( rx_data_hold_p )
 
 //------------------------------------------------------------------------------------------//
 //---------------------------- Register File Assertions ------------------------------------//

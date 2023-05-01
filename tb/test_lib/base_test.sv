@@ -15,6 +15,13 @@ class base_test extends  uvm_test;
   extern function new(string name, uvm_component parent);
   extern function void build_phase(uvm_phase phase);
   extern function void start_of_simulation_phase(uvm_phase phase);
+
+  function void set_seqs(vseq_base seq);
+  seq.m_cfg = m_env_cfg;
+
+//  seq.apb = m_env.m_apb_agent.m_sequencer;
+//  seq.spi = m_env.m_spi_agent.m_sequencer;
+endfunction
   
 endclass : base_test
 
@@ -29,16 +36,16 @@ endfunction : new
 function void base_test::build_phase(uvm_phase phase);
   super.build_phase(phase);
 
-  if(!uvm_config_db #(virtual hmc_agent_if_t)::get(this, "","m_hmc_if",  m_hmc_cfg.vif))
-  `uvm_fatal("TEST", "Failed to get hmc_if")
-  if(!uvm_config_db #(virtual rf_if_t)::get(this, "","m_rf_if", m_rf_cfg.vif))
-  `uvm_fatal("TEST", "Failed to get rf_if")
-
   m_env_cfg = env_cfg::type_id::create ("m_env_cfg");
   m_hmc_cfg = hmc_agent_config_t::type_id::create("m_hmc_cfg") ;
   rf_rb = rf_reg_block::type_id::create("rf_rb") ; 
   rf_rb.build() ;
   m_rf_cfg = rf_agent_cfg_t::type_id::create("m_rf_cfg") ;  
+
+  if(!uvm_config_db #(hmc_agent_if_t)::get(this, "","HMC_IF",  m_hmc_cfg.vif))
+  `uvm_fatal("TEST", "Failed to get hmc_if")
+  if(!uvm_config_db #(rf_if_t)::get(this, "","RF", m_rf_cfg.vif))
+  `uvm_fatal("TEST", "Failed to get rf_if")
 
   m_hmc_cfg.active=UVM_ACTIVE ;
   m_rf_cfg.active=UVM_ACTIVE ;

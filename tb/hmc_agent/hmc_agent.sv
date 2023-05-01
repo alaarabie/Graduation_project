@@ -21,7 +21,7 @@ class hmc_agent#(DWIDTH = 512 ,
 
   function void build_phase(uvm_phase phase);
 
-  	if(!uvm_config_db#(hmc_agent_config#(DWIDTH, NUM_LANES, FPW, FLIT_SIZE))::get(this,"","config",hmc_agent_config_h))
+  	if(!uvm_config_db#(hmc_agent_config#(DWIDTH, NUM_LANES, FPW, FLIT_SIZE))::get(this,"","hmc_agent_config_t",hmc_agent_config_h))
   		`uvm_fatal("HMC_Agent","Failed to get config object")
 
   	if(hmc_agent_config_h.active == UVM_ACTIVE) begin

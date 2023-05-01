@@ -15,7 +15,7 @@ class monitor_hmc_agent#(DWIDTH = 512 ,
 	endfunction : new
 
 	function void build_phase(uvm_phase phase);
-		if(!uvm_config_db#(hmc_agent_config#(DWIDTH, NUM_LANES, FPW, FLIT_SIZE))::get(this, "", "config",hmc_agent_config_h))
+		if(!uvm_config_db#(hmc_agent_config#(DWIDTH, NUM_LANES, FPW, FLIT_SIZE))::get(this, "", "hmc_agent_config_t",hmc_agent_config_h))
 			`uvm_fatal("monitor_hmc_agent","Failed to get CONFIG") ;
 		vif = hmc_agent_config_h.vif ;
 		vif.proxy = this ;
@@ -24,7 +24,10 @@ class monitor_hmc_agent#(DWIDTH = 512 ,
 	endfunction : build_phase
 
 	task run_phase(uvm_phase phase);
-		vif.run() ;
+		forever begin
+			wait(vif.res_n)
+			vif.run() ;
+		end
 	endtask : run_phase
 
 	function void notify_req_transaction(hmc_pkt_item packet);

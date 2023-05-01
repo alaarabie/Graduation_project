@@ -8,7 +8,7 @@ class driver_hmc_agent #(DWIDTH = 512 ,
 
 
      bit current_request_packet[] ;
-     bit [(FPW*FLIT_SIZE)-1:0] current_response_packet[] ;    
+     bit current_response_packet[] ;    
      bit [3:0] LNG ;
      hmc_pkt_item request_packet ;
      bit [3:0] i ;
@@ -25,18 +25,20 @@ class driver_hmc_agent #(DWIDTH = 512 ,
 
 
      function void build_phase(uvm_phase phase);
-     	if(!uvm_config_db #(hmc_agent_config#(DWIDTH, NUM_LANES, FPW, FLIT_SIZE))::get(this, "","config", hmc_agent_config_h))
+     	if(!uvm_config_db #(hmc_agent_config#(DWIDTH, NUM_LANES, FPW, FLIT_SIZE))::get(this, "","hmc_agent_config_t", hmc_agent_config_h))
      		`uvm_fatal("HMC_AGENT_DRIVER","Failed to get vif")
         vif = hmc_agent_config_h.vif ;
      endfunction : build_phase
 
      task run_phase(uvm_phase phase);
 
-        hmc_pkt_item response_packet ;
+        hmc_pkt_item response_packet;
         
         
         forever begin : response_loop
         
+          wait(vif.res_n)
+
         // rf_request_item state_item ;
 
         // bit [HMC_RF_WWIDTH-1:0] rf_read_data;
@@ -51,21 +53,22 @@ class driver_hmc_agent #(DWIDTH = 512 ,
      current_request_packet.delete() ;  
      vif.vif_request_packet.delete() ;             
      
+//for state sequence
+
+      seq_item_port.get_next_item(response_packet);
+      
       if (vif.phy_data_tx_link2phy[FLIT_SIZE-1:0]!='b0) begin
          response_packet.new_request=1'b1 ;
          vif.k=1 ;          
-      end else begin
+      end 
+      else begin
         response_packet.new_request=1'b0; 
       end 
-      
+
       packing_FLITS() ;
-      vif.vif_request_packet=current_request_packet ;      
+      {<<bit{vif.vif_request_packet}}=current_request_packet ;      
       vif.z=1 ;
 
-//    
-
-//for state sequence
-      seq_item_port.get_next_item(response_packet) ;
       seq_item_port.item_done() ; 
 
       if((response_packet.init_state!=2'b11)&&(response_packet.init_state!=2'b01))
@@ -78,7 +81,8 @@ class driver_hmc_agent #(DWIDTH = 512 ,
         seq_item_port.get_next_item(response_packet) ;
         assert (response_packet.pack(current_response_packet)); // call do_pack
 //      response_packet.pack(current_response_packet) ;
-        vif.send_to_DUT(response_packet) ;  // to send the response packet to the DUT
+        vif.send_to_DUT(current_response_packet,response_packet) ;  // to send the response packet to the DUT
+        //vif.send_to_DUT(response_packet) ;  // to send the response packet to the DUT
         seq_item_port.item_done() ; 
       end  
       else if (response_packet.init_state==2'b01) begin
@@ -86,7 +90,8 @@ class driver_hmc_agent #(DWIDTH = 512 ,
          for (i = 4'b0; i <= 4'b0111; i++) begin
             vif.phy_data_rx_phy2link[63:0] = {48'b0,4'b1111,4'b0,4'b0011,i} ;
             for (int j = 0; j <6 ; j++) begin
-            vif.phy_data_rx_phy2link[127+(j*64):64+(j*64)] = {48'b0,4'b1111,4'b0,4'b0101,i} ;               
+            vif.phy_data_rx_phy2link [127+(j*64) -: 63] = {48'b0,4'b1111,4'b0,4'b0101,i} ;                  
+            //vif.phy_data_rx_phy2link[127+(j*64):64+(j*64)] = {48'b0,4'b1111,4'b0,4'b0101,i} ;               
             end
             vif.phy_data_rx_phy2link[511:448] = {48'b0,4'b1111,4'b0,4'b1100,i} ;
             @(posedge vif.clk) ;
@@ -100,7 +105,7 @@ class driver_hmc_agent #(DWIDTH = 512 ,
 
         // seq_item_port.get_next_item(response_packet) ;
         // response_packet.pack(current_response_packet) ;        
-        // vif.send_to_DUT(response_packet) ;  // to send the response packet to the DUT
+        // vif.send_to_DUT(current_response_packet) ;  // to send the response packet to the DUT
         // seq_item_port.item_done() ; 
       //end
 
@@ -138,7 +143,8 @@ class driver_hmc_agent #(DWIDTH = 512 ,
      current_request_packet = new[LNG*FLIT_SIZE] ;
      vif.vif_request_packet = new[LNG*FLIT_SIZE] ;     
 
-     current_request_packet [FLIT_SIZE-1:0] = vif.phy_data_tx_link2phy[FLIT_SIZE-1:0]  ;  //to get the Header fields separately at first     
+    {>>{current_request_packet [FLIT_SIZE-1:0]}} = vif.phy_data_tx_link2phy[FLIT_SIZE-1:0] ; //to get the Header fields separately at first     
+     //current_request_packet [FLIT_SIZE-1:0] = vif.phy_data_tx_link2phy[FLIT_SIZE-1:0]  ;  
 
 
      LNG = LNG-1 ;
@@ -156,16 +162,17 @@ class driver_hmc_agent #(DWIDTH = 512 ,
            i=1 ;  
           end
 
-        if(vif.phy_data_tx_link2phy[FLIT_SIZE-1+(FLIT_SIZE*i):(FLIT_SIZE*i)]!='b0)
+        if(vif.phy_data_tx_link2phy[FLIT_SIZE-1+(FLIT_SIZE*i) -: (FLIT_SIZE-1)]!='b0)
           begin
 
 
              // @(posedge vif.clk) ;
 
 //             current_request_packet [FLIT_SIZE-1+(FLIT_SIZE*i):(FLIT_SIZE*i)] = vif.phy_data_tx_link2phy[FLIT_SIZE-1+(FLIT_SIZE*i):(FLIT_SIZE*i)]  ;  //to get the Header fields separately at first    
-             current_request_packet [FLIT_SIZE-1+(FLIT_SIZE*i) +: (FLIT_SIZE-1)] = vif.phy_data_tx_link2phy[FLIT_SIZE-1+(FLIT_SIZE*i) +: (FLIT_SIZE-1)]  ;  //to get the Header fields separately at first      
+             {>>{current_request_packet [FLIT_SIZE-1+(FLIT_SIZE*i) -: (FLIT_SIZE-1)]}} = vif.phy_data_tx_link2phy[FLIT_SIZE-1+(FLIT_SIZE*i) -: (FLIT_SIZE-1)]  ;  //to get the Header fields separately at first
+             // current_request_packet [FLIT_SIZE-1+(FLIT_SIZE*i) -: (FLIT_SIZE-1)] = vif.phy_data_tx_link2phy[FLIT_SIZE-1+(FLIT_SIZE*i) -: (FLIT_SIZE-1)]  ;  //to get the Header fields separately at first      
 
-             LNG=LNG-1'b1 ;
+             LNG=LNG-4'b1 ;
              i=i+1 ;
 
              // response_packet.do_unpack(current_request_packet) ; //FLIT number 1 in the packet in the request item 

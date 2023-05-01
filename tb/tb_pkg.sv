@@ -11,7 +11,7 @@ package tb_pkg ;
 	`include "vsequencer.sv"	
 	`include "env.sv"    
 
-//    import seq_pkg::* ;
-//    import test_pkg::* ;
+    // import seq_pkg::* ;
+    // import test_pkg::* ;
 
 endpackage : tb_pkg

@@ -8,6 +8,7 @@ class random_test extends  base_test;
   task run_phase(uvm_phase phase);
 
     hmc_vseq m_hmc_vseq = hmc_vseq::type_id::create("m_hmc_vseq");
+    set_seqs(m_hmc_vseq);
     
     //vseq_class_name vseq_handle = seq_class_name::type_id::create("vseq_handle");
      

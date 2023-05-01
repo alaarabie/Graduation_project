@@ -28,4 +28,8 @@ class vseq_base extends  uvm_sequence #(uvm_sequence_item);
 
   endtask : body
 
+  function void seq_set_cfg(base_seq seq_);
+    seq_.m_cfg = m_cfg;
+  endfunction
+
 endclass : vseq_base
