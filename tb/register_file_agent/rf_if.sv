@@ -3,7 +3,7 @@ interface rf_if#(HMC_RF_WWIDTH = 64,
                   HMC_RF_AWIDTH = 4)
                  (
                   input clk, 
-                  input res_n,
+                  input res_n
                   );
 
 logic  [HMC_RF_AWIDTH-1:0] rf_address;         //output
