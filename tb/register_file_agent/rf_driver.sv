@@ -27,14 +27,10 @@ endfunction : build_phase
 task rf_driver::run_phase(uvm_phase phase);
 
   rf_item   m_item;
-  //string item_str;
   string vif_pins;
 
   forever begin
     seq_item_port.get_next_item(m_item);
-    //item_str = m_item.convert2string();
-    //`uvm_info("RF_DRIVER",item_str,UVM_MEDIUM)
-
       if(!vif.res_n) begin
         vif.rf_read_enable = 1'b0;
         vif.rf_write_enable = 1'b0;
@@ -45,28 +41,38 @@ task rf_driver::run_phase(uvm_phase phase);
 
         @(posedge vif.clk)
 
-        vif.rf_address =  m_item.addr;
-
         if(m_item.write_flag) begin
-
+          vif.rf_address =  m_item.addr;
           vif.rf_write_data = m_item.data;
           vif.rf_write_enable = 1;
 
+          @(posedge vif.clk)
           wait(vif.rf_access_complete);
+          
+          $sformat(vif_pins, "addr\t%0h\n write data\t%0h\n read data\t%0h\n write enable\t%0b\n access_complete\t%0b\n",
+                   vif.rf_address, vif.rf_write_data, vif.rf_read_data, vif.rf_write_enable,vif.rf_access_complete);     
+          `uvm_info("RF_DRIVER",{"\nvif pins:\n",vif_pins},UVM_HIGH)
 
           vif.rf_write_enable = 0;
+          #1; // next clock -> next sequence
 
         end else begin
+          vif.rf_address =  m_item.addr;      
           vif.rf_read_enable = 1;
 
+          @(posedge vif.clk)  
           wait(vif.rf_access_complete);
 
           m_item.data = vif.rf_read_data;
+          $sformat(vif_pins, "addr\t%0h\n write data\t%0h\n read data\t%0h\n Read enable\t%0b\n access_complete\t%0b\n",
+                   vif.rf_address, vif.rf_write_data, vif.rf_read_data, vif.rf_read_enable,vif.rf_access_complete);     
+          `uvm_info("RF_DRIVER",{"\nvif pins:\n",vif_pins},UVM_HIGH)
+
           vif.rf_read_enable = 0;
+          #1; // next clock -> next sequence
 
         end
-          $sformat(vif_pins, "addr\t%0h\n write data\t%0h\n read data\t%0h\n write_flag\t%0b\n access_complete\t%0b\n",vif.rf_address, vif.rf_write_data, vif.rf_read_data, vif.rf_write_enable,vif.rf_access_complete);     
-          `uvm_info("RF_DRIVER",{"\nvif pins:\n",vif_pins},UVM_MEDIUM)
+
     seq_item_port.item_done();
   end
   

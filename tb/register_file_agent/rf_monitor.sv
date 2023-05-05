@@ -33,8 +33,7 @@ endfunction : build_phase
 task rf_monitor::run_phase(uvm_phase phase);
     rf_item m_item;
     rf_item cloned_item;
-    //string item_str;
-    string vif_pins;
+    string item_str;
 
     m_item = rf_item::type_id::create("m_item");
 
@@ -49,17 +48,17 @@ task rf_monitor::run_phase(uvm_phase phase);
         m_item.addr = vif.rf_address;
         m_item.write_flag = vif.rf_write_enable;
 
-        wait(vif.rf_access_complete);
+        @(posedge vif.clk) 
+        //wait(vif.rf_access_complete);
 
-        if(vif.rf_write_enable)
+        if(m_item.write_flag && vif.rf_access_complete)
           m_item.data = vif.rf_write_data;
         else
           m_item.data = vif.rf_read_data;
 
-        $sformat(vif_pins, "addr\t%0h\n write data\t%0h\n read data\t%0h\n write_flag\t%0b\n access_complete\t%0b\n",vif.rf_address, vif.rf_write_data, vif.rf_read_data, vif.rf_write_enable,vif.rf_access_complete);
-        `uvm_info("RF_MONITOR",{"\nvif pins:\n",vif_pins},UVM_MEDIUM)
-        //item_str = m_item.convert2string();
-        //`uvm_info("RF_MONITOR",item_str,UVM_MEDIUM)
+          $sformat(item_str, "addr\t%0h\n data\t%0h\n Write flag\t%0b\n",
+                   m_item.addr, m_item.data, m_item.write_flag);     
+          `uvm_info("RF_MONITOR",{"\nitem fields:\n",item_str},UVM_HIGH)
 
         rf_ap.write(m_item);
       end

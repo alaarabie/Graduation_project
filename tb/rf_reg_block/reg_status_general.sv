@@ -34,14 +34,14 @@ virtual function void build();
 
   // Configure each field (parent, size, lsb_pos, access, volatile, reset, has_reset, is_rand, individually_accessible)
   this.link_up.configure                (this, 1, 0, "RO", 0, 1'h0, 1, 0, 1);
-  this.link_training.configure          (this, 1, 1, "RO", 0, 1'h0, 1, 0, 1);
+  this.link_training.configure          (this, 1, 1, "RO", 0, 1'h1, 1, 0, 1);
   this.sleep_mode.configure             (this, 1, 2, "RO", 0, 1'h0, 1, 0, 1);
   this.FERR_N.configure                 (this, 1, 3, "RO", 0, 1'h0, 1, 0, 1);
   this.lanes_reversed.configure         (this, 1, 4, "RO", 0, 1'h0, 1, 0, 1);
   this.phy_tx_ready.configure           (this, 1, 8, "RO", 0, 1'h0, 1, 0, 1);
   this.phy_rx_ready.configure           (this, 1, 9, "RO", 0, 1'h0, 1, 0, 1);
   this.hmc_tokens_remaining.configure   (this, 10, 16, "RO", 0, 10'h0, 1, 0, 1);
-  this.rx_tokens_remaining.configure    (this, 8,  32, "RO", 0, 8'h0, 1, 0, 1);
+  this.rx_tokens_remaining.configure    (this, 8,  32, "RO", 0, {8{1'b1}}, 1, 0, 1);
   this.lane_polarity_reversed.configure (this, 8,  48, "RO", 0, 8'h0, 1, 0, 1);
   
 endfunction : build

@@ -141,10 +141,11 @@ rx_data_hold_until_ready_active :
 //------------------------------------------------------------------------------------------//
 //---------------------------- Register File Assertions ------------------------------------//
 //------------------------------------------------------------------------------------------//
-no_simultaneous_read_and_write_1 :
+no_simultaneous_read_and_write_r :
   `assert_clk (rf_read_en |-> !rf_write_en)
 
-no_simultaneous_read_and_write_2 :
+no_simultaneous_read_and_write_w :
   `assert_clk (rf_write_en |-> !rf_read_en)
+
 
 endmodule : openhmc_sva

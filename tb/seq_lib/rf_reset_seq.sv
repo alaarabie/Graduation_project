@@ -26,7 +26,7 @@ task rf_reset_seq::body();
     ref_data = hmc_regs[i].get_reset();
     hmc_regs[i].read(status, data, .parent(this));
     if(ref_data != data) begin
-      `uvm_error("RF_RESET_SEQ:", $sformatf("Reset read error for %s: Expected: %0h Actual: %0h", hmc_regs[i].get_name(), ref_data, data))
+      `uvm_error("RF_RESET_SEQ", $sformatf("Reset read error for %s: Expected: %0h Actual: %0h", hmc_regs[i].get_name(), ref_data, data))
     end
   end
 

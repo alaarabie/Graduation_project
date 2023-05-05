@@ -11,7 +11,7 @@ class rf_reg2hmc_adapter extends  uvm_reg_adapter;
     trans_h.write_flag = (rw.kind == UVM_READ) ? 1'b0 : 1'b1 ;
     trans_h.addr       = rw.addr;
     trans_h.data       = rw.data;
-    `uvm_info(get_name(), $psprintf("Printing response (reg2bus): %s to addr: %h with Payload: %h", rw.kind.name(), rw.addr, rw.data),UVM_LOW);
+    `uvm_info("REG2HMC_ADAPTER", $psprintf("\n(reg2bus): %s to addr: %h with Payload: %h \n", rw.kind.name(), rw.addr, rw.data),UVM_HIGH);
     return trans_h;
 
   endfunction : reg2bus
@@ -27,12 +27,11 @@ class rf_reg2hmc_adapter extends  uvm_reg_adapter;
       return;
     end
     item_str = trans_h.convert2string();
-    `uvm_info("bus2reg_in_rf_reg2hmc_adapter",{"\nitem fields:\n",item_str},UVM_MEDIUM)
     rw.kind   = (trans_h.write_flag == 1'b1) ? UVM_WRITE : UVM_READ;
     rw.addr   = trans_h.addr;
     rw.data   = trans_h.data;
     rw.status = UVM_IS_OK;
-    `uvm_info(get_name(), $psprintf("Printing response (bus2reg): %s to addr: %h with Payload: %h", rw.kind.name(), rw.addr, rw.data),UVM_LOW);
+    `uvm_info("REG2HMC_ADAPTER", $psprintf("\n(bus2reg): %s to addr: %h with Payload: %h \n", rw.kind.name(), rw.addr, rw.data),UVM_MEDIUM);
   endfunction : bus2reg
 
 endclass : rf_reg2hmc_adapter

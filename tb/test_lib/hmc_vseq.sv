@@ -53,6 +53,9 @@ task hmc_vseq::body();
   `uvm_info("rf_control_configuration_seq", "Sequence complete", UVM_MEDIUM)
 
   fork
+  //************************************************************//
+  //************************* Thread 1 *************************//
+  //************************************************************//
    begin
     `uvm_info("rf_status_init_mirror_seq", "Executing sequence", UVM_MEDIUM)
     repeat(100) begin
@@ -61,9 +64,11 @@ task hmc_vseq::body();
     `uvm_info("rf_status_init_mirror_seq", "Sequence complete", UVM_MEDIUM)      
    end
   
+  //************************************************************//
+  //************************* Thread 2 *************************//
+  //************************************************************//
    begin
     tx_state = rf_rb.m_reg_status_init.status_init_tx_init_state.get();
-
     `uvm_info("hmc_state_seq", "Executing sequence", UVM_MEDIUM)
     hmc_state_seq_h.start(m_seqr_hmc_agent) ;
     `uvm_info("hmc_state_seq", "Sequence complete", UVM_MEDIUM)
@@ -77,9 +82,12 @@ task hmc_vseq::body();
   // else
   //    begin
   //        hmc_response_seq_h.start(m_seqr_hmc_agent) ;
-  //    end        
+  //    end      
    end
+
   join_any
+
+  //
   
   `uvm_info("hmc_vseq", "Sequence complete", UVM_MEDIUM)
 
