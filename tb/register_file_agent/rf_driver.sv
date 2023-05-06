@@ -53,8 +53,9 @@ task rf_driver::run_phase(uvm_phase phase);
                    vif.rf_address, vif.rf_write_data, vif.rf_read_data, vif.rf_write_enable,vif.rf_access_complete);     
           `uvm_info("RF_DRIVER",{"\nvif pins:\n",vif_pins},UVM_HIGH)
 
-          vif.rf_write_enable = 0;
           #1; // next clock -> next sequence
+          vif.rf_write_enable = 0;
+          
 
         end else begin
           vif.rf_address =  m_item.addr;      
@@ -68,8 +69,8 @@ task rf_driver::run_phase(uvm_phase phase);
                    vif.rf_address, vif.rf_write_data, vif.rf_read_data, vif.rf_read_enable,vif.rf_access_complete);     
           `uvm_info("RF_DRIVER",{"\nvif pins:\n",vif_pins},UVM_HIGH)
 
-          vif.rf_read_enable = 0;
           #1; // next clock -> next sequence
+          vif.rf_read_enable = 0;     
 
         end
 
