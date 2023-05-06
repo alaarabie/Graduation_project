@@ -1,0 +1,319 @@
+# QuestaSim-64 vopt 2021.1 Compiler 2021.01 Jan 19 2021
+# Start time: 19:38:49 on May 06,2023
+# vopt -reportprogress 300 tb_top -o top_optimized "+acc" "+cover=sbfec+openhmc_top(rtl)." 
+# 
+# Top level modules:
+# 	tb_top
+# 
+# Analyzing design...
+# -- Loading module tb_top
+# -- Importing package mtiUvm.uvm_pkg (uvm-1.1d Built-in)
+# -- Importing package tb_params_pkg
+# -- Importing package rf_agent_pkg
+# -- Importing package hmc_agent_pkg
+# -- Importing package cmd_pkg
+# -- Importing package tb_pkg
+# -- Importing package rf_reg_block_pkg
+# -- Importing package seq_pkg
+# -- Importing package test_pkg
+# -- Loading package mtiUvm.questa_uvm_pkg
+# -- Loading interface rf_if
+# -- Loading interface hmc_agent_if
+# -- Loading module openhmc_top
+# -- Loading module tx_link
+# -- Loading module tx_crc_combine
+# -- Loading module rx_link
+# -- Loading module rx_crc_compare
+# -- Loading module openhmc_rf
+# -- Loading module openhmc_counter48
+# -- Loading module openhmc_sync_fifo_reg_based
+# -- Loading module openhmc_ram
+# -- Loading module crc_128_init
+# -- Loading module crc_accu
+# -- Loading module tx_scrambler
+# -- Loading module rx_lane_logic
+# -- Loading module rx_descrambler
+# -- Loading module openhmc_sync_fifo
+# -- Loading module openhmc_sync_fifo_reg_stage
+# -- Loading module openhmc_sva
+# Incremental compilation check found no design-units have changed.
+# Optimized design name is top_optimized
+# End time: 19:38:50 on May 06,2023, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# ** UI-Msg: (vsim-4000) A design must be loaded before the "fcover" command can be used.
+# 
+# ** UI-Msg: (vsim-4000) A design must be loaded before the "fcover" command can be used.
+# 
+# vsim top_optimized -assertdebug -coverage "+UVM_TESTNAME=random_test" 
+# Start time: 19:38:50 on May 06,2023
+# Loading sv_std.std
+# Loading work.hmc_agent_if(fast)
+# Loading work.rf_if(fast)
+# Loading mtiUvm.uvm_pkg(fast)
+# Loading work.cmd_pkg(fast)
+# Loading work.hmc_agent_pkg(fast)
+# Loading work.rf_agent_pkg(fast)
+# Loading work.tb_params_pkg(fast)
+# Loading work.rf_reg_block_pkg(fast)
+# Loading work.tb_pkg(fast)
+# Loading work.seq_pkg(fast)
+# Loading work.test_pkg(fast)
+# Loading mtiUvm.questa_uvm_pkg(fast)
+# Loading work.tb_top(fast)
+# Loading work.rf_if(fast__2)
+# Loading work.hmc_agent_if(fast__2)
+# Loading work.openhmc_top(fast)
+# Loading work.openhmc_sync_fifo_reg_based(fast)
+# Loading work.tx_link(fast)
+# Loading work.openhmc_ram(fast)
+# Loading work.tx_crc_combine(fast)
+# Loading work.crc_128_init(fast)
+# Loading work.crc_accu(fast)
+# Loading work.tx_scrambler(fast)
+# Loading work.rx_link(fast)
+# Loading work.rx_lane_logic(fast)
+# Loading work.rx_descrambler(fast)
+# Loading work.rx_crc_compare(fast)
+# Loading work.openhmc_sync_fifo(fast)
+# Loading work.openhmc_sync_fifo_reg_stage(fast)
+# Loading work.openhmc_ram(fast__1)
+# Loading work.openhmc_sync_fifo_reg_based(fast__1)
+# Loading work.openhmc_rf(fast)
+# Loading work.openhmc_counter48(fast)
+# Loading work.openhmc_sva(fast)
+# Loading C:/questasim64_2021.1/uvm-1.1d\win64\uvm_dpi.dll
+# 1
+# ----------------------------------------------------------------
+# UVM-1.1d
+# (C) 2007-2013 Mentor Graphics Corporation
+# (C) 2007-2013 Cadence Design Systems, Inc.
+# (C) 2006-2013 Synopsys, Inc.
+# (C) 2011-2013 Cypress Semiconductor Corp.
+# ----------------------------------------------------------------
+# 
+#   ***********       IMPORTANT RELEASE NOTES         ************
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_NO_DEPRECATED undefined.
+#   See http://www.eda.org/svdb/view.php?id=3313 for more details.
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+#   See http://www.eda.org/svdb/view.php?id=3770 for more details.
+# 
+#       (Specify +UVM_NO_RELNOTES to turn off this notice)
+# 
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(277) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2.3
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(278) @ 0: reporter [Questa UVM]  questa_uvm::init(+struct)
+# UVM_INFO @ 0: reporter [RNTST] Running test random_test...
+# UVM_INFO D:/Ali/College/Graduation_project/tb/env.sv(61) @ 0: uvm_test_top.m_env [env_connect_phase] set up register block seqr
+# -------------------------------------------------------------------------------------------------
+# Name                         Type                                                     Size  Value
+# -------------------------------------------------------------------------------------------------
+# uvm_test_top                 random_test                                              -     @479 
+#   m_env                      env                                                      -     @563 
+#     hmc_agent_h              uvm_agent                                                -     @610 
+#       driver_hmc_agent_h     uvm_driver #(REQ,RSP)                                    -     @836 
+#         rsp_port             uvm_analysis_port                                        -     @851 
+#         seq_item_port        uvm_seq_item_pull_port                                   -     @843 
+#       mon_req_ap             uvm_analysis_port                                        -     @866 
+#       mon_res_ap             uvm_analysis_port                                        -     @874 
+#       monitor_hmc_agent_h    uvm_monitor                                              -     @859 
+#         req_ap               uvm_analysis_port                                        -     @884 
+#         res_ap               uvm_analysis_port                                        -     @892 
+#       sequencer_hmc_agent_h  sequencer_hmc_agent                                      -     @727 
+#         rsp_export           uvm_analysis_export                                      -     @734 
+#         seq_item_export      uvm_seq_item_pull_imp                                    -     @828 
+#         arbitration_queue    array                                                    0     -    
+#         lock_queue           array                                                    0     -    
+#         num_last_reqs        integral                                                 32    'd1  
+#         num_last_rsps        integral                                                 32    'd1  
+#     m_rf_agent               rf_agent #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH)  -     @579 
+#       driver                 uvm_driver #(REQ,RSP)                                    -     @907 
+#         rsp_port             uvm_analysis_port                                        -     @922 
+#         seq_item_port        uvm_seq_item_pull_port                                   -     @914 
+#       m_seqr                 rf_sequencer                                             -     @930 
+#         rsp_export           uvm_analysis_export                                      -     @937 
+#         seq_item_export      uvm_seq_item_pull_imp                                    -     @1031
+#         arbitration_queue    array                                                    0     -    
+#         lock_queue           array                                                    0     -    
+#         num_last_reqs        integral                                                 32    'd1  
+#         num_last_rsps        integral                                                 32    'd1  
+#       monitor                uvm_monitor                                              -     @1039
+#         rf_ap                uvm_analysis_port                                        -     @1061
+#       rf_ap                  uvm_analysis_port                                        -     @1046
+#     m_rf_hmc2reg_predictor   uvm_reg_predictor #(rf_item)                             -     @586 
+#       bus_in                 uvm_analysis_imp                                         -     @593 
+#       reg_ap                 uvm_analysis_port                                        -     @601 
+#     m_vseqr                  vsequencer                                               -     @617 
+#       rsp_export             uvm_analysis_export                                      -     @624 
+#       seq_item_export        uvm_seq_item_pull_imp                                    -     @718 
+#       arbitration_queue      array                                                    0     -    
+#       lock_queue             array                                                    0     -    
+#       num_last_reqs          integral                                                 32    'd1  
+#       num_last_rsps          integral                                                 32    'd1  
+# -------------------------------------------------------------------------------------------------
+# 
+#### Factory Configuration (*)
+# 
+#   No instance or type overrides are registered with this factory
+# 
+# All types registered with the factory: 82 total
+# (types without type names will not be printed)
+# 
+#   Type Name
+#   ---------
+#   base_seq
+#   base_test
+#   env
+#   env_cfg
+#   hmc_initialization_seq
+#   hmc_pkt_item
+#   hmc_response_seq
+#   hmc_state_seq
+#   hmc_vseq
+#   questa_uvm_recorder
+#   random_test
+#   reg_control
+#   reg_counter_reset
+#   reg_error_abort_not_cleared
+#   reg_errors_on_rx
+#   reg_poisoned_packets
+#   reg_rcvd_rsp
+#   reg_run_length_bit_flip
+#   reg_sent_np
+#   reg_sent_p
+#   reg_sent_r
+#   reg_status_general
+#   reg_status_init
+#   reg_tx_link_retries
+#   rf_agent #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH)
+#   rf_control_configuration_seq
+#   rf_control_sleep_seq
+#   rf_item
+#   rf_reg2hmc_adapter
+#   rf_reg_block
+#   rf_reset_seq
+#   rf_sequencer
+#   rf_status_init_mirror_seq
+#   sequencer_hmc_agent
+#   vseq_base
+#   vsequencer
+# (*) Types with no associated type name will be printed as <unknown>
+# 
+####
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib/random_test.sv(17) @ 0: uvm_test_top [random_test run] Starting test
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib/hmc_vseq.sv(43) @ 0: uvm_test_top.m_env.m_vseqr@@m_hmc_vseq [hmc_vseq] Executing sequence
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib/hmc_vseq.sv(46) @ 0: uvm_test_top.m_env.m_vseqr@@m_hmc_vseq [rf_reset_seq] Executing sequence
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 27: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000003 with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 30: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000003 with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 35: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 000000000000000a with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 38: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 000000000000000a with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 43: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000006 with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 46: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000006 with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 51: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000004 with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 54: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000004 with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 59: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000001 with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 62: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000001 with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 67: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000007 with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 70: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000007 with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 75: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 000000000000000c with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 78: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 000000000000000c with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 83: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000000 with Payload: 000000ff00000002 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 86: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000000 with Payload: 000000ff00000002 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 91: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000009 with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 94: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000009 with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 99: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 000000000000000b with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 102: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 000000000000000b with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 107: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000002 with Payload: 0000181000ff0000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 110: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000002 with Payload: 0000181000ff0000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 115: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000005 with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 118: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000005 with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 123: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000008 with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib/hmc_vseq.sv(48) @ 123: uvm_test_top.m_env.m_vseqr@@m_hmc_vseq [rf_reset_seq] Sequence complete
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib/hmc_vseq.sv(51) @ 123: uvm_test_top.m_env.m_vseqr@@m_hmc_vseq [rf_control_configuration_seq] Executing sequence
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 126: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_READ to addr: 0000000000000008 with Payload: 0000000000000000 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/register_file_agent/rf_reg2hmc_adapter.sv(34) @ 131: reporter [REG2HMC_ADAPTER] 
+# (bus2reg): UVM_WRITE to addr: 0000000000000002 with Payload: 0000181000ff000a 
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib/hmc_vseq.sv(53) @ 131: uvm_test_top.m_env.m_vseqr@@m_hmc_vseq [rf_control_configuration_seq] Sequence complete
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib/hmc_vseq.sv(60) @ 131: uvm_test_top.m_env.m_vseqr@@m_hmc_vseq [rf_status_init_mirror_seq] Executing sequence
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib/hmc_vseq.sv(72) @ 131: uvm_test_top.m_env.m_vseqr@@m_hmc_vseq [hmc_state_seq] Executing sequence
+# UVM_FATAL @ 131: uvm_test_top.m_env.hmc_agent_h.sequencer_hmc_agent_h@@hmc_state_seq [NULLITM] attempting to start a null item from sequence 'uvm_test_top.m_env.hmc_agent_h.sequencer_hmc_agent_h.hmc_state_seq'
+# 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :   39
+# UVM_WARNING :    0
+# UVM_ERROR :    0
+# UVM_FATAL :    1
+# ** Report counts by id
+# [NULLITM]     1
+# [Questa UVM]     2
+# [REG2HMC_ADAPTER]    27
+# [RNTST]     1
+# [env_connect_phase]     1
+# [hmc_state_seq]     1
+# [hmc_vseq]     1
+# [random_test run]     1
+# [rf_control_configuration_seq]     2
+# [rf_reset_seq]     2
+# [rf_status_init_mirror_seq]     1
+# ** Note: $finish    : C:/questasim64_2021.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_report_object.svh(292)
+#    Time: 131 ns  Iteration: 9  Region: /uvm_pkg::uvm_sequence_base::start
+# 1
+# Break in Function uvm_pkg/uvm_report_object::die at C:/questasim64_2021.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_report_object.svh line 292
