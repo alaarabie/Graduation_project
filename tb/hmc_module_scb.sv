@@ -98,19 +98,19 @@ class hmc_module_scb  extends uvm_scoreboard;
 		`uvm_info(get_type_name(),$psprintf("hmc_req: checked packet #%0d %s@%0x", hmc_req_packet_count, packet.command.name(), packet.address), UVM_MEDIUM)
 	endfunction : write_hmc_req
 
-	function void write_axi4_hmc_rsp(input hmc_packet packet);
+	function void write_axi4_hmc_rsp(input hmc_pkt_item packet);
 	endfunction :write_axi4_hmc_rsp
 
 
-	function void write_axi4_hmc_req(input hmc_packet packet);
+	function void write_axi4_hmc_req(input hmc_pkt_item packet);
 	endfunction :write_axi4_hmc_req
 
 	//-- compare the received response packets and check with the previous sent request packet
-	function void response_compare(input hmc_packet expected, input hmc_packet packet);
+	function void response_compare(input hmc_pkt_item expected, input hmc_pkt_item packet);
 	endfunction : response_compare
 
 	//-- compare and check 2 Request type packets
-	function void request_compare(input hmc_packet expected, hmc_packet packet);
+	function void request_compare(input hmc_pkt_item expected, hmc_pkt_item packet);
 	endfunction : request_compare
 
 	function void check_phase(uvm_phase phase);
