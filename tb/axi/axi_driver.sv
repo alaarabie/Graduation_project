@@ -8,7 +8,7 @@ virtual interface axi_if #(.t_user_width(t_user_width), .t_data_bit(t_data_bit))
 valid_data #(.t_data_bit(t_data_bit), .t_user_width(t_user_width)) vld_data;
 axi_config    a_config;
 
-`uvm_component_param_utils_begin(axi_driver)
+`uvm_component_param_utils_begin(axi_driver #(.t_user_width(t_user_width), .t_data_bit(t_data_bit)))
 `uvm_field_object(a_config, UVM_DEFAULT)
 `uvm_component_utils_end
 
