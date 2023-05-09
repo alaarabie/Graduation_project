@@ -1,17 +1,16 @@
 `ifndef axi_driver_sv
 `define axi_driver_sv
 
-class axi_driver #(parameter t_user_width = 16, parameter t_data_bit = 128) extends uvm_driver #(valid_data #(.t_user_width(t_user_width), .t_user_width(t_user_width)));;
-
-`uvm_component_param_utils_begin(axi_driver)
-`uvm_field_object(a_config, UVM_DEFAULT)
-`uvm_component_utils_end
+class axi_driver #(parameter t_user_width = 16, parameter t_data_bit = 128) extends uvm_driver #(valid_data #(.t_user_width(t_user_width), .t_user_width(t_user_width)));
 
 // Declare the virtual interface
 virtual interface axi_if #(.t_user_width(t_user_width), .t_data_bit(t_data_bit)) vif;
 valid_data #(.t_data_bit(t_data_bit), .t_user_width(t_user_width)) vld_data;
 axi_config    a_config;
 
+`uvm_component_param_utils_begin(axi_driver)
+`uvm_field_object(a_config, UVM_DEFAULT)
+`uvm_component_utils_end
 
 // constructor
 function new (string name = "axi_driver" , uvm_component parent);
