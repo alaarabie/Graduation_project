@@ -11,7 +11,6 @@ axi_config a_config;
 
 //uvm macros
 `uvm_object_param_utils_begin(axi_env #(.t_user_width(t_user_width), .t_data_bit(t_data_bit)))
-`uvm_field_object(vif, UVM_ALL_ON)
 `uvm_field_object(a_agent, UVM_ALL_ON)
 `uvm_field_object(a_monitor, UVM_ALL_ON)
 `uvm_field_object(a_config, UVM_ALL_ON)
