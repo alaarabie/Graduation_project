@@ -307,10 +307,12 @@ class hmc_pkt_item extends  uvm_sequence_item;
       {res22[21:0], source_link_ID[2:0], res6[5:0], return_tag[8:0], tag[8:0], duplicate_length[3:0], length[3:0], res1, command[5:0]}  = header;
     end
 
-    // unpack payload
-    for (int i = 0; i < length-1; i++) begin
-      payload.push_back(packer.unpack_field(128));
-    end 
+// unpack payload 
+    if (length != 0) begin
+      for (int i = 0; i < length-1; i++) begin
+        payload.push_back(packer.unpack_field(128));
+      end 
+    end
 
     //---------------------------------------------------------------------------------------------------//
     // unpack tail (Request)

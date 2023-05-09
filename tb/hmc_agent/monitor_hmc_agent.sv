@@ -26,7 +26,7 @@ class monitor_hmc_agent#(DWIDTH = 512 ,
 	task run_phase(uvm_phase phase);
 		forever begin
 			wait(vif.res_n)
-			vif.run() ;
+			vif.run() ;			
 		end
 	endtask : run_phase
 

@@ -54,6 +54,9 @@ class driver_hmc_agent #(DWIDTH = 512 ,
      vif.vif_request_packet.delete() ;             
      
 //for state sequence
+request_packet=hmc_pkt_item::type_id::create("request_packet") ;
+response_packet=hmc_pkt_item::type_id::create("response_packet") ;
+
 
       seq_item_port.get_next_item(response_packet);
       
@@ -66,7 +69,8 @@ class driver_hmc_agent #(DWIDTH = 512 ,
       end 
 
       packing_FLITS() ;
-      {<<bit{vif.vif_request_packet}}=current_request_packet ;      
+      vif.vif_request_packet=current_request_packet ;  
+      // {<<bit{vif.vif_request_packet}}=current_request_packet ;      
       vif.z=1 ;
 
       seq_item_port.item_done() ; 

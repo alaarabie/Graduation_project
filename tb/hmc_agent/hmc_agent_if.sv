@@ -102,12 +102,14 @@ endtask : send_to_DUT
 task run();
 	@(posedge clk)
 	 	if (j==1) begin
+	 		response_item=hmc_pkt_item::type_id::create("response_item") ;
 	 		assert (response_item.unpack(response_packet));
 	        proxy.notify_res_transaction(response_item) ;	
 	        j=0 ;
 	 	end
 	 	
 	 	else if ((k==1)&&(z==1)) begin
+	 		request_pkt_item=hmc_pkt_item::type_id::create("request_pkt_item") ;	 		
 	 		assert (request_pkt_item.unpack(vif_request_packet));
             proxy.notify_req_transaction(request_pkt_item) ;
             k=0 ;
