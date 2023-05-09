@@ -15,7 +15,9 @@ endclass : hmc_state_seq
 
   task hmc_state_seq:: body();
     super.body();
-   
+
+   response_packet=hmc_pkt_item::type_id::create("response_packet") ;
+
     start_item(response_packet) ;
     tx_state = rf_rb.m_reg_status_init.status_init_tx_init_state.get();
     response_packet.init_state = tx_state ;
