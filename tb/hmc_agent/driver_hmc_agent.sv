@@ -69,6 +69,7 @@ response_packet=hmc_pkt_item::type_id::create("response_packet") ;
       end 
 
       packing_FLITS() ;
+      `uvm_info("hmc_vseq", $sformatf("current_request_packet=%p",current_request_packet) ,UVM_LOW)      
       vif.vif_request_packet=current_request_packet ;  
       // {<<bit{vif.vif_request_packet}}=current_request_packet ;      
       vif.z=1 ;
