@@ -34,16 +34,17 @@ else
 begin
 `uvm_fatal(get_type_name(),"vif is not set")		
 end	
+
 if(uvm_config_db#(axi_config)::get(this, "", "a_config", a_config))
 begin
 uvm_config_db#(axi_config)::set(this, "a_agent", "a_config", a_config);
 end
 else 
 begin
-`uvm_fatal(get_type_name(),"a_config is not set")	
+`uvm_fatal(get_type_name(),"a_config is not set via config_db")	
 end
 
-
+	
 //create
 a_agent = axi_agent#(.t_user_width(t_user_width), .t_data_bit(t_data_bit))::type_id::create("a_agent", this);
 a_monitor = axi_monitor#(.t_user_width(t_user_width), .t_data_bit(t_data_bit))::type_id::create("a_monitor", this);
