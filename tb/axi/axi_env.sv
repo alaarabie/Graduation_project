@@ -1,5 +1,3 @@
-`ifndef axi_env_sv
-`define axi_env_sv
 
 class axi_env #(parameter t_user_width = 16, parameter t_data_bit = 128) extends uvm_env;
 
@@ -11,7 +9,6 @@ axi_config a_config;
 
 //uvm macros
 `uvm_object_param_utils_begin(axi_env #(.t_user_width(t_user_width), .t_data_bit(t_data_bit)))
-`uvm_field_object(vif, UVM_ALL_ON)
 `uvm_field_object(a_agent, UVM_ALL_ON)
 `uvm_field_object(a_monitor, UVM_ALL_ON)
 `uvm_field_object(a_config, UVM_ALL_ON)
@@ -35,13 +32,14 @@ else
 begin
 `uvm_fatal(get_type_name(),"vif is not set")		
 end	
+
 if(uvm_config_db#(axi_config)::get(this, "", "a_config", a_config))
 begin
 uvm_config_db#(axi_config)::set(this, "a_agent", "a_config", a_config);
 end
 else 
 begin
-`uvm_fatal(get_type_name(),"a_config is not set")	
+`uvm_fatal(get_type_name(),"a_config is not set via config_db")	
 end
 
 
@@ -60,6 +58,4 @@ endfunction : connect_phase
 
 endclass : axi_env
 
-
-`endif
 

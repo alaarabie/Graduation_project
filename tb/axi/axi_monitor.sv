@@ -1,15 +1,12 @@
-`ifndef axi_monitor_SV
-`define axi_monitor_SV
 
-
-class axi_monitor  #(parameter t_user_width = 16, parameter t_data_bit = 128)extends  uvm_monitor;
+class axi_monitor  #(parameter t_user_width = 16, parameter t_data_bit = 128) extends  uvm_monitor;
 
 // add to factory 
-`uvm_component_param_utils(axi_monitor #(.DATA_BYTES(DATA_BYTES), .TUSER_WIDTH(TUSER_WIDTH)))
+`uvm_component_param_utils(axi_monitor #(.t_data_bit(t_data_bit), .t_user_width(t_user_width)))
 
 
 // Virtual Interface	
-virtual interface axi_if #(.t_data_bit(t_data_bit), .t_user_width(t_user_width))vif;
+virtual interface axi_if #(.t_data_bit(t_data_bit), .t_user_width(t_user_width)) vif;
 
 
 // Declare analysis port
@@ -36,9 +33,6 @@ end
 endfunction: build_phase
 
 
-
-
-
 // monitor transmitted data
 virtual task request_to_monitor(uvm_phase phase);
 valid_data #(.t_data_bit(t_data_bit), .t_user_width(t_user_width)) vld_data;
@@ -60,8 +54,8 @@ vld_data.t_data 	= vif.t_data;
 request.write(vld_data);
 end
 if (vif.t_valid == 0) begin
-vld_data.tuser	= {TUSER_WIDTH{1'b0}};
-vld_data.tdata	= {DATA_BYTES{8'b0}};;
+vld_data.t_user	= {t_user_width{'b0}};
+vld_data.t_data	= {t_data_bit{'b0}};
 request.write(vld_data);
 end
 end
@@ -91,9 +85,9 @@ rx_data.t_user 	= vif.rx_user;
 rx_data.t_data 	= vif.rx_data;
 response.write(rx_data);
 end
-if (vif.t_valid == 0) begin
-rx_data.tuser	= {TUSER_WIDTH{1'b0}};
-rx_data.tdata	= {DATA_BYTES{8'b0}};;
+if (vif.rx_valid == 0) begin
+rx_data.t_user	= {t_user_width{'b0}};
+rx_data.t_data	= {t_data_bit{'b0}};
 response.write(rx_data);
 end
 end
@@ -103,4 +97,4 @@ end
 endtask : response_from_memory
 
 endclass : axi_monitor
-`endif
+

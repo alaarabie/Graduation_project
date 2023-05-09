@@ -1,6 +1,3 @@
-`ifndef axi_interface_sv
-`define axi_interface_sv
-
 
 interface axi_interface #(parameter t_user_width = 16, parameter t_data_bit = 128)();
 	
@@ -23,5 +20,3 @@ logic [t_user_width-1 : 0]  rx_user;
 
 
 endinterface : axi_interface
-
-`endif

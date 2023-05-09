@@ -1,5 +1,3 @@
-`ifndef axi_agent_sv
-`define axi_agent_sv
 
 class axi_agent  #(parameter t_user_width = 16, parameter t_data_bit = 128) extends uvm_agent;
 
@@ -59,4 +57,4 @@ endfunction : connect_phase
 
 endclass : axi_agent
 
-`endif
+

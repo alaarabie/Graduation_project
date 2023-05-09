@@ -1,5 +1,3 @@
-`ifndef hmc_pkt_item_request_SV
-`define hmc_pkt_item_request_SV
 
 class hmc_pkt_item_request extends hmc_pkt_item;
 `uvm_object_utils(hmc_pkt_item_request)
@@ -38,5 +36,9 @@ constraint c_zero_tail_fields {
   return_retry_ptr == 0;
 }
 
+
+// helper field
+rand int        flit_delay;
+
  endclass :  hmc_pkt_item_request
-`endif
+

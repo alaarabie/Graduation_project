@@ -1,5 +1,3 @@
-`ifdef axi_sequencer_sv
-`define axi_sequencer_sv
 
 class axi_sequencer #(parameter t_user_width = 16, parameter t_data_bit = 128) extends  uvm_sequencer #(valid_data #(.t_user_width(t_user_width), .t_data_bit(t_data_bit)));
 
@@ -10,4 +8,3 @@ super.new(name,parent)
 endfunction 
 
 endclass : axi_sequencer
-`endif

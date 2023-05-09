@@ -1,5 +1,3 @@
-`ifndef axi_config_sv
-`define axi_config_sv
 
 class axi_config extends uvm_object;
 
@@ -18,6 +16,4 @@ endfunction : new
 
 endclass : axi_config
 
-
-`endif
 
