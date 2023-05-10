@@ -36,7 +36,7 @@ virtual function void build();
   this.link_up.configure                (this, 1, 0, "RO", 0, 1'h0, 1, 0, 1);
   this.link_training.configure          (this, 1, 1, "RO", 0, 1'h1, 1, 0, 1);
   this.sleep_mode.configure             (this, 1, 2, "RO", 0, 1'h0, 1, 0, 1);
-  this.FERR_N.configure                 (this, 1, 3, "RO", 0, 1'h0, 1, 0, 1);
+  this.FERR_N.configure                 (this, 1, 3, "RO", 0, 1'h1, 1, 0, 1);
   this.lanes_reversed.configure         (this, 1, 4, "RO", 0, 1'h0, 1, 0, 1);
   this.phy_tx_ready.configure           (this, 1, 8, "RO", 0, 1'h0, 1, 0, 1);
   this.phy_rx_ready.configure           (this, 1, 9, "RO", 0, 1'h0, 1, 0, 1);

@@ -16,7 +16,6 @@ class rf_reg_block extends  uvm_reg_block;
   rand reg_run_length_bit_flip        m_reg_run_length_bit_flip;
   rand reg_error_abort_not_cleared    m_reg_error_abort_not_cleared;
 
-
   uvm_reg_map rf_map; // Block map
 
 function new(string name = "");
@@ -70,7 +69,7 @@ virtual function void build();
   m_reg_run_length_bit_flip.build();
   m_reg_error_abort_not_cleared.build();
 
-// Map name, Offset, Number of bytes, Endianess)
+// (Map name, base_addr, Number_of_bytes, Endianess, byte_addressing)
  rf_map = create_map("rf_map", 'h0, 8, UVM_LITTLE_ENDIAN, 0);
 
  // Add these registers to the default map

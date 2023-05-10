@@ -30,7 +30,7 @@ virtual function void build();
   this.descrambler_alligned.configure      (this, 8, 32, "RO", 0,  8'h0, 1, 0, 1);
   this.all_descramblers_alligned.configure (this, 1, 48, "RO", 0,  'h0, 1, 0, 1);
   this.status_init_rx_init_state.configure (this, 3, 49, "RO", 0, 3'h0, 1, 0, 1);
-  this.status_init_tx_init_state.configure (this, 2, 53, "RO", 0, 2'h0, 1, 0, 1);
+  this.status_init_tx_init_state.configure (this, 2, 52, "RO", 0, 2'h0, 1, 0, 1);
   
 endfunction : build
 
