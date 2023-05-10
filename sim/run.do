@@ -2,10 +2,7 @@ transcript file log/RUN_LOG.log
 
 vopt tb_top -o top_optimized  +acc +cover=sbfec+openhmc_top(rtl).
 
-#vsim -assertdebug -coverage -c -voptargs=+acc work.ATM_tb \
-#-do "add wave -position insertpoint sim:/ATM_tb/*; run -all; coverage report -codeAll -cvg -verbose"
-
-vsim top_optimized -assertdebug -coverage +UVM_TESTNAME=random_test
+vsim top_optimized -c -assertdebug -debugDB -fsmdebug -coverage +UVM_TESTNAME=hmc_init_test
 set NoQuitOnFinish 1
 onbreak {resume}
 log /* -r
