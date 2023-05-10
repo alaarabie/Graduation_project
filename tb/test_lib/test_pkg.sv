@@ -11,8 +11,15 @@ package test_pkg ;
 
 	`include "vseq_base.sv"
 	`include "hmc_vseq.sv"
+
+  `include "init-test/hmc_init_vseq.sv"
+  `include "rf-reset-test/rf_reset_vseq.sv"
+
 	`include "base_test.sv"
 	`include "random_test.sv"	
+
+  `include "init-test/hmc_init_test.sv"
+  `include "rf-reset-test/rf_reset_test.sv"
 
 
 endpackage : test_pkg

@@ -42,15 +42,17 @@ task hmc_vseq::body();
 
   `uvm_info("hmc_vseq", "Executing sequence", UVM_MEDIUM)
 
+  // edit the configuration of control register
+  `uvm_info("rf_control_configuration_seq", "Executing sequence", UVM_MEDIUM)
+  rf_control_configuration_seq_h.start(m_rf_seqr);
+  `uvm_info("rf_control_configuration_seq", "Sequence complete", UVM_MEDIUM)
+
   // check that all registers reseted correctly
   `uvm_info("rf_reset_seq", "Executing sequence", UVM_MEDIUM)
   rf_reset_seq_h.start(m_rf_seqr);
   `uvm_info("rf_reset_seq", "Sequence complete", UVM_MEDIUM)
 
-  // edit the configuration of control register
-  `uvm_info("rf_control_configuration_seq", "Executing sequence", UVM_MEDIUM)
-  rf_control_configuration_seq_h.start(m_rf_seqr);
-  `uvm_info("rf_control_configuration_seq", "Sequence complete", UVM_MEDIUM)
+
 
   fork
   //************************************************************//
@@ -58,8 +60,14 @@ task hmc_vseq::body();
   //************************************************************//
    begin
     `uvm_info("rf_status_init_mirror_seq", "Executing sequence", UVM_MEDIUM)
-    forever begin
-      rf_status_init_mirror_seq_h.start(m_rf_seqr);
+    repeat(20) begin
+
+      if(tx_state!=2'b11) begin
+        rf_status_init_mirror_seq_h.start(m_rf_seqr);
+      end else begin
+        `uvm_info("hmc_vseq", $sformatf("tx_state=INIT_DONE"), UVM_LOW)      
+        break ;
+      end
     end 
     `uvm_info("rf_status_init_mirror_seq", "Sequence complete", UVM_MEDIUM)      
    end
@@ -67,19 +75,20 @@ task hmc_vseq::body();
   //************************************************************//
   //************************* Thread 2 *************************//
   //************************************************************//
-   begin
-    forever begin
+  begin
+    `uvm_info("hmc_state_seq", "Executing sequence", UVM_MEDIUM)
+    repeat(20) begin
     tx_state = rf_rb.m_reg_status_init.status_init_tx_init_state.get();
     `uvm_info("hmc_vseq", $sformatf("tx_state=%b",tx_state ),UVM_LOW)
-    `uvm_info("hmc_state_seq", "Executing sequence", UVM_MEDIUM)
+    
     hmc_state_seq_h.start(m_seqr_hmc_agent) ;
-    `uvm_info("hmc_state_seq", "Sequence complete", UVM_MEDIUM)
+    //`uvm_info("hmc_state_seq", "Sequence complete", UVM_MEDIUM)
 
     if(tx_state!=2'b11)
             begin
-              `uvm_info("hmc_initialization_seq", "Executing sequence", UVM_MEDIUM)
+              //`uvm_info("hmc_initialization_seq", "Executing sequence", UVM_MEDIUM)
                hmc_initialization_seq_h.start(m_seqr_hmc_agent) ;
-              `uvm_info("hmc_initialization_seq", "Sequence complete", UVM_MEDIUM)
+              //`uvm_info("hmc_initialization_seq", "Sequence complete", UVM_MEDIUM)
             end
     else begin
      `uvm_info("hmc_vseq", $sformatf("tx_state=INIT_DONE"), UVM_LOW)      

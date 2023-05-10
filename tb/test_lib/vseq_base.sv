@@ -18,7 +18,6 @@ class vseq_base extends  uvm_sequence #(uvm_sequence_item);
 
 
   virtual task body();
-    m_cfg = p_sequencer.cfg ;
     if(m_cfg == null) begin
        `uvm_fatal(get_full_name(), "env_config is null")
     end
