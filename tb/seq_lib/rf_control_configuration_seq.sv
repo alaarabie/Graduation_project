@@ -15,9 +15,15 @@ endfunction : new
 task rf_control_configuration_seq::body();
   super.body();
 
-  rf_rb.m_reg_control.p_rst_n.set(1'h1);
-  rf_rb.m_reg_control.scrambler_disable.set(1'h1);
-  rf_rb.m_reg_control.hmc_init_cont_set.set(1'h1);
-  rf_rb.m_reg_control.update(status, .path(UVM_FRONTDOOR), .parent(this));
+  rf_rb.m_reg_control.read(status, data, .parent(this));
+
+  //rf_rb.m_reg_control.p_rst_n.set(1'h1);
+  //rf_rb.m_reg_control.scrambler_disable.set(1'h1);
+  //rf_rb.m_reg_control.hmc_init_cont_set.set(1'h1);
+  //rf_rb.m_reg_control.rx_token_count.set({8{1'b1}});
+
+
+  rf_rb.m_reg_control.write(status, 64'h181000ff0033, .parent(this));
+  rf_rb.m_reg_control.read(status, data, .parent(this));
 
 endtask : body

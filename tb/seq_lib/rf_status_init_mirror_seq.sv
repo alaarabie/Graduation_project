@@ -16,6 +16,8 @@ task rf_status_init_mirror_seq::body();
   super.body();
 
   // will continuously perform read operations to mirror the hardware into the register model
-  rf_rb.m_reg_status_init.mirror(status, .path(UVM_FRONTDOOR), .parent(this));
+  //rf_rb.m_reg_status_init.mirror(status, .path(UVM_FRONTDOOR), .parent(this));
+
+  rf_rb.m_reg_status_init.read(status, data, .parent(this));
 
 endtask : body
