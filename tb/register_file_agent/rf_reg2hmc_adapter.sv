@@ -31,7 +31,7 @@ class rf_reg2hmc_adapter extends  uvm_reg_adapter;
     rw.addr   = trans_h.addr;
     rw.data   = trans_h.data;
     rw.status = UVM_IS_OK;
-    `uvm_info("REG2HMC_ADAPTER", $psprintf("\n(bus2reg): %s to addr: %h with Payload: %h \n", rw.kind.name(), rw.addr, rw.data),UVM_MEDIUM);
+    `uvm_info("REG2HMC_ADAPTER", $psprintf("\n(bus2reg): %s to addr: %h with Payload: %h \n", rw.kind.name(), rw.addr, rw.data),UVM_HIGH);
   endfunction : bus2reg
 
 endclass : rf_reg2hmc_adapter
