@@ -178,6 +178,11 @@ class driver_hmc_agent #(DWIDTH = 512 ,
      while(LNG>4'b0)  
       begin
 
+        if (LNG<=4'b0)
+        begin
+            break ;
+        end
+        
         if(i>3)
           begin
            @(posedge vif.clk) ;
