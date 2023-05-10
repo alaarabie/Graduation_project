@@ -37,14 +37,20 @@ class driver_hmc_agent #(DWIDTH = 512 ,
         
         forever begin : response_loop
         
-          if(!(vif.res_n))
+          if(!vif.res_n)
             begin
-             vif.LXTXPS=1'b0 ;
+             vif.LXTXPS=1'b1 ;
              vif.FERR_N=1'b1 ;
              vif.phy_data_rx_phy2link='b0 ;
              vif.phy_rx_ready=1'b0 ;
              vif.phy_tx_ready=1'b0 ;                 
             end
+            wait(vif.res_n)
+
+            @(posedge vif.clk)
+
+            vif.phy_rx_ready=1'b1 ;   
+            vif.phy_tx_ready=1'b1 ;
       
 
         // rf_request_item state_item ;
@@ -57,12 +63,8 @@ class driver_hmc_agent #(DWIDTH = 512 ,
         // hmc_agent_if.send_rf(state_item,rf_read_data) ; // rf_read_data is an output of task send_rf in the if
         // tx_init_state = rf_read_data[HMC_RF_WWIDTH-11:HMC_RF_WWIDTH-12] ;
         // seq_item_port.item_done() ;
-          else
-           begin
-            vif.LXTXPS=1'b1 ;  
-            vif.FERR_N=1'b1 ;  
-            vif.phy_rx_ready=1'b1 ;   
-            vif.phy_tx_ready=1'b1 ;                            
+
+                           
 
             current_request_packet.delete() ;  
             vif.vif_request_packet.delete() ;             
@@ -83,7 +85,7 @@ class driver_hmc_agent #(DWIDTH = 512 ,
                   end 
 
                   packing_FLITS() ;
-                  `uvm_info("hmc_vseq", $sformatf("current_request_packet=%p",current_request_packet) ,UVM_LOW)      
+                  `uvm_info("hmc_vseq", $sformatf("current_request_packet=%p",current_request_packet) ,UVM_HIGH)      
                   vif.vif_request_packet=current_request_packet ;  
                   // {<<bit{vif.vif_request_packet}}=current_request_packet ;      
                   vif.z=1 ;
@@ -145,7 +147,7 @@ class driver_hmc_agent #(DWIDTH = 512 ,
                      //        seq_item_port.item_done() ;  
                      //     end
                      //    end
-           end         
+       
         end: response_loop
      endtask : run_phase 
 
