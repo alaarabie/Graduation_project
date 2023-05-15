@@ -84,7 +84,7 @@ class hmc_module_scb  extends uvm_scoreboard;
 		
 		hmc_req_packet_count++;	
 
-		`uvm_info(get_type_name(),$psprintf("hmc_req: received packet #%0d %s@%0x (tok %0d)", hmc_req_packet_count, packet.command.name(), packet.address, packet.return_token_count), UVM_MEDIUM)
+		`uvm_info(get_type_name(),$psprintf("hmc_req: received packet #%0d %s@%0x (tok %0d)", hmc_req_packet_count, packet.command.name(), packet.address, packet.return_token_cnt), UVM_MEDIUM)
 		`uvm_info(get_type_name(),$psprintf("hmc_req: \n%s", packet.sprint()), UVM_HIGH)
 
 		//-- expect an request packet on the host (AXI4) request queue
@@ -201,7 +201,7 @@ class hmc_module_scb  extends uvm_scoreboard;
 			`uvm_fatal(get_type_name(),$psprintf("response_compare: Read Response received with tag %0x for request %s\n%s", packet.tag, request.command.name(), packet.sprint()))
 //++++++++++++++++++++++++++++
 		if (packet.command == RD_RS) begin
-			int expected_payload; //store payload =packet_length-1
+			int expected_payload; //store payload =length-1
 			case (request.command)
 				MD_RD:  expected_payload = 1;
 				RD16:   expected_payload = 1;
@@ -230,9 +230,9 @@ class hmc_module_scb  extends uvm_scoreboard;
 			`uvm_fatal(get_type_name(),$psprintf("response_compare: Packet tag mismatch %0d != %0d ", expected.tag, packet.tag))
 		end	
 
-		if (expected.packet_length != packet.packet_length) begin
+		if (expected.length != packet.length) begin
 			`uvm_info(get_type_name(), $psprintf("Expected: %s. got: %s", expected.sprint(), packet.sprint() ), UVM_LOW)	
-			`uvm_fatal(get_type_name(),$psprintf("response_compare: Packet length mismatch %0d != %0d ", expected.packet_length, packet.packet_length))
+			`uvm_fatal(get_type_name(),$psprintf("response_compare: Packet length mismatch %0d != %0d ", expected.length, packet.length))
 		end
 		
 		if (expected.payload.size() != packet.payload.size())
@@ -246,7 +246,7 @@ class hmc_module_scb  extends uvm_scoreboard;
 
 	//-- compare and check 2 Request type packets
 	function void request_compare(input hmc_pkt_item expected, hmc_pkt_item packet);
-		hmc_command_type packet_type = packet.get_command_type();
+		cmd_type_e packet_type = packet.get_command_type();
 		if (packet_type == FLOW_TYPE || packet_type == RESPONSE_TYPE)
 			`uvm_fatal(get_type_name(),$psprintf("request_compare: Unexpected Packet \n%s", packet.sprint()))
 
@@ -261,8 +261,8 @@ class hmc_module_scb  extends uvm_scoreboard;
 		if (expected.address != packet.address)
 			`uvm_fatal(get_type_name(),$psprintf("request_compare: Address mismatch %0d != %0d", expected.address, packet.address))
 
-		if (expected.packet_length != packet.packet_length)
-			`uvm_fatal(get_type_name(),$psprintf("request_compare: Packet length mismatch %0d != %0d", expected.packet_length, packet.packet_length))
+		if (expected.length != packet.length)
+			`uvm_fatal(get_type_name(),$psprintf("request_compare: Packet length mismatch %0d != %0d", expected.length, packet.length))
 
 		if (expected.tag != packet.tag) begin
 			`uvm_info(get_type_name(), $psprintf("Expected: %s. got: %s", expected.sprint(), packet.sprint() ), UVM_LOW)	
