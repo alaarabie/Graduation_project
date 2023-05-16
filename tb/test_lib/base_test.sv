@@ -4,7 +4,7 @@ class base_test extends  uvm_test;
   // handles
   env m_env;
   
-  virtual axi_interface m_axi_if;
+  virtual axi_interface_t m_axi_if;
   virtual hmc_agent_if_t m_hmc_if ;  
   virtual rf_if_t m_rf_if;
   env_cfg m_env_cfg;
@@ -46,7 +46,7 @@ function void base_test::build_phase(uvm_phase phase);
 
   if(!uvm_config_db #(hmc_agent_if_t)::get(this, "","HMC_IF",  m_hmc_cfg.vif))
   `uvm_fatal("TEST", "Failed to get hmc_if")
-  if(!uvm_config_db #(m_axi_if)::get(this, "","HMC_IF",  m_axi_cofig.vif))
+  if(!uvm_config_db #(axi_interface_t)::get(this, "","HMC_IF",  m_hmc_cfg.vif))
   `uvm_fatal("TEST", "Failed to get axi_if")
   if(!uvm_config_db #(rf_if_t)::get(this, "","RF", m_rf_cfg.vif))
   `uvm_fatal("TEST", "Failed to get rf_if")
