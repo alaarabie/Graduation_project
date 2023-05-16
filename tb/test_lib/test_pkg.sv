@@ -10,18 +10,16 @@ package test_pkg ;
     import tb_pkg::* ;
 
 	`include "vseq_base.sv"
-	`include "hmc_init_vseq.sv"
+	`include "hmc_vseq.sv"
 
-  // `include "init-test/hmc_init_vseq.sv"
-  // `include "rf-reset-test/rf_reset_vseq.sv"
+  `include "init-test/hmc_init_vseq.sv"
+  `include "rf-reset-test/rf_reset_vseq.sv"
 
 	`include "base_test.sv"
-	// `include "random_test.sv"	
+	`include "random_test.sv"	
 
-  `include "hmc_init_test.sv"
-  // `include "rf-reset-test/rf_reset_test.sv"
-  `include "coverage.sv"
-  `include "hmc_scb.sv"
+  `include "init-test/hmc_init_test.sv"
+  `include "rf-reset-test/rf_reset_test.sv"
 
 
 endpackage : test_pkg
