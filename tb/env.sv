@@ -13,8 +13,10 @@ class env extends  uvm_env;
   uvm_reg_predictor#(rf_item) m_rf_hmc2reg_predictor;
 // HMC agent and configuration
   hmc_agent_t hmc_agent_h ;
-
-
+  
+// axi agent   
+  axi_agent_t axi_agent_h;
+   
   extern function new(string name, uvm_component parent);
   extern function void build_phase(uvm_phase phase);
   extern function void connect_phase(uvm_phase phase);
@@ -35,6 +37,8 @@ function void env::build_phase(uvm_phase phase);
 
   uvm_config_db#(rf_agent_cfg_t)::set(this, "m_rf_agent*", "rf_agent_cfg_t", cfg.m_rf_agent_cfg);
   uvm_config_db#(hmc_agent_config_t)::set(this, "hmc_agent_h*", "hmc_agent_config_t", cfg.m_hmc_agent_cfg);
+  uvm_config_db#(axi_config_t)::set(this, "axi_agent_h*", "axi_config_t", cfg.m_axi_cfg);
+
 
   m_rf_agent = rf_agent_t::type_id::create("m_rf_agent",this);
 
@@ -44,6 +48,8 @@ function void env::build_phase(uvm_phase phase);
 
 
   hmc_agent_h = hmc_agent_t::type_id::create("hmc_agent_h",this); 
+
+  axi_agent_h = hmc_agent_t::type_id::create("axi_agent_h",this); 
 
   m_vseqr    = vsequencer::type_id::create("m_vseqr" , this);
 
@@ -76,5 +82,6 @@ function void env::connect_phase(uvm_phase phase);
   //************************************************************************//
   m_vseqr.m_rf_seqr = m_rf_agent.m_seqr;
   m_vseqr.m_seqr_hmc_agent = hmc_agent_h.sequencer_hmc_agent_h;
+  m_vseqr.axi_sqr = axi_agent_h.a_sequencer;
 
 endfunction : connect_phase

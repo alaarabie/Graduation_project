@@ -45,7 +45,6 @@ module tb_top;
   logic clk;
   logic res_n;
 
-
   rf_if #(.HMC_RF_WWIDTH(HMC::HMC_RF_WWIDTH),
           .HMC_RF_RWIDTH(HMC::HMC_RF_RWIDTH),
           .HMC_RF_AWIDTH(HMC::HMC_RF_AWIDTH))
@@ -57,6 +56,9 @@ module tb_top;
                  .FLIT_SIZE(HMC::FLIT_SIZE))
   HMC_IF (.clk(clk), .res_n(res_n));
 
+ axi_interface #(.T_DATA_BIT(HMC::DWIDTH),
+                 .T_USER_WIDTH(HMC::NUM_DATA_BYTES))
+  AXI_IF (.clk(clk), .res_n(res_n));
 
   openhmc_top #(.FPW(FPW),
                 .LOG_FPW(LOG_FPW),
@@ -79,20 +81,23 @@ module tb_top;
                 .SYNC_AXI4_IF(SYNC_AXI4_IF),
                 .XIL_CNT_PIPELINED(XIL_CNT_PIPELINED),
                 .BITSLIP_SHIFT_RIGHT(BITSLIP_SHIFT_RIGHT),
-                .DBG_RX_TOKEN_MON(DBG_RX_TOKEN_MON))
+                .DBG_RX_TOKEN_MON(DBG_RX_TOKEN_MON),
+                .T_DATA_BIT(HMC::DWIDTH),
+                .T_USER_WIDTH(HMC::NUM_DATA_BYTES))
+
     dut (.clk_hmc(clk),
          .res_n_hmc(res_n),
-         .res_n_user(),
-         .clk_user(),
+         .res_n_user(clk),
+         .clk_user(res_n),
          //axi interface
-         .s_axis_tx_TVALID(),
-         .s_axis_tx_TREADY(),
-         .s_axis_tx_TDATA(),
-         .s_axis_tx_TUSER(),
-         .m_axis_rx_TVALID(),
-         .m_axis_rx_TREADY(),
-         .m_axis_rx_TDATA(),
-         .m_axis_rx_TUSER(),
+         .s_axis_tx_TVALID(AXI_IF.t_valid),
+         .s_axis_tx_TREADY(AXI_IF.t_ready),
+         .s_axis_tx_TDATA(AXI_IF.t_data),
+         .s_axis_tx_TUSER(AXI_IF.t_user),
+         .m_axis_rx_TVALID(AXI_IF.rx_valid),
+         .m_axis_rx_TREADY(AXI_IF.rx_ready),
+         .m_axis_rx_TDATA(AXI_IF.rx_data),
+         .m_axis_rx_TUSER(AXI_IF.rx_user),
          // transceiver
          .phy_data_tx_link2phy(HMC_IF.phy_data_tx_link2phy),
          .phy_data_rx_phy2link(HMC_IF.phy_data_rx_phy2link),
@@ -144,7 +149,7 @@ module tb_top;
 initial begin
   uvm_config_db#(virtual rf_if #(HMC::HMC_RF_WWIDTH, HMC::HMC_RF_RWIDTH, HMC::HMC_RF_AWIDTH))::set(null, "uvm_test_top", "RF", RF);
   uvm_config_db#(virtual hmc_agent_if #(HMC::DWIDTH, HMC::NUM_LANES, HMC::FPW, HMC::FLIT_SIZE))::set(null, "uvm_test_top", "HMC_IF", HMC_IF);
-
+  uvm_config_db#(virtual axi_interface #(HMC::DWIDTH, HMC::NUM_LANES, HMC::FPW, HMC::FLIT_SIZE))::set(null, "uvm_test_top", "AXI_IF", AXI_IF);
   run_test();
 end
 
