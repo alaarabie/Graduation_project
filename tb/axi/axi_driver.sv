@@ -8,7 +8,6 @@ axi_config  #(.NUM_DATA_BYTES(NUM_DATA_BYTES), .DWIDTH(DWIDTH))  a_config;
 
 `uvm_component_param_utils(axi_driver #(.NUM_DATA_BYTES(NUM_DATA_BYTES), .DWIDTH(DWIDTH)))
 
-
 // constructor
 function new (string name = "axi_driver" , uvm_component parent);
 super.new(name,parent);

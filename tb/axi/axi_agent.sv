@@ -14,7 +14,6 @@ axi_sequencer #(.NUM_DATA_BYTES(NUM_DATA_BYTES), .DWIDTH(DWIDTH)) a_sequencer;
   uvm_analysis_port #(valid_data #(.DWIDTH(DWIDTH), .NUM_DATA_BYTES(NUM_DATA_BYTES))) mon_response ;  
 
 
-
 // constructor
 function new (string name , uvm_component parent);
 super.new(name,parent);

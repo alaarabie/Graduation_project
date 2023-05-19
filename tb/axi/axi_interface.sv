@@ -19,5 +19,4 @@ logic [DWIDTH-1 : 0]          rx_data;
 logic [NUM_DATA_BYTES-1 : 0]  rx_user;
 
 
-
 endinterface : axi_interface
