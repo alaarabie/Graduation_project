@@ -1,5 +1,5 @@
 
-class axi_sequence #(parameter T_DATA_BIT = 128, parameter T_USER_WIDTH = 16) extends uvm_sequence #(valid_data #(.T_DATA_BIT(T_DATA_BIT), .T_USER_WIDTH(T_USER_WIDTH)));
+class axi_sequence #(parameter NUM_DATA_BYTES = 64, parameter DWIDTH = 512)  extends uvm_sequence #(valid_data #(.DWIDTH(DWIDTH), .NUM_DATA_BYTES(NUM_DATA_BYTES)));
 
 int unsigned num_packets = 1;				
 int unsigned max_pkts_per_cycle = 4;		//-- maximum number of packets sended in one cycle
@@ -20,14 +20,14 @@ tag >= 0;
 tag <  512;
 }
 
-valid_data #(.T_DATA_BIT(T_DATA_BIT),.T_USER_WIDTH(T_USER_WIDTH)) axi4_queue[$];
+valid_data #(.DWIDTH(DWIDTH),.NUM_DATA_BYTES(NUM_DATA_BYTES)) axi4_queue[$];
 
-`uvm_object_param_utils_begin(axi_sequence #(.T_DATA_BIT(T_DATA_BIT),.T_USER_WIDTH(T_USER_WIDTH)))
+`uvm_object_param_utils_begin(axi_sequence #(.DWIDTH(DWIDTH),.NUM_DATA_BYTES(NUM_DATA_BYTES)))
 `uvm_field_int(num_packets, UVM_DEFAULT | UVM_DEC)
 `uvm_field_int(max_pkts_per_cycle, UVM_DEFAULT | UVM_DEC)
 `uvm_object_utils_end
 
-`uvm_declare_p_sequencer(axi_sequencer #(.T_DATA_BIT(T_DATA_BIT),.T_USER_WIDTH(T_USER_WIDTH)))
+`uvm_declare_p_sequencer(axi_sequencer #(.DWIDTH(DWIDTH),.NUM_DATA_BYTES(NUM_DATA_BYTES)))
 	
 
 function new(string name="axi_sequence");
@@ -79,9 +79,9 @@ endfunction : pack_hmc_packet
 // assign tuser: header, tail, valid flags, and put flits in axi queue
 function void hmc_packet_2_axi_cycles();
  	
-valid_data #(.T_DATA_BIT(T_DATA_BIT),.T_USER_WIDTH(T_USER_WIDTH)) axi4_item;
+valid_data #(.DWIDTH(DWIDTH),.NUM_DATA_BYTES(NUM_DATA_BYTES)) axi4_item;
 			
-int unsigned FPW     = T_DATA_BIT/128; 
+int unsigned FPW     = DWIDTH/128; 
 int unsigned HEADERS = 1*FPW;
 int unsigned TAILS   = 2*FPW;
 int unsigned VALIDS  = 0;
@@ -209,11 +209,11 @@ end
 endtask : aquire_tags
 		
 task send_axi4_cycles();
-valid_data #(.T_DATA_BIT(T_DATA_BIT),.T_USER_WIDTH(T_USER_WIDTH)) axi4_item;
+valid_data #(.DWIDTH(DWIDTH),.NUM_DATA_BYTES(NUM_DATA_BYTES)) axi4_item;
 while( axi4_queue.size() > 0 ) begin
 `uvm_info(get_type_name(),$psprintf("axi4_queue contains %0d items", axi4_queue.size()), UVM_MEDIUM)
 axi4_item = axi4_queue.pop_front();
-if ((axi4_item.t_user == {{(T_USER_WIDTH){1'b0}}})) begin
+if ((axi4_item.t_user == {{(NUM_DATA_BYTES){1'b0}}})) begin
 axi4_item.print();
 `uvm_fatal("AXI4_Master_Driver", "sent an empty cycle")
 end

@@ -50,10 +50,10 @@ module openhmc_sva #(
     input  wire [DWIDTH-1:0]            s_axis_tx_TDATA,
     input  wire [NUM_DATA_BYTES-1:0]    s_axis_tx_TUSER,
     //From HMC Ctrl RX to AXI
-    input  wire                         m_axis_rx_TVALID,
-    input  wire                         m_axis_rx_TREADY,
-    input  wire [DWIDTH-1:0]            m_axis_rx_TDATA,
-    input  wire [NUM_DATA_BYTES-1:0]    m_axis_rx_TUSER,
+    output  wire                         m_axis_rx_TVALID,
+    output  wire                         m_axis_rx_TREADY,
+    output  wire [DWIDTH-1:0]            m_axis_rx_TDATA,
+    output  wire [NUM_DATA_BYTES-1:0]    m_axis_rx_TUSER,
 
     //----------------------------------
     //----Connect Transceiver

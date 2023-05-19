@@ -1,14 +1,13 @@
 
-class axi_driver #(parameter T_USER_WIDTH = 16, parameter T_DATA_BIT = 128) extends uvm_driver #(valid_data #(.T_USER_WIDTH(T_USER_WIDTH), .T_DATA_BIT(T_DATA_BIT)));
+class axi_driver #(NUM_DATA_BYTES = 64, DWIDTH = 512) extends uvm_driver #(valid_data #(.NUM_DATA_BYTES(NUM_DATA_BYTES), .DWIDTH(DWIDTH)));
 
 // Declare the virtual interface
-virtual interface axi_if #(.T_USER_WIDTH(T_USER_WIDTH), .T_DATA_BIT(T_DATA_BIT)) vif;
-valid_data #(.T_DATA_BIT(T_DATA_BIT), .T_USER_WIDTH(T_USER_WIDTH)) vld_data;
-axi_config    a_config;
+virtual axi_interface #(NUM_DATA_BYTES,DWIDTH) vif;
+valid_data #(.DWIDTH(DWIDTH), .NUM_DATA_BYTES(NUM_DATA_BYTES)) vld_data;
+axi_config  #(.NUM_DATA_BYTES(NUM_DATA_BYTES), .DWIDTH(DWIDTH))  a_config;
 
-`uvm_component_param_utils_begin(axi_driver #(.T_USER_WIDTH(T_USER_WIDTH), .T_DATA_BIT(T_DATA_BIT)))
-`uvm_field_object(a_config, UVM_DEFAULT)
-`uvm_component_utils_end
+`uvm_component_param_utils(axi_driver #(.NUM_DATA_BYTES(NUM_DATA_BYTES), .DWIDTH(DWIDTH)))
+
 
 // constructor
 function new (string name = "axi_driver" , uvm_component parent);
@@ -21,26 +20,29 @@ function void build_phase(uvm_phase phase);
 super.build_phase(phase);
 
 // Get the interface handle
-if(!uvm_config_db#(virtual interface axi_if #(.T_USER_WIDTH(T_USER_WIDTH), .T_DATA_BIT(T_DATA_BIT)))::get(this,"", "vif", vif )) begin
-`uvm_fatal(get_type_name(),"Couldn't get handle to virtual interface")
+
+if (!uvm_config_db#(axi_config #(.NUM_DATA_BYTES(NUM_DATA_BYTES), .DWIDTH(DWIDTH)))::get(this, "", "axi_config_t", a_config)) begin
+`uvm_fatal(get_type_name(),"Couldn't get handle to vif")
+vif = a_config.vif;
 end
+
 endfunction : build_phase
 
 
 // run phase
 task run_phase(uvm_phase phase);
-super.run_phase(phase);
+//super.run_phase(phase);
 forever begin
 // check reset	
-if(vif.rst_n !== 1) begin
-vif.TVALID <= 0;
+if(vif.res_n == 0) begin
+vif.t_valid <= 0;
 `uvm_info(get_type_name(),$psprintf("during reset"), UVM_HIGH)
-@(posedge vif.rst_n);
+@(posedge vif.res_n);
 `uvm_info(get_type_name(),$psprintf("coming out of reset"), UVM_HIGH)
 end
 fork 
 begin 
-@(negedge vif.rst_n);
+@(negedge vif.res_n);
 end
 begin 
 drive_data();
@@ -54,7 +56,7 @@ endtask : run_phase
 task drive_data();
 @(posedge vif.clk);
 forever begin
-valid_data #(.T_DATA_BIT(T_DATA_BIT), .T_USER_WIDTH(T_USER_WIDTH)) vld_data;
+valid_data #(.DWIDTH(DWIDTH), .NUM_DATA_BYTES(NUM_DATA_BYTES)) vld_data;
 // get next data item from sequencer
 seq_item_port.try_next_item(vld_data);
 if (vld_data != null) // Got a valid item from the sequencer, execute it 

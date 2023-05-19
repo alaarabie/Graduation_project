@@ -1,7 +1,7 @@
 
-class axi_sequencer #(parameter T_USER_WIDTH = 16, parameter T_DATA_BIT = 128) extends  uvm_sequencer #(valid_data #(.T_USER_WIDTH(T_USER_WIDTH), .T_DATA_BIT(T_DATA_BIT)));
+class axi_sequencer #(NUM_DATA_BYTES = 64, DWIDTH = 512)  extends  uvm_sequencer #(valid_data #(.NUM_DATA_BYTES(NUM_DATA_BYTES), .DWIDTH(DWIDTH)));
 
-`uvm_component_utils (axi_sequencer #(.T_USER_WIDTH(T_USER_WIDTH), .T_DATA_BIT(T_DATA_BIT)))
+`uvm_component_utils (axi_sequencer #(.NUM_DATA_BYTES(NUM_DATA_BYTES), .DWIDTH(DWIDTH)))
 
 function new (string name = "axi_sequencer" , uvm_component parent);
 super.new(name,parent);

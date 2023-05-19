@@ -1,22 +1,24 @@
 
-interface axi_interface #(parameter T_USER_WIDTH = 16, parameter T_DATA_BIT = 128)();
+interface axi_interface #(NUM_DATA_BYTES = 64, DWIDTH = 512)
+					   (
+	                    input clk, 
+                  		input res_n);
 	
 /////// inf signal
 
-logic					    rst_n;
-logic    					clk;
 
 // tx
-logic 					    t_ready;
-logic   				  	t_valid;
-logic [T_DATA_BIT-1 : 0]    t_data;
-logic [T_USER_WIDTH-1 : 0]  t_user;
+logic 					      t_ready;
+logic   				  	  t_valid;
+logic [DWIDTH-1 : 0]          t_data;
+logic [NUM_DATA_BYTES-1 : 0]  t_user;
 
 // rx 
-logic   				  	rx_valid;
-logic 					    rx_ready;
-logic [T_DATA_BIT-1 : 0]    rx_data;
-logic [T_USER_WIDTH-1 : 0]  rx_user;
+logic         				  rx_valid;
+logic 					      rx_ready;
+logic [DWIDTH-1 : 0]          rx_data;
+logic [NUM_DATA_BYTES-1 : 0]  rx_user;
+
 
 
 endinterface : axi_interface

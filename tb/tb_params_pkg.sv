@@ -50,13 +50,13 @@ typedef rf_agent     #(HMC::HMC_RF_WWIDTH, HMC::HMC_RF_RWIDTH, HMC::HMC_RF_AWIDT
 typedef hmc_agent_config #(HMC::DWIDTH, HMC::NUM_LANES, HMC::FPW, HMC::FLIT_SIZE) hmc_agent_config_t;
 typedef hmc_agent        #(HMC::DWIDTH, HMC::NUM_LANES, HMC::FPW, HMC::FLIT_SIZE) hmc_agent_t;
 
+typedef axi_config #(HMC::NUM_DATA_BYTES, HMC::DWIDTH) axi_config_t;
+typedef axi_agent  #(HMC::NUM_DATA_BYTES, HMC::DWIDTH) axi_agent_t;
+
 typedef virtual rf_if #(HMC::HMC_RF_WWIDTH, HMC::HMC_RF_RWIDTH, HMC::HMC_RF_AWIDTH) rf_if_t;
 typedef virtual hmc_agent_if #(HMC::DWIDTH, HMC::NUM_LANES, HMC::FPW, HMC::FLIT_SIZE) hmc_agent_if_t;
-typedef virtual axi_interface #(HMC::NUM_DATA_BYTES, HMC::DWIDTH)  axi_interface_t;
+typedef virtual axi_interface #(HMC::NUM_DATA_BYTES, HMC::DWIDTH) axi_interface_t;
 
 
-
-typedef axi_config axi_config_t;
-typedef axi_agent  #(HMC::NUM_DATA_BYTES, HMC::DWIDTH) axi_agent_t;
 
 endpackage

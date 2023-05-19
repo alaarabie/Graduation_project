@@ -4,8 +4,9 @@ class vsequencer extends  uvm_sequencer;
 
   rf_sequencer  m_rf_seqr;
   sequencer_hmc_agent m_seqr_hmc_agent;
-  env_cfg cfg ;
   axi_sequencer axi_sqr;
+  env_cfg cfg ;
+  
 
 
   function new(string name, uvm_component parent);

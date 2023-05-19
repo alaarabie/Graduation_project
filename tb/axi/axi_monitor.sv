@@ -1,17 +1,18 @@
 
-class axi_monitor  #(parameter T_USER_WIDTH = 16, parameter T_DATA_BIT = 128) extends uvm_monitor;
+class axi_monitor #(NUM_DATA_BYTES = 64, DWIDTH = 512)  extends uvm_monitor;
 
 // add to factory 
-`uvm_component_param_utils(axi_monitor #(.T_DATA_BIT(T_DATA_BIT), .T_USER_WIDTH(T_USER_WIDTH)))
+`uvm_component_param_utils(axi_monitor #(.DWIDTH(DWIDTH), .NUM_DATA_BYTES(NUM_DATA_BYTES)))
 
 
-// Virtual Interface	
-virtual interface axi_if #(.T_DATA_BIT(T_DATA_BIT), .T_USER_WIDTH(T_USER_WIDTH)) vif;
+// Virtual Interface and config	
+virtual axi_interface #(.DWIDTH(DWIDTH), .NUM_DATA_BYTES(NUM_DATA_BYTES)) vif;
+axi_config  #(.NUM_DATA_BYTES(NUM_DATA_BYTES), .DWIDTH(DWIDTH))  a_config;
 
 
 // Declare analysis port
-uvm_analysis_port   #(valid_data #(.T_DATA_BIT(T_DATA_BIT), .T_USER_WIDTH(T_USER_WIDTH))) 	request;
-uvm_analysis_port   #(valid_data #(.T_DATA_BIT(T_DATA_BIT), .T_USER_WIDTH(T_USER_WIDTH))) 	response;
+uvm_analysis_port   #(valid_data #(.DWIDTH(DWIDTH), .NUM_DATA_BYTES(NUM_DATA_BYTES))) 	request;
+uvm_analysis_port   #(valid_data #(.DWIDTH(DWIDTH), .NUM_DATA_BYTES(NUM_DATA_BYTES))) 	response;
 
 	
 // new - constructor	
@@ -25,28 +26,27 @@ endfunction : new
 // Connect interface to Virtual interface by using get method
 function void build_phase(uvm_phase phase);
 super.build_phase(phase);
-if(!uvm_config_db#(virtual interface axi_if #(.T_DATA_BIT(T_DATA_BIT), .T_USER_WIDTH(T_USER_WIDTH)))::get(this, "", "vif", vif))begin
-`uvm_fatal("NOVIF",{"virtual interface must be set for: ",get_full_name(),".vif"});
-end else begin
-this.vif = vif;
+if (!uvm_config_db#(axi_config #(.NUM_DATA_BYTES(NUM_DATA_BYTES), .DWIDTH(DWIDTH)))::get(this, "", "axi_config_t", a_config)) begin
+`uvm_fatal(get_type_name(),"Couldn't get handle to vif")
+vif = a_config.vif;
 end
 endfunction: build_phase
 
 
 // monitor transmitted data
 virtual task request_to_monitor(uvm_phase phase);
-valid_data #(.T_DATA_BIT(T_DATA_BIT), .T_USER_WIDTH(T_USER_WIDTH)) vld_data;
+valid_data #(.DWIDTH(DWIDTH), .NUM_DATA_BYTES(NUM_DATA_BYTES)) vld_data;
 forever begin
-if (vif.rst_n !== 1)
+if (vif.res_n !== 1)
 begin
-@(posedge vif.rst_n);
+@(posedge vif.res_n);
 end
 fork
 begin 
-@(negedge vif.rst_n);
+@(negedge vif.res_n);
 end
 forever begin
-@(posedge vif.ACLK);
+@(posedge vif.clk);
 vld_data = new();
 if (vif.t_valid == 1 && vif.t_ready == 1) begin
 vld_data.t_user 	= vif.t_user;
@@ -67,18 +67,18 @@ endtask : request_to_monitor
 
 // monitor received data
 virtual task response_from_memory (uvm_phase phase);
-valid_data #(.T_DATA_BIT(T_DATA_BIT), .T_USER_WIDTH(T_USER_WIDTH)) rx_data;
+valid_data #(.DWIDTH(DWIDTH), .NUM_DATA_BYTES(NUM_DATA_BYTES)) rx_data;
 forever begin
-if (vif.rst_n !== 1)
+if (vif.res_n !== 1)
 begin
-@(posedge vif.rst_n);
+@(posedge vif.res_n);
 end
 fork
 begin 
-@(negedge vif.rst_n);
+@(negedge vif.res_n);
 end
 forever begin
-@(posedge vif.ACLK);
+@(posedge vif.clk);
 rx_data = new();
 if (vif.rx_valid == 1) begin
 rx_data.t_user 	= vif.rx_user;

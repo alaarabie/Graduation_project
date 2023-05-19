@@ -49,7 +49,7 @@ function void env::build_phase(uvm_phase phase);
 
   hmc_agent_h = hmc_agent_t::type_id::create("hmc_agent_h",this); 
 
-  axi_agent_h = hmc_agent_t::type_id::create("axi_agent_h",this); 
+  axi_agent_h = axi_agent_t::type_id::create("axi_agent_h",this); 
 
   m_vseqr    = vsequencer::type_id::create("m_vseqr" , this);
 
