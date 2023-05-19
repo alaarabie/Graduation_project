@@ -56,8 +56,8 @@ module tb_top;
                  .FLIT_SIZE(HMC::FLIT_SIZE))
   HMC_IF (.clk(clk), .res_n(res_n));
 
- axi_interface #(.T_DATA_BIT(HMC::DWIDTH),
-                 .T_USER_WIDTH(HMC::NUM_DATA_BYTES))
+ axi_interface #(.DWIDTH(HMC::DWIDTH),
+                 .NUM_DATA_BYTES(HMC::NUM_DATA_BYTES))
   AXI_IF (.clk(clk), .res_n(res_n));
 
   openhmc_top #(.FPW(FPW),
@@ -81,14 +81,12 @@ module tb_top;
                 .SYNC_AXI4_IF(SYNC_AXI4_IF),
                 .XIL_CNT_PIPELINED(XIL_CNT_PIPELINED),
                 .BITSLIP_SHIFT_RIGHT(BITSLIP_SHIFT_RIGHT),
-                .DBG_RX_TOKEN_MON(DBG_RX_TOKEN_MON),
-                .T_DATA_BIT(HMC::DWIDTH),
-                .T_USER_WIDTH(HMC::NUM_DATA_BYTES))
+                .DBG_RX_TOKEN_MON(DBG_RX_TOKEN_MON))
 
     dut (.clk_hmc(clk),
          .res_n_hmc(res_n),
-         .res_n_user(clk),
-         .clk_user(res_n),
+         .res_n_user(res_n),
+         .clk_user(clk),
          //axi interface
          .s_axis_tx_TVALID(AXI_IF.t_valid),
          .s_axis_tx_TREADY(AXI_IF.t_ready),
@@ -149,7 +147,7 @@ module tb_top;
 initial begin
   uvm_config_db#(virtual rf_if #(HMC::HMC_RF_WWIDTH, HMC::HMC_RF_RWIDTH, HMC::HMC_RF_AWIDTH))::set(null, "uvm_test_top", "RF", RF);
   uvm_config_db#(virtual hmc_agent_if #(HMC::DWIDTH, HMC::NUM_LANES, HMC::FPW, HMC::FLIT_SIZE))::set(null, "uvm_test_top", "HMC_IF", HMC_IF);
-  uvm_config_db#(virtual axi_interface #(HMC::DWIDTH, HMC::NUM_LANES, HMC::FPW, HMC::FLIT_SIZE))::set(null, "uvm_test_top", "AXI_IF", AXI_IF);
+  uvm_config_db#(virtual axi_interface #(HMC::NUM_DATA_BYTES, HMC::DWIDTH))::set(null, "uvm_test_top", "AXI_IF", AXI_IF);
   run_test();
 end
 
