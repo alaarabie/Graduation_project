@@ -3,10 +3,11 @@ class axi_driver #(NUM_DATA_BYTES = 64, DWIDTH = 512) extends uvm_driver #(valid
 
 // Declare the virtual interface
 virtual axi_interface #(NUM_DATA_BYTES,DWIDTH) vif;
-valid_data #(.DWIDTH(DWIDTH), .NUM_DATA_BYTES(NUM_DATA_BYTES)) vld_data;
+
 axi_config  #(.NUM_DATA_BYTES(NUM_DATA_BYTES), .DWIDTH(DWIDTH))  a_config;
 
 `uvm_component_param_utils(axi_driver #(.NUM_DATA_BYTES(NUM_DATA_BYTES), .DWIDTH(DWIDTH)))
+
 
 // constructor
 function new (string name = "axi_driver" , uvm_component parent);
@@ -22,8 +23,9 @@ super.build_phase(phase);
 
 if (!uvm_config_db#(axi_config #(.NUM_DATA_BYTES(NUM_DATA_BYTES), .DWIDTH(DWIDTH)))::get(this, "", "axi_config_t", a_config)) begin
 `uvm_fatal(get_type_name(),"Couldn't get handle to vif")
-vif = a_config.vif;
 end
+vif = a_config.vif;
+
 
 endfunction : build_phase
 
