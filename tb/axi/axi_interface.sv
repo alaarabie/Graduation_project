@@ -6,7 +6,6 @@ interface axi_interface #(NUM_DATA_BYTES = 64, DWIDTH = 512)
 	
 /////// inf signal
 
-
 // tx
 logic 					      t_ready;
 logic   				  	  t_valid;

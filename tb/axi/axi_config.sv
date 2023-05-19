@@ -9,8 +9,6 @@ uvm_active_passive_enum agent_active = UVM_ACTIVE;
 virtual axi_interface  #(.NUM_DATA_BYTES(NUM_DATA_BYTES), .DWIDTH(DWIDTH)) vif;
 
 
-
-
 //constructor
 function new (string name = "");
 super.new(name);
