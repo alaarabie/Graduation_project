@@ -26,7 +26,7 @@ module openhmc_sva #(
     parameter RX_BIT_SLIP_CNT_LOG   = 5,    //Define the number of cycles between bit slips. Refer to the transceiver user guide
                                             //Example: RX_BIT_SLIP_CNT_LOG=5 results in 2^5=32 cycles between two bit slips
     parameter SYNC_AXI4_IF          = 0,    //Set to 1 if AXI IF is synchronous to clk_hmc to use simple fifos
-    parameter XIL_CNT_PIPELINED     = 1,    //If Xilinx counters are used, set to 1 to enabled output register pipelining
+    parameter XIL_CNT_PIPELINED     = 1,    //If Xilinx counters are used, set to 1 to enabled input register pipelining
     //Set the direction of bitslip. Set to 1 if bitslip performs a shift right, otherwise set to 0 (see the corresponding transceiver user guide)
     parameter BITSLIP_SHIFT_RIGHT   = 1,    
     //Debug Params
@@ -50,10 +50,10 @@ module openhmc_sva #(
     input  wire [DWIDTH-1:0]            s_axis_tx_TDATA,
     input  wire [NUM_DATA_BYTES-1:0]    s_axis_tx_TUSER,
     //From HMC Ctrl RX to AXI
-    output  wire                         m_axis_rx_TVALID,
-    output  wire                         m_axis_rx_TREADY,
-    output  wire [DWIDTH-1:0]            m_axis_rx_TDATA,
-    output  wire [NUM_DATA_BYTES-1:0]    m_axis_rx_TUSER,
+    input  wire                         m_axis_rx_TVALID,
+    input  wire                         m_axis_rx_TREADY,
+    input  wire [DWIDTH-1:0]            m_axis_rx_TDATA,
+    input  wire [NUM_DATA_BYTES-1:0]    m_axis_rx_TUSER,
 
     //----------------------------------
     //----Connect Transceiver
