@@ -82,6 +82,6 @@ function void env::connect_phase(uvm_phase phase);
   //************************************************************************//
   m_vseqr.m_rf_seqr = m_rf_agent.m_seqr;
   m_vseqr.m_seqr_hmc_agent = hmc_agent_h.sequencer_hmc_agent_h;
-  m_vseqr.axi_sqr = axi_agent_h.a_sequencer;
+  m_vseqr.m_axi_sqr = axi_agent_h.a_sequencer;
 
 endfunction : connect_phase
