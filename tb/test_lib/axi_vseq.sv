@@ -23,14 +23,14 @@ task axi_vseq::body();
 
  
   super.body();
-repeat(30) begin
+ 
   `uvm_info("axi_vseq", "Executing sequence", UVM_MEDIUM)
     // check that all registers reseted correctly
     `uvm_info("axi_vseq", "Executing axi_sequence", UVM_MEDIUM)
       axi_sequence_h.start(m_axi_sqr);
     `uvm_info("axi_vseq", "axi_sequence complete", UVM_MEDIUM)
     `uvm_info("axi_vseq", "Sequence complete", UVM_MEDIUM)
-end
+
   endtask : body
 
 
