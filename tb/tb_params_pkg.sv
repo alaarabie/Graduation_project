@@ -1,8 +1,9 @@
 package tb_params_pkg;
 
+import axi_pkg::*;
 import rf_agent_pkg::*;
 import hmc_agent_pkg::*;
-import axi_pkg::*;
+
 
 
 class HMC;
