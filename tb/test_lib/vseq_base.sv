@@ -10,7 +10,7 @@ class vseq_base extends  uvm_sequence #(uvm_sequence_item);
   // Virtual sequencer handles
   rf_sequencer m_rf_seqr;
   sequencer_hmc_agent m_seqr_hmc_agent ;
-
+  axi_sequencer m_axi_sqr;
 
   function new(string name = "");
     super.new(name);
@@ -26,7 +26,7 @@ class vseq_base extends  uvm_sequence #(uvm_sequence_item);
     // assign all sequencers to their handle in vsequencer
     m_rf_seqr = p_sequencer.m_rf_seqr;
     m_seqr_hmc_agent=p_sequencer.m_seqr_hmc_agent ;
-
+    m_axi_sqr=p_sequencer.m_axi_sqr ;
   endtask : body
 
   function void seq_set_cfg(base_seq seq_);
