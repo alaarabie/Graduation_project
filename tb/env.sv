@@ -16,6 +16,9 @@ class env extends  uvm_env;
   
 // axi agent   
   axi_agent_t axi_agent_h;
+
+  hmc_module_scb m_scoreboard;
+  coverage m_coverage;
    
   extern function new(string name, uvm_component parent);
   extern function void build_phase(uvm_phase phase);
@@ -53,6 +56,8 @@ function void env::build_phase(uvm_phase phase);
 
   m_vseqr    = vsequencer::type_id::create("m_vseqr" , this);
 
+  m_scoreboard = hmc_module_scb::type_id::create("m_scoreboard",this);
+  m_coverage = coverage::type_id::create("m_coverage",this);
 
 endfunction : build_phase
 
@@ -83,5 +88,9 @@ function void env::connect_phase(uvm_phase phase);
   m_vseqr.m_rf_seqr = m_rf_agent.m_seqr;
   m_vseqr.m_seqr_hmc_agent = hmc_agent_h.sequencer_hmc_agent_h;
   m_vseqr.m_axi_sqr = axi_agent_h.a_sequencer;
+
+  // Connect Coverage and Scoreboard analysis ports
+  // Syntax :
+  //m_agent.m_monitor.ap_name.connect(m_scoreboard.ap_name.analysis_export);
 
 endfunction : connect_phase
