@@ -8,7 +8,8 @@ package tb_pkg ;
     import rf_agent_pkg::* ;
     import tb_params_pkg::* ;
 
-    
+  `include "coverage.sv"
+  `include "hmc_scb.sv"
 	`include "env_cfg.sv"
 	`include "vsequencer.sv"	
 	`include "env.sv"    

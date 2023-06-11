@@ -13,14 +13,14 @@ package test_pkg ;
     `include "vseq_base.sv"
     `include "hmc_vseq.sv"
 
-  //`include "hmc_init_vseq.sv"
-  //`include "rf_reset_vseq.sv"
+  `include "init-test/hmc_init_vseq.sv"
+  `include "rf-reset-test/rf_reset_vseq.sv"
 
     `include "base_test.sv"
     `include "random_test.sv"   
 
-  //`include "hmc_init_test.sv"
-  //`include "rf_reset_test.sv"
+  `include "init-test/hmc_init_test.sv"
+  `include "rf-reset-test/rf_reset_test.sv"
 
   `include "axi_vseq.sv"
   `include "axi_test.sv"
