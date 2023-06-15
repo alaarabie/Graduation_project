@@ -8,22 +8,20 @@ localparam DWIDTH =512;
 `uvm_declare_p_sequencer(axi_sequencer)
 
 int unsigned num_packets = 2;          
-int unsigned max_pkts_per_cycle = 4;      //-- maximum number of packets sended in one cycle
    
-rand hmc_pkt_item_request hmc_items[]; //wr16
+rand hmc_pkt_item_request hmc_items[]; 
 hmc_pkt_item_request hmc_packets_ready[$];
 valid_data #(.DWIDTH(DWIDTH),.NUM_DATA_BYTES(NUM_DATA_BYTES)) axi4_queue[$];  
-int working_pos = 0;
+//int working_pos = 0;
       
 typedef bit [1+1+1+127:0] valid_tail_header_flit_t;
 valid_tail_header_flit_t flit_queue[$];
-rand int tag = 0;
+int tag = 0;
    
 constraint tag_value_c {
 tag >= 0;
 tag <  512;
 }
-
 
 
 function new(string name="axi_seq");
@@ -35,11 +33,39 @@ endfunction : new
 function void starting ();
    hmc_items = new[num_packets];
    foreach (hmc_items[i]) begin
-   hmc_items[i] = hmc_pkt_item_request::type_id::create($psprintf("hmc_item[%0d]", i) );
+   hmc_items[i] = hmc_pkt_item_request::type_id::create($psprintf("hmc_item[%0d]", i));
    assert(hmc_items[i].randomize());
+   //`uvm_info(get_type_name(),$psprintf("%0d HMC packets command", hmc_items[i].command), UVM_MEDIUM)  
    end   
-   `uvm_info(get_type_name(),$psprintf("%0d HMC packets generated", num_packets), UVM_HIGH)  
 endfunction : starting
+
+
+// assign tag field to each request packet   
+task aquire_tags();
+   for (int i = 0; i < hmc_items.size(); i++) 
+   begin
+      // only register a tag if response required >> all but posted commands
+      if    (hmc_items[i].get_command_type() == WRITE_TYPE ||
+      hmc_items[i].get_command_type() == MISC_WRITE_TYPE ||
+      hmc_items[i].get_command_type() == READ_TYPE       ||
+      hmc_items[i].get_command_type() == MODE_READ_TYPE)
+      begin
+      //p_sequencer.handler.get_tag(tag);
+      tag = tag+1;
+      end else begin
+      tag = 0;
+      end
+      hmc_items[i].tag = tag;    
+      // move packet to ready queue if tag valid
+      if (tag >= 0) begin
+         `uvm_info(get_type_name(),$psprintf("HMC Packet #%0d command is: %0s tag is: %0d", i, hmc_items[i].command, hmc_items[i].tag), UVM_MEDIUM)
+         hmc_packets_ready.push_back(hmc_items[i]);
+         //working_pos = i+1;
+      end else begin
+      break;   //-- send all already processed AXI4 Cycles if tag_handler can not provide an additional tag
+      end
+   end
+endtask : aquire_tags
 
    
 // pack the request packet, and divide the packet to flits
@@ -92,40 +118,45 @@ function void hmc_packet_2_axi_cycles();
    axi4_item.t_user = 0;
    axi4_item.delay = 0;
 
-   // if there are packets ready, divide them to flits      
-   while (hmc_packets_ready.size() >0 )  begin     
+      
+   while (hmc_packets_ready.size() >0 )  
+   begin 
+      // if there are packets ready, divide them to flits       
       hmc_pkt = hmc_packets_ready.pop_front();  
       pack_hmc_packet(hmc_pkt);
                
       // write flits in flit_queue in axi4_queue
-      while( flit_queue.size > 0 ) begin  //-- flit queue contains flits      
+      while( flit_queue.size > 0 ) 
+      begin  //-- flit queue contains flits      
          current_flit = flit_queue.pop_front();    
     
          if (current_flit[128])     //-- If current flit is header
          flit_offset += 0;
 
          // check if axi4_item is full >> push full axi item to axi4_queue
-         if ((flit_offset >= FPW) || (pkts_in_cycle == max_pkts_per_cycle)) begin 
+         if (flit_offset == 4)
+         begin 
             `uvm_info(get_type_name(),$psprintf("axi4_item is full (offset = %0d), writing element %0d to queue ", flit_offset, axi4_queue.size()), UVM_MEDIUM)
-            if (valids_in_cycle != 0)
             axi4_queue.push_back(axi4_item);
                            
             //-- create new AXI4 cycle
-            `uvm_create_on(axi4_item, p_sequencer)
+            //`uvm_create_on(axi4_item, p_sequencer)
+            axi4_item=valid_data #(.DWIDTH(DWIDTH),.NUM_DATA_BYTES(NUM_DATA_BYTES))::type_id::create("axi4_item");
             axi4_item.t_data = 0;
             axi4_item.t_user = 0;
-                           
+            axi4_item.delay = 0;
+            /*                           
             //-- set AXI4 cycle delay
             axi4_item.delay = (flit_offset / FPW) -1; //-- flit offset contains also empty flits
             if (flit_offset % FPW >0)
             axi4_item.delay += 3;
-                           
+             */              
             // reset counter and flit
             `uvm_info(get_type_name(),$psprintf("HMC Packets in last cycle: %0d, %0d", pkts_in_cycle, header_in_cycle), UVM_HIGH)
             pkts_in_cycle  = 0;  //-- reset HMC packet counter in AXI4 Cycle
             header_in_cycle = 0;
             valids_in_cycle = 0;
-            `uvm_info(get_type_name(),$psprintf("axi_delay is %0d", axi4_item.delay), UVM_MEDIUM)
+           // `uvm_info(get_type_name(),$psprintf("axi_delay is %0d", axi4_item.delay), UVM_MEDIUM)
             flit_offset = 0;
          end
      
@@ -163,70 +194,47 @@ function void hmc_packet_2_axi_cycles();
       end
    end
    //-- push last axi4_item to axi4_queue
+   `uvm_info(get_type_name(),$psprintf("axi4_item is half-full (offset = %0d), writing element %0d to queue ", flit_offset, axi4_queue.size()), UVM_MEDIUM)
    axi4_queue.push_back(axi4_item);
 endfunction : hmc_packet_2_axi_cycles
    
-// assign tag field to each request packet   
-task aquire_tags();
-   for (int i = working_pos; i < hmc_items.size(); i++) begin
-   // only register a tag if response required >> all but posted commands
-   if    (hmc_items[i].get_command_type() == WRITE_TYPE ||
-   hmc_items[i].get_command_type() == MISC_WRITE_TYPE ||
-   hmc_items[i].get_command_type() == READ_TYPE       ||
-   hmc_items[i].get_command_type() == MODE_READ_TYPE)
-   begin
-   //p_sequencer.handler.get_tag(tag);
-   tag = 10;
-   end else begin
-   tag = 0;
-   end
-   hmc_items[i].tag = tag;    
-   // move packet to ready queue if tag valid
-   if (tag >= 0) begin
-   `uvm_info(get_type_name(),$psprintf("Tag for HMC Packet Type %0d is: %0d", hmc_items[1].get_command_type(), hmc_items[1]), UVM_HIGH)
-   hmc_packets_ready.push_back(hmc_items[i]);
-   working_pos = i+1;
-   end else begin
-   break;   //-- send all already processed AXI4 Cycles if tag_handler can not provide an additional tag
-   end
-   end
-endtask : aquire_tags
+
       
 task send_axi4_cycles();
    valid_data #(.DWIDTH(DWIDTH),.NUM_DATA_BYTES(NUM_DATA_BYTES)) axi4_item;
    while( axi4_queue.size() > 0 ) begin
       
-         `uvm_info(get_type_name(),$psprintf("axi4_queue contains %0d items", axi4_queue.size()), UVM_MEDIUM)
+      `uvm_info(get_type_name(),$psprintf("axi4_queue contains %0d items", axi4_queue.size()), UVM_MEDIUM)
       axi4_item = axi4_queue.pop_front();
+
+/*
       if ((axi4_item.t_user == {{(NUM_DATA_BYTES){1'b0}}})) begin
          axi4_item.print();
          `uvm_fatal("AXI4_Master_Driver", "sent an empty cycle")
       end
-
-      //`uvm_send(axi4_item);
+*/
+      
+     // `uvm_send(axi4_item);
+     //`uvm_info(get_type_name(),"not me?", UVM_MEDIUM)
       start_item(axi4_item);
-      `uvm_info(get_type_name(),$psprintf("\n%s", axi4_item.sprint()), UVM_HIGH)
+      //`uvm_info(get_type_name(),"started correct ?", UVM_MEDIUM)
       finish_item(axi4_item);
+      //`uvm_info(get_type_name(),"finished correct ?", UVM_MEDIUM)
    end
 endtask : send_axi4_cycles
    
 task body();   
+repeat (1) begin
    super.body();
 
    starting(); 
-   `uvm_info(get_type_name(),$psprintf("%0d HMC packets generated", num_packets), UVM_HIGH)  
-
    `uvm_info(get_type_name(),$psprintf("HMC Packets to send: %0d", hmc_items.size()), UVM_MEDIUM)
-   while (hmc_items.size-1 >= working_pos)begin //-- cycle until all hmc_packets have been sent
    aquire_tags();
    // send all packets with tags
-   if (hmc_packets_ready.size()>0) begin
-   // generate axi4_queue
    hmc_packet_2_axi_cycles();
    // send axi4_queue
    send_axi4_cycles();
-   end 
-   end
+end
 endtask : body
 
 endclass : axi_seq
