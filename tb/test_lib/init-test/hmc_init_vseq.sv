@@ -53,26 +53,27 @@ task hmc_init_vseq::body();
   //************************************************************//
   //************************* Thread 1 *************************//
   //************************************************************//
-  begin
-    `uvm_info("HMC_INIT_SEQ", "Executing rf_status_init_mirror_seq", UVM_MEDIUM)
-    repeat(20) begin
+  // begin
+  //   `uvm_info("HMC_INIT_SEQ", "Executing rf_status_init_mirror_seq", UVM_MEDIUM)
+  //   repeat(20) begin
 
-      if(tx_state!=2'b11) begin
-        rf_status_init_mirror_seq_h.start(m_rf_seqr);
-      end else begin
-        `uvm_info("HMC_INIT_SEQ", $sformatf("tx_state=INIT_DONE"), UVM_LOW)      
-        break ;
-      end
-    end 
-    `uvm_info("HMC_INIT_SEQ", "rf_status_init_mirror_seq complete", UVM_MEDIUM)      
-  end
+  //     if(tx_state!=2'b11) begin
+  //       rf_status_init_mirror_seq_h.start(m_rf_seqr);
+  //     end else begin
+  //       `uvm_info("HMC_INIT_SEQ", $sformatf("tx_state=INIT_DONE"), UVM_LOW)      
+  //       break ;
+  //     end
+  //   end 
+  //   `uvm_info("HMC_INIT_SEQ", "rf_status_init_mirror_seq complete", UVM_MEDIUM)      
+  // end
   
   //************************************************************//
   //************************* Thread 2 *************************//
   //************************************************************//
   begin
 
-    repeat(20) begin
+     repeat(20) begin
+      rf_status_init_mirror_seq_h.start(m_rf_seqr);      
       tx_state = rf_rb.m_reg_status_init.status_init_tx_init_state.get();
       rx_state = rf_rb.m_reg_status_init.status_init_rx_init_state.get();
       `uvm_info("HMC_INIT_SEQ", $sformatf("tx_state=%b, rx_state=%b",tx_state, rx_state),UVM_LOW)
@@ -87,7 +88,7 @@ task hmc_init_vseq::body();
         `uvm_info("HMC_INIT_SEQ", "hmc_initialization_seq complete", UVM_MEDIUM)
       end else begin
        `uvm_info("HMC_INIT_SEQ", $sformatf("tx_state=INIT_DONE"), UVM_LOW)      
-       break ;
+        break ;
       end
     end
   end
