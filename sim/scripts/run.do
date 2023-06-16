@@ -18,22 +18,42 @@ vlog -f scripts/tb.f
 #***************************************************#
 # Optimizing Design with vopt
 #***************************************************#
-vopt tb_top -o top_optimized -debugdb  +acc +cover=sbfec+openhmc_top(rtl).
+vopt tb_top -o top_opt -debugdb  +acc +cover=sbecf+openhmc_top(rtl).
 
 #***************************************************#
 # Simulation of a Test
 #***************************************************#
-vsim top_optimized -c -assertdebug -debugDB -fsmdebug -coverage +UVM_TESTNAME=rf_reset_test
+#************************************** 1. HMC INITIALIZATION TEST ***********************************#
+vsim top_opt -c -assertdebug -debugDB -fsmdebug -coverage +UVM_TESTNAME=hmc_init_test
 set NoQuitOnFinish 1
 onbreak {resume}
 log /* -r
 run -all
 
 #***************************************************#
-# Save Functional Coverage in a .ucdb file
+# Save Coverage in a .ucdb file
 #***************************************************#
+coverage attribute -name TESTNAME -value hmc_init_test
+coverage save coverage/hmc_init_test.ucdb
+
+#************************************** 2. RF RESET TEST ***********************************#
+vsim top_opt -c -assertdebug -debugDB -fsmdebug -coverage +UVM_TESTNAME=rf_reset_test
+set NoQuitOnFinish 1
+onbreak {resume}
+log /* -r
+run -all
 coverage attribute -name TESTNAME -value rf_reset_test
-coverage save functional_coverage/rf_reset_test.ucdb
+coverage save coverage/rf_reset_test.ucdb
+
+#************************************** 3. AXI TEST ***********************************#
+vsim top_opt -c -assertdebug -debugDB -fsmdebug -coverage +UVM_TESTNAME=axi_test
+set NoQuitOnFinish 1
+onbreak {resume}
+log /* -r
+run -all
+coverage attribute -name TESTNAME -value axi_test
+coverage save coverage/axi_test.ucdb
+
 
 #***************************************************#
 # draw the dut pins in waveforms
@@ -41,16 +61,17 @@ coverage save functional_coverage/rf_reset_test.ucdb
 do waves.do
 
 #***************************************************#
-# save the functional coverage in a text file
+# save the coverage in text files
 #***************************************************#
-vcover report functional_coverage/rf_reset_test.ucdb -cvg -details -output functional_coverage/coverage.txt
+vcover merge  coverage/openhmc.ucdb \
+              coverage/axi_test.ucdb \
+              coverage/hmc_init_test.ucdb \
+              coverage/rf_reset_test.ucdb
+              
+vcover report coverage/openhmc.ucdb -cvg -details -output coverage/fun_coverage.txt
+vcover report coverage/openhmc.ucdb -details -assert  -output coverage/assertions.txt
+vcover report coverage/openhmc.ucdb  -output coverage/code_coverage.txt
 
-#***************************************************#
-# save code coverage in text files
-#***************************************************#
-coverage report                   -output code_coverage/short.txt
-coverage report -details          -output code_coverage/long.txt
-coverage report -details -assert  -output code_coverage/assertions.txt
 
 #***************************************************#
 # Close the Transcript file
@@ -58,4 +79,4 @@ coverage report -details -assert  -output code_coverage/assertions.txt
 transcript file ()
 
 #add schematic -full sim:/tb_top/dut
-#quit
+#quit -sim

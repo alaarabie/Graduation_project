@@ -1,6 +1,6 @@
 # to run:
 #1. open Tclsh86
-#2. cd current path with a / not \
+#2. cd current path
 #3. source change_path.tcl
 
 puts "\n"
