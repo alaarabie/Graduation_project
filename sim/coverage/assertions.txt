@@ -1,0 +1,155 @@
+Coverage Report by instance with details
+
+=================================================================================
+=== Instance: /tb_top/HMC_IF
+=== Design Unit: work.hmc_agent_if
+=================================================================================
+
+Assertion Coverage:
+    Assertions                       1         1         0   100.00%
+--------------------------------------------------------------------------------------------------------------------------------
+Name                 File(Line)                   Failure      Pass     Vacuous    Disable    Attempt     Active Peak Active ATV
+                                                  Count        Count    Count      Count      Count       Count  Count          
+--------------------------------------------------------------------------------------------------------------------------------
+/tb_top/HMC_IF/run/#ublk#190189702#168/immed__170
+                     D:/Ali/College/Graduation_project/tb/hmc_agent/hmc_agent_if.sv(170)
+                                                        0         18          0          0         18          0           0 off
+
+=================================================================================
+=== Instance: /tb_top/dut/openhmc_sva_1
+=== Design Unit: work.openhmc_sva
+=================================================================================
+
+Assertion Coverage:
+    Assertions                       8         2         6    25.00%
+--------------------------------------------------------------------------------------------------------------------------------
+Name                 File(Line)                   Failure      Pass     Vacuous    Disable    Attempt     Active Peak Active ATV
+                                                  Count        Count    Count      Count      Count       Count  Count          
+--------------------------------------------------------------------------------------------------------------------------------
+/tb_top/dut/openhmc_sva_1/tx_valid_hold_until_ready_active
+                     D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(100)
+                                                        0          0         78         15         93          0           0 off
+/tb_top/dut/openhmc_sva_1/rx_valid_hold_until_ready_active
+                     D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(103)
+                                                        0          0         78         15         93          0           0 off
+/tb_top/dut/openhmc_sva_1/tx_user_hold_until_ready_active
+                     D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(112)
+                                                        0          0         78         15         93          0           0 off
+/tb_top/dut/openhmc_sva_1/rx_user_hold_until_ready_active
+                     D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(121)
+                                                        0          0         78         15         93          0           0 off
+/tb_top/dut/openhmc_sva_1/tx_data_hold_until_ready_active
+                     D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(130)
+                                                        0          0         78         15         93          0           0 off
+/tb_top/dut/openhmc_sva_1/rx_data_hold_until_ready_active
+                     D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(139)
+                                                        0          0         78         15         93          0           0 off
+/tb_top/dut/openhmc_sva_1/no_simultaneous_read_and_write_r
+                     D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(145)
+                                                        0         35         43         15         93          0           2 off
+/tb_top/dut/openhmc_sva_1/no_simultaneous_read_and_write_w
+                     D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(148)
+                                                        0          1         77         15         93          0           1 off
+
+=================================================================================
+=== Instance: /cmd_pkg
+=== Design Unit: work.cmd_pkg
+=================================================================================
+
+Assertion Coverage:
+    Assertions                       1         1         0   100.00%
+--------------------------------------------------------------------------------------------------------------------------------
+Name                 File(Line)                   Failure      Pass     Vacuous    Disable    Attempt     Active Peak Active ATV
+                                                  Count        Count    Count      Count      Count       Count  Count          
+--------------------------------------------------------------------------------------------------------------------------------
+/cmd_pkg/hmc_pkt_item/post_randomize/#anonblk#171599735#386#4#/randomize_flit_successful
+                     D:/Ali/College/Graduation_project/tb/hmc_packet//hmc_pkt_item.sv(387)
+                                                        0         11          0          0         11          0           0 off
+
+=================================================================================
+=== Instance: /hmc_agent_pkg
+=== Design Unit: work.hmc_agent_pkg
+=================================================================================
+
+Assertion Coverage:
+    Assertions                       1         1         0   100.00%
+--------------------------------------------------------------------------------------------------------------------------------
+Name                 File(Line)                   Failure      Pass     Vacuous    Disable    Attempt     Active Peak Active ATV
+                                                  Count        Count    Count      Count      Count       Count  Count          
+--------------------------------------------------------------------------------------------------------------------------------
+/hmc_agent_pkg/driver_hmc_agent/driver_hmc_agent__1/run_phase/response_loop/#anonblk#90256039#96#9#/#ublk#90256039#126/immed__133
+                     D:/Ali/College/Graduation_project/tb/hmc_agent//driver_hmc_agent.sv(133)
+                                                        0         19          0          0         19          0           0 off
+
+=================================================================================
+=== Instance: /seq_pkg
+=== Design Unit: work.seq_pkg
+=================================================================================
+
+Assertion Coverage:
+    Assertions                       3         3         0   100.00%
+--------------------------------------------------------------------------------------------------------------------------------
+Name                 File(Line)                   Failure      Pass     Vacuous    Disable    Attempt     Active Peak Active ATV
+                                                  Count        Count    Count      Count      Count       Count  Count          
+--------------------------------------------------------------------------------------------------------------------------------
+/seq_pkg/hmc_initialization_seq/TX_FSM/#ublk#164063079#31/immed__34
+                     D:/Ali/College/Graduation_project/tb/seq_lib//hmc_initialization_seq.sv(34)
+                                                        0         20          0          0         20          0           0 off
+/seq_pkg/axi_seq/starting/#anonblk#164063079#35#2#/#ublk#164063079#35/immed__37
+                     D:/Ali/College/Graduation_project/tb/seq_lib//axi_seq.sv(37)
+                                                        0          2          0          0          2          0           0 off
+/seq_pkg/axi_seq/pack_hmc_packet/pkt_successfully_packed
+                     D:/Ali/College/Graduation_project/tb/seq_lib//axi_seq.sv(78)
+                                                        0          2          0          0          2          0           0 off
+
+
+ASSERTION RESULTS:
+--------------------------------------------------------------------------------------------------------------------------------
+Name                 File(Line)                   Failure      Pass     Vacuous    Disable    Attempt     Active Peak Active ATV
+                                                  Count        Count    Count      Count      Count       Count  Count          
+--------------------------------------------------------------------------------------------------------------------------------
+/tb_top/HMC_IF/run/#ublk#190189702#168/immed__170
+                     D:/Ali/College/Graduation_project/tb/hmc_agent/hmc_agent_if.sv(170)
+                                                        0         18          0          0         18          0           0 off
+/tb_top/dut/openhmc_sva_1/tx_valid_hold_until_ready_active
+                     D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(100)
+                                                        0          0         78         15         93          0           0 off
+/tb_top/dut/openhmc_sva_1/rx_valid_hold_until_ready_active
+                     D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(103)
+                                                        0          0         78         15         93          0           0 off
+/tb_top/dut/openhmc_sva_1/tx_user_hold_until_ready_active
+                     D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(112)
+                                                        0          0         78         15         93          0           0 off
+/tb_top/dut/openhmc_sva_1/rx_user_hold_until_ready_active
+                     D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(121)
+                                                        0          0         78         15         93          0           0 off
+/tb_top/dut/openhmc_sva_1/tx_data_hold_until_ready_active
+                     D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(130)
+                                                        0          0         78         15         93          0           0 off
+/tb_top/dut/openhmc_sva_1/rx_data_hold_until_ready_active
+                     D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(139)
+                                                        0          0         78         15         93          0           0 off
+/tb_top/dut/openhmc_sva_1/no_simultaneous_read_and_write_r
+                     D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(145)
+                                                        0         35         43         15         93          0           2 off
+/tb_top/dut/openhmc_sva_1/no_simultaneous_read_and_write_w
+                     D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(148)
+                                                        0          1         77         15         93          0           1 off
+/cmd_pkg/hmc_pkt_item/post_randomize/#anonblk#171599735#386#4#/randomize_flit_successful
+                     D:/Ali/College/Graduation_project/tb/hmc_packet//hmc_pkt_item.sv(387)
+                                                        0         11          0          0         11          0           0 off
+/hmc_agent_pkg/driver_hmc_agent/driver_hmc_agent__1/run_phase/response_loop/#anonblk#90256039#96#9#/#ublk#90256039#126/immed__133
+                     D:/Ali/College/Graduation_project/tb/hmc_agent//driver_hmc_agent.sv(133)
+                                                        0         19          0          0         19          0           0 off
+/seq_pkg/hmc_initialization_seq/TX_FSM/#ublk#164063079#31/immed__34
+                     D:/Ali/College/Graduation_project/tb/seq_lib//hmc_initialization_seq.sv(34)
+                                                        0         20          0          0         20          0           0 off
+/seq_pkg/axi_seq/starting/#anonblk#164063079#35#2#/#ublk#164063079#35/immed__37
+                     D:/Ali/College/Graduation_project/tb/seq_lib//axi_seq.sv(37)
+                                                        0          2          0          0          2          0           0 off
+/seq_pkg/axi_seq/pack_hmc_packet/pkt_successfully_packed
+                     D:/Ali/College/Graduation_project/tb/seq_lib//axi_seq.sv(78)
+                                                        0          2          0          0          2          0           0 off
+
+Total Coverage By Instance (filtered view): 57.14%
+
