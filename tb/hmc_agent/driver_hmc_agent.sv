@@ -43,7 +43,7 @@ class driver_hmc_agent #(DWIDTH = 512 ,
 
      task run_phase(uvm_phase phase);
 
-        `uvm_info("HMC_DRIVER", "Line 46", UVM_MEDIUM)
+        
         // u=3'b1 ;       
         m={0,0,0,0} ; // positions of null flits
         n=0 ; // number of null flits    
@@ -55,7 +55,7 @@ class driver_hmc_agent #(DWIDTH = 512 ,
 
 
         forever begin : response_loop
-        `uvm_info("HMC_DRIVER", "Line 58", UVM_MEDIUM)
+        
           if(!vif.res_n)
             begin
              vif.LXTXPS=1'b1 ;
@@ -68,18 +68,18 @@ class driver_hmc_agent #(DWIDTH = 512 ,
              x=1 ;                 
             end
             wait(vif.res_n)
-          `uvm_info("HMC_DRIVER", "Line 71", UVM_MEDIUM)
+          
             if(x==1) begin
             @(posedge vif.clk)
             x=0 ;                
             end
-`uvm_info("HMC_DRIVER", "Line 76", UVM_MEDIUM)
+
 
             vif.phy_rx_ready=1'b1 ;   
             vif.phy_tx_ready=1'b1 ;
             vif.req_finish={0,0,0,0} ;            
       
-`uvm_info("HMC_DRIVER", "Line 82", UVM_MEDIUM)
+
         // rf_request_item state_item ;
 
         // bit [HMC_RF_WWIDTH-1:0] rf_read_data;
@@ -92,16 +92,16 @@ class driver_hmc_agent #(DWIDTH = 512 ,
         // seq_item_port.item_done() ;
 
             packing_FLITS() ;
-      `uvm_info("HMC_DRIVER", "Line 95", UVM_MEDIUM)
+      
             for(bit[3:0] l=4'b1; l<=4'b0100; l++)
              begin
-              `uvm_info("HMC_DRIVER", "Line 98", UVM_MEDIUM)
+              
                 //for state sequence
                 request_packet=hmc_pkt_item::type_id::create("request_packet") ;
                 response_packet=hmc_pkt_item::type_id::create("response_packet") ;
-                `uvm_info("HMC_DRIVER", "Line 102", UVM_MEDIUM)
+                
                 seq_item_port.get_next_item(response_packet);
-                  `uvm_info("HMC_DRIVER", "Line 104", UVM_MEDIUM)
+                  
                 if ((vif.phy_data_tx_link2phy[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE])!=128'b0) begin
                     response_packet.new_request=1'b1 ;
                     vif.k=1 ;          
