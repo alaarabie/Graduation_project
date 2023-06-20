@@ -15,8 +15,8 @@ class hmc_init_test extends  base_test;
     
        `uvm_info("HMC_INIT_TEST","Starting test", UVM_MEDIUM)
 
-      //vseq_handle.start(m_env.m_vseqr);
-       m_hmc_init_vseq.start(m_env.m_vseqr) ;
+         //vseq_handle.start(m_env.m_vseqr);
+         m_hmc_init_vseq.start(m_env.m_vseqr) ;        
 
        `uvm_info("HMC_INIT_TEST","Ending test", UVM_MEDIUM)
     

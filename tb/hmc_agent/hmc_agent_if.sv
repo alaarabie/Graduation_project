@@ -40,7 +40,7 @@ bit [3:0] LNG ;
 bit [DWIDTH-1:0] null_packed_response ;
 bit [(9*FLIT_SIZE)-1:0] req_packed_response ;
 int LNG_int ; 
-bit j,k,z,y,a ; // y is a signal to know that all of the response is sent @ y=1
+shortint j,k,z,y,a ; // y is a signal to know that all of the response is sent @ y=1
 bit is_TS1 ;
 int req_pos[4] ;
 int null_pos[4] ;
@@ -163,15 +163,14 @@ task send_to_DUT(bit current_response_packet[],hmc_pkt_item response_pkt_item,bi
 endtask : send_to_DUT
 
 task run();
-   `uvm_info("HMC_IF", "Line 166", UVM_MEDIUM)
-	 @(posedge clk)
+	   @(posedge clk)
 	 	if (j==1) begin
 	 		response_item=hmc_pkt_item::type_id::create("response_item") ;
 	 		assert (response_item.unpack(response_packet));
 	        proxy.notify_res_transaction(response_item) ;	
 	        j=0 ;
-               `uvm_info("HMC_IF", "Line 174", UVM_MEDIUM)
 	 	end
+	 	
 	 	else if ((k==1)&&(z==1)&&(is_TS1==1'b0)) begin
 	 		for(int i=1; i<=4; i++)
 	 		 begin
@@ -184,22 +183,19 @@ task run();
 		            z=0 ;			 		 		
 	 		 	 end 			
 	 		 end
-                `uvm_info("HMC_IF", "Line 188", UVM_MEDIUM)
 	 	end
-
 	 	else if ((k==0)&&(is_TS1==1'b0)&&(a==1))
 	 	 begin
 	 	 	for(int i=1; i<=4; i++)
 	 	 	 begin
 	 	 	 	if(null_pos[i-1]==1)
 	 	 	 	 begin
-				 	null_FLIT_item=hmc_pkt_item::type_id::create("null_FLIT_item") ;	 		
+				 	null_FLIT_item=hmc_pkt_item::type_id::create("null_FLIT_item") ; 		
 			 		assert (null_FLIT_item.unpack(vif_null_FLITS[i-1]));
 		            proxy.notify_req_transaction(null_FLIT_item) ;	 	 	 		
 	 	 	 	 end	 	 		
 	 	 	 end 	     	
 	 	 end
-       `uvm_info("HMC_IF", "Line 202", UVM_MEDIUM)
 endtask : run
 
 

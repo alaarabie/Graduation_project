@@ -49,9 +49,12 @@ class hmc_pkt_item extends  uvm_sequence_item;
   rand     bit            poisoned;       // a flag, if CRC is inverted
   rand     bit            crc_error;      // a flag, if CRC isn't matching
 
-  rand bit  is_state_item;
-  rand bit [1:0] init_state;
-  rand bit  new_request ;
+  rand bit is_ts1 ;
+
+  bit  is_state_item;
+  bit [1:0] init_state;
+  bit  new_request ;
+  bit [2:0] rx_state ;
 
   //*****************************************************************************//
 
@@ -79,11 +82,17 @@ class hmc_pkt_item extends  uvm_sequence_item;
 
     `uvm_field_int      (poisoned,         UVM_DEFAULT | UVM_NOPACK | UVM_DEC)
     `uvm_field_int      (crc_error,        UVM_DEFAULT | UVM_NOPACK | UVM_DEC)
+    `uvm_field_int      (is_state_item,        UVM_DEFAULT | UVM_NOPACK | UVM_DEC)
+    `uvm_field_int      (init_state,        UVM_DEFAULT | UVM_NOPACK | UVM_DEC) 
+    `uvm_field_int      (new_request,        UVM_DEFAULT | UVM_NOPACK | UVM_DEC)       
+    `uvm_field_int      (is_ts1,        UVM_DEFAULT | UVM_NOPACK | UVM_DEC)
+    `uvm_field_int      (rx_state,        UVM_DEFAULT | UVM_NOPACK | UVM_DEC)    
   `uvm_object_utils_end
 
   //*****************************************************************************//
   //***************************      Constraints      ***************************//
   //*****************************************************************************//
+
   constraint init_state_c {
     is_state_item == 0;
     init_state == 0;
@@ -201,70 +210,74 @@ class hmc_pkt_item extends  uvm_sequence_item;
 
     super.do_pack(packer);
     packer.big_endian = 0; // This bit determines the order that integral data is packed
-    //---------------------------------------------------------------------------------------------------//
-    // pack header (Request)
-    // CUB[63:61] - RES[60:58] - ADRS[57:24] - TAG[23:15] - DLN[14:11] - LNG[10:7] - RES[6] - CMD[5:0]
-    // pack header (Response)
-    // RES[63:42] - SLID[41:39] - RES[38:33] - TGA[32:24] - TAG[23:15] - DLN[14:11] - LNG[10:7] - RES[6] - CMD[5:0]
-    //---------------------------------------------------------------------------------------------------//
-      //  pack_field(int,size): Packs an integral value into the packed array
-    case (command & `TYPE_MASK)
-      FLOW_TYPE:
-        case (command)
-          NULL:  packer.pack_field ( {64'h0}, 64);
-          PRET:  packer.pack_field ( {3'h0, 3'h0, 34'h0, 9'h0, duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
-          TRET:  packer.pack_field ( {3'h0, 3'h0, 34'h0, 9'h0, duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
-          IRTRY: packer.pack_field ( {3'h0, 3'h0, 34'h0, 9'h0, duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
-          default : `uvm_fatal(get_type_name(), $psprintf("pack function called for a hmc_pkt_item with an illegal FLOW type='h%0h!", command))
+    if(!is_ts1)
+     begin          
+        //---------------------------------------------------------------------------------------------------//
+        // pack header (Request)
+        // CUB[63:61] - RES[60:58] - ADRS[57:24] - TAG[23:15] - DLN[14:11] - LNG[10:7] - RES[6] - CMD[5:0]
+        // pack header (Response)
+        // RES[63:42] - SLID[41:39] - RES[38:33] - TGA[32:24] - TAG[23:15] - DLN[14:11] - LNG[10:7] - RES[6] - CMD[5:0]
+        //---------------------------------------------------------------------------------------------------//
+          //  pack_field(int,size): Packs an integral value into the packed array
+        case (command & `TYPE_MASK)
+          FLOW_TYPE:
+            case (command)
+              NULL:  packer.pack_field ( {64'h0}, 64);
+              PRET:  packer.pack_field ( {3'h0, 3'h0, 34'h0, 9'h0, duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
+              TRET:  packer.pack_field ( {3'h0, 3'h0, 34'h0, 9'h0, duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
+              IRTRY: packer.pack_field ( {3'h0, 3'h0, 34'h0, 9'h0, duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
+              default : `uvm_fatal(get_type_name(), $psprintf("pack function called for a hmc_pkt_item with an illegal FLOW type='h%0h!", command))
+            endcase
+          WRITE_TYPE:             packer.pack_field ( {cube_ID[2:0], 3'h0, address[33:0], tag[8:0], duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
+          MISC_WRITE_TYPE:        packer.pack_field ( {cube_ID[2:0], 3'h0, address[33:0], tag[8:0], duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
+          POSTED_WRITE_TYPE:      packer.pack_field ( {cube_ID[2:0], 3'h0, address[33:0], tag[8:0], duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
+          POSTED_MISC_WRITE_TYPE: packer.pack_field ( {cube_ID[2:0], 3'h0, address[33:0], tag[8:0], duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
+          MODE_READ_TYPE:         packer.pack_field ( {cube_ID[2:0], 3'h0,         34'h0, tag[8:0], duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
+          READ_TYPE:              packer.pack_field ( {cube_ID[2:0], 3'h0, address[33:0], tag[8:0], duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
+
+          RESPONSE_TYPE:          packer.pack_field ( {22'h0, source_link_ID[2:0], 6'h0, return_tag[8:0], tag[8:0], duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
+
+          default : `uvm_fatal(get_type_name(), $psprintf("pack function called for a hmc_pkt_item with an illegal command type='h%0h!", command))
         endcase
-      WRITE_TYPE:             packer.pack_field ( {cube_ID[2:0], 3'h0, address[33:0], tag[8:0], duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
-      MISC_WRITE_TYPE:        packer.pack_field ( {cube_ID[2:0], 3'h0, address[33:0], tag[8:0], duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
-      POSTED_WRITE_TYPE:      packer.pack_field ( {cube_ID[2:0], 3'h0, address[33:0], tag[8:0], duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
-      POSTED_MISC_WRITE_TYPE: packer.pack_field ( {cube_ID[2:0], 3'h0, address[33:0], tag[8:0], duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
-      MODE_READ_TYPE:         packer.pack_field ( {cube_ID[2:0], 3'h0,         34'h0, tag[8:0], duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
-      READ_TYPE:              packer.pack_field ( {cube_ID[2:0], 3'h0, address[33:0], tag[8:0], duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
 
-      RESPONSE_TYPE:          packer.pack_field ( {22'h0, source_link_ID[2:0], 6'h0, return_tag[8:0], tag[8:0], duplicate_length[3:0], length[3:0], 1'b0, command[5:0]}, 64);
+        // `uvm_info("HMC_Packet_Item", $sformatf("Line 235"),UVM_LOW) 
 
-      default : `uvm_fatal(get_type_name(), $psprintf("pack function called for a hmc_pkt_item with an illegal command type='h%0h!", command))
-    endcase
+        // Allow for errors when length != duplicate_length
+        //if ((length == duplicate_length) && payload.size() + 1 != length && command != HMC_NULL)
+        //  `uvm_fatal(get_type_name(), $psprintf("pack function size mismatch payload.size=%0d length=%0d!", payload.size(), length))
 
-    // Allow for errors when length != duplicate_length
-    //if ((length == duplicate_length) && payload.size() + 1 != length && command != HMC_NULL)
-    //  `uvm_fatal(get_type_name(), $psprintf("pack function size mismatch payload.size=%0d length=%0d!", payload.size(), length))
+        // pack payload
+        for( int i=0; i<payload.size(); i++ ) begin
+          packer.pack_field ( payload[i], 128);
+        end 
 
-    // pack payload
-    for( int i=0; i<payload.size(); i++ ) begin
-      packer.pack_field ( payload[i], 128);
-    end 
+        //---------------------------------------------------------------------------------------------------//
+        // pack tail (Request)
+        // CRC[63:32] - RTC[31:27] - SLID[26:24] - RES[23:19] - SEQ[18:16] - FRP[15:8] - RRP[7:0]
+        // pack tail (Response)
+        // CRC[63:32] - RTC[31:27] - ERRSTAT[26:20] - DINV[19] - SEQ[18:16] - FRP[15:8] - RRP[7:0]
+        //---------------------------------------------------------------------------------------------------//
+        case (command & `TYPE_MASK)
+          FLOW_TYPE:
+            case (command)
+              NULL:  packer.pack_field ( {64'h0}, 64);              
+              PRET:  packer.pack_field ( {crc[31:0],                  5'h0, 3'h0, 5'h0,                 3'h0,                   8'h0,               return_retry_ptr[7:0]}, 64);
+              TRET:  packer.pack_field ( {crc[31:0], return_token_cnt[4:0], 3'h0, 5'h0, sequence_number[2:0], forward_retry_ptr[7:0],               return_retry_ptr[7:0]}, 64);
+              IRTRY: packer.pack_field ( {crc[31:0],                  5'h0, 3'h0, 5'h0,                 3'h0, 6'h0, clear_error_abort, start_retry, return_retry_ptr[7:0]}, 64);
+              default : `uvm_fatal(get_type_name(), $psprintf("pack function called for a hmc_pkt_item with an illegal FLOW type='h%0h!", command))
+            endcase
+          WRITE_TYPE:             packer.pack_field ( {crc[31:0], return_token_cnt[4:0], source_link_ID[2:0], 5'h0, sequence_number[2:0], forward_retry_ptr[7:0], return_retry_ptr[7:0]}, 64);
+          MISC_WRITE_TYPE:        packer.pack_field ( {crc[31:0], return_token_cnt[4:0], source_link_ID[2:0], 5'h0, sequence_number[2:0], forward_retry_ptr[7:0], return_retry_ptr[7:0]}, 64);
+          POSTED_WRITE_TYPE:      packer.pack_field ( {crc[31:0], return_token_cnt[4:0], source_link_ID[2:0], 5'h0, sequence_number[2:0], forward_retry_ptr[7:0], return_retry_ptr[7:0]}, 64);
+          POSTED_MISC_WRITE_TYPE: packer.pack_field ( {crc[31:0], return_token_cnt[4:0], source_link_ID[2:0], 5'h0, sequence_number[2:0], forward_retry_ptr[7:0], return_retry_ptr[7:0]}, 64);
+          MODE_READ_TYPE:         packer.pack_field ( {crc[31:0], return_token_cnt[4:0], source_link_ID[2:0], 5'h0, sequence_number[2:0], forward_retry_ptr[7:0], return_retry_ptr[7:0]}, 64);
+          READ_TYPE:              packer.pack_field ( {crc[31:0], return_token_cnt[4:0], source_link_ID[2:0], 5'h0, sequence_number[2:0], forward_retry_ptr[7:0], return_retry_ptr[7:0]}, 64);
 
-    //---------------------------------------------------------------------------------------------------//
-    // pack tail (Request)
-    // CRC[63:32] - RTC[31:27] - SLID[26:24] - RES[23:19] - SEQ[18:16] - FRP[15:8] - RRP[7:0]
-    // pack tail (Response)
-    // CRC[63:32] - RTC[31:27] - ERRSTAT[26:20] - DINV[19] - SEQ[18:16] - FRP[15:8] - RRP[7:0]
-    //---------------------------------------------------------------------------------------------------//
-    case (command & `TYPE_MASK)
-      FLOW_TYPE:
-        case (command)
-          NULL:  packer.pack_field ( {64'h0}, 64);
-          PRET:  packer.pack_field ( {crc[31:0],                  5'h0, 3'h0, 5'h0,                 3'h0,                   8'h0,               return_retry_ptr[7:0]}, 64);
-          TRET:  packer.pack_field ( {crc[31:0], return_token_cnt[4:0], 3'h0, 5'h0, sequence_number[2:0], forward_retry_ptr[7:0],               return_retry_ptr[7:0]}, 64);
-          IRTRY: packer.pack_field ( {crc[31:0],                  5'h0, 3'h0, 5'h0,                 3'h0, 6'h0, clear_error_abort, start_retry, return_retry_ptr[7:0]}, 64);
-          default : `uvm_fatal(get_type_name(), $psprintf("pack function called for a hmc_pkt_item with an illegal FLOW type='h%0h!", command))
+          RESPONSE_TYPE:          packer.pack_field ( {crc[31:0], return_token_cnt[4:0], error_status[6:0], data_invalid, sequence_number[2:0], forward_retry_ptr[7:0], return_retry_ptr[7:0]}, 64);
+
+          default : `uvm_fatal(get_type_name(), $psprintf("pack function called for a hmc_pkt_item with an illegal command type='h%0h!", command))
         endcase
-      WRITE_TYPE:             packer.pack_field ( {crc[31:0], return_token_cnt[4:0], source_link_ID[2:0], 5'h0, sequence_number[2:0], forward_retry_ptr[7:0], return_retry_ptr[7:0]}, 64);
-      MISC_WRITE_TYPE:        packer.pack_field ( {crc[31:0], return_token_cnt[4:0], source_link_ID[2:0], 5'h0, sequence_number[2:0], forward_retry_ptr[7:0], return_retry_ptr[7:0]}, 64);
-      POSTED_WRITE_TYPE:      packer.pack_field ( {crc[31:0], return_token_cnt[4:0], source_link_ID[2:0], 5'h0, sequence_number[2:0], forward_retry_ptr[7:0], return_retry_ptr[7:0]}, 64);
-      POSTED_MISC_WRITE_TYPE: packer.pack_field ( {crc[31:0], return_token_cnt[4:0], source_link_ID[2:0], 5'h0, sequence_number[2:0], forward_retry_ptr[7:0], return_retry_ptr[7:0]}, 64);
-      MODE_READ_TYPE:         packer.pack_field ( {crc[31:0], return_token_cnt[4:0], source_link_ID[2:0], 5'h0, sequence_number[2:0], forward_retry_ptr[7:0], return_retry_ptr[7:0]}, 64);
-      READ_TYPE:              packer.pack_field ( {crc[31:0], return_token_cnt[4:0], source_link_ID[2:0], 5'h0, sequence_number[2:0], forward_retry_ptr[7:0], return_retry_ptr[7:0]}, 64);
-
-      RESPONSE_TYPE:          packer.pack_field ( {crc[31:0], return_token_cnt[4:0], error_status[6:0], data_invalid, sequence_number[2:0], forward_retry_ptr[7:0], return_retry_ptr[7:0]}, 64);
-
-      default : `uvm_fatal(get_type_name(), $psprintf("pack function called for a hmc_pkt_item with an illegal command type='h%0h!", command))
-    endcase
-
+     end
   endfunction: do_pack
 
   //*****************************************************************************//
