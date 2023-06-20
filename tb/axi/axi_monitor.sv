@@ -87,8 +87,8 @@ begin
 		req_pkt = new[pkt_length*128];
 	end 
 
-	// if (vld_data.t_user[f]==1) //valid?
-	// 	req_pkt={req_pkt, vld_data.t_data[128*(f-1):(128*f)-1]};
+	 if (vld_data.t_user[f]==1) //valid?
+	 	req_pkt={req_pkt, vld_data.t_data[128*(f-1):(128*f)-1]};
 
 	if (vld_data.t_user[f+2*FPW]==1) //tail?
 	begin
@@ -153,8 +153,8 @@ begin
 		res_pkt = new[pkt_length*128];
 	end 
 
-	// if (vld_data.t_user[f]==1) //valid?
-	// 	res_pkt={res_pkt, vld_data.t_data[128*(f-1):(128*f)-1]};
+	 if (vld_data.t_user[f]==1) //valid?
+	 	res_pkt={res_pkt, vld_data.t_data[128*(f-1):(128*f)-1]};
 
 	if (vld_data.t_user[f+2*FPW]==1) //tail?
 	begin
