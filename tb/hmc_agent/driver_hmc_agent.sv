@@ -234,9 +234,9 @@ class driver_hmc_agent #(DWIDTH = 512 ,
 ////////////////////////////////////////////////////////////////////////////////////////////                 
                 else
                  begin
-                   `uvm_info("HMC_AGENT_DRIVER", $sformatf("Line 111"),UVM_LOW)                     
+                   //`uvm_info("HMC_AGENT_DRIVER", $sformatf("Line 111"),UVM_LOW)                     
                     seq_item_port.get_next_item(response_packet);
-                    `uvm_info("HMC_AGENT_DRIVER", $sformatf("Line 113"),UVM_LOW)                      
+                    //`uvm_info("HMC_AGENT_DRIVER", $sformatf("Line 113"),UVM_LOW)                      
                     if ((vif.phy_data_tx_link2phy[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE])!=128'b0) begin
                         response_packet.new_request=1'b1 ;
                         vif.k=1 ;          
@@ -250,9 +250,9 @@ class driver_hmc_agent #(DWIDTH = 512 ,
                     // vif.vif_request_packet=current_request_packet ;  
                     // // {<<bit{vif.vif_request_packet}}=current_request_packet ;      
                     // vif.z=1 ;
-                    `uvm_info("HMC_AGENT_DRIVER", $sformatf("Line 127"),UVM_LOW)    
+                    //`uvm_info("HMC_AGENT_DRIVER", $sformatf("Line 127"),UVM_LOW)    
                     seq_item_port.item_done() ; 
-                    `uvm_info("HMC_AGENT_DRIVER", $sformatf("Line 129"),UVM_LOW)    
+                    //`uvm_info("HMC_AGENT_DRIVER", $sformatf("Line 129"),UVM_LOW)    
                     if(l==4'b1)
                      begin
                         packing_FLITS() ;                      
