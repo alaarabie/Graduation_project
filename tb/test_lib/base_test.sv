@@ -19,9 +19,6 @@ class base_test extends  uvm_test;
 
   function void set_seqs(vseq_base seq);
   seq.m_cfg = m_env_cfg;
-
-//  seq.apb = m_env.m_apb_agent.m_sequencer;
-//  seq.spi = m_env.m_spi_agent.m_sequencer;
 endfunction
   
 endclass : base_test
