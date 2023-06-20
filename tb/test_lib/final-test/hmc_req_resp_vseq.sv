@@ -26,23 +26,22 @@ task hmc_req_resp_vseq::body();
   super.body();
     `uvm_info("hmc_req_resp_vseq", "Executing sequence", UVM_MEDIUM)
 
-    repeat(10000) begin
       fork 
-        begin                   // Thread 1 \\
-          `uvm_info("hmc_req_resp_vseq", "Executing axi_seq", UVM_MEDIUM)      
-          axi_seq_h.start(m_axi_sqr);      
-          `uvm_info("hmc_req_resp_vseq", "axi_seq complete", UVM_MEDIUM)        
+        begin // Thread 1 \\
+          repeat(2) begin
+            `uvm_info("hmc_req_resp_vseq", "Executing axi_seq", UVM_MEDIUM)      
+            axi_seq_h.start(m_axi_sqr);      
+            `uvm_info("hmc_req_resp_vseq", "axi_seq complete", UVM_MEDIUM)
+          end                
         end
-
-        begin                  // Thread 2 \\
-          `uvm_info("hmc_req_resp_vseq", "Executing hmc_response_seq", UVM_MEDIUM)
-          hmc_response_seq_h.start(m_seqr_hmc_agent) ;
-          `uvm_info("hmc_req_resp_vseq", "hmc_response_seq complete", UVM_MEDIUM)          
+        begin // Thread 2 \\
+          repeat(50) begin
+            `uvm_info("hmc_req_resp_vseq", "Executing hmc_response_seq", UVM_MEDIUM)
+            hmc_response_seq_h.start(m_seqr_hmc_agent) ;
+            `uvm_info("hmc_req_resp_vseq", "hmc_response_seq complete", UVM_MEDIUM) 
+          end
         end
-
       join
-      
-    end
 
 `uvm_info("hmc_req_resp_vseq", "Sequence complete", UVM_MEDIUM)
 
