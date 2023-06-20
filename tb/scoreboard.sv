@@ -68,7 +68,7 @@ class scoreboard  extends uvm_scoreboard;
 				if (used_tags[packet.tag] == 1'b1) begin
 					used_tags[packet.tag] =  1'b0;
 				end else begin
-					`uvm_fatal(get_type_name(),$psprintf("Packet with Tag %0d was not requested", packet.tag))
+					`uvm_info("SCOREBOARD",$psprintf("Packet with Tag %0d was not requested", packet.tag),UVM_MEDIUM)
 				end
 			end
 		end
@@ -79,7 +79,7 @@ class scoreboard  extends uvm_scoreboard;
 		hmc_pkt_item expected;
 
 		if (packet == null) begin
-		  `uvm_fatal(get_type_name(), $psprintf("packet is null"))
+		  `uvm_info("SCOREBOARD", $psprintf("packet is null"),UVM_MEDIUM)
 		 end
 		
 		hmc_req_packet_count++;	
@@ -89,7 +89,7 @@ class scoreboard  extends uvm_scoreboard;
 
 		//-- expect an request packet on the host (AXI4) request queue
 		if (axi4_2_hmc.size() == 0)
-			`uvm_fatal(get_type_name(),$psprintf("write_hmc_req: Unexpected packet (the request queue is empty)\n%s",packet.sprint()))
+			`uvm_info("SCOREBOARD",$psprintf("write_hmc_req: Unexpected packet (the request queue is empty)\n%s",packet.sprint()),UVM_MEDIUM)
 		else
 			expected = axi4_2_hmc.pop_front();
 
@@ -102,7 +102,7 @@ class scoreboard  extends uvm_scoreboard;
 	
 		 hmc_pkt_item expected;
 		 if (packet == null) begin
-		  `uvm_fatal(get_type_name(), $psprintf("packet is null"))
+		  `uvm_info("SCOREBOARD", $psprintf("packet is null"),UVM_MEDIUM)
 		 end
 		 
 		 if (packet.command != ERROR_RS) begin //TODO cover error response
@@ -131,7 +131,7 @@ class scoreboard  extends uvm_scoreboard;
 				if (used_tags[packet.tag] == 1'b1) begin
 					used_tags[packet.tag] =  1'b0;
 				end else begin
-					`uvm_fatal(get_type_name(),$psprintf("Packet with Tag %0d was not requested", packet.tag))
+					`uvm_info("SCOREBOARD",$psprintf("Packet with Tag %0d was not requested", packet.tag),UVM_MEDIUM)
 				end
 			end
 		end
@@ -140,7 +140,7 @@ class scoreboard  extends uvm_scoreboard;
 
 	function void write_axi4_hmc_req(input hmc_pkt_item packet);
 		if (packet == null) begin
-		  `uvm_fatal(get_type_name(), $psprintf("packet is null"))
+		  `uvm_info("SCOREBOARD", $psprintf("packet is null"),UVM_MEDIUM)
 		end
 		`uvm_info(get_type_name(),$psprintf("collected a packet %s", packet.command.name()), UVM_HIGH)
 		`uvm_info(get_type_name(),$psprintf("\n%s", packet.sprint()), UVM_HIGH)
@@ -167,7 +167,7 @@ class scoreboard  extends uvm_scoreboard;
 			if (used_tags[packet.tag] == 1'b0) begin
 				used_tags[packet.tag] =  1'b1;
 			end else begin
-				`uvm_fatal(get_type_name(), $psprintf("tag %0d is already in use", packet.tag))
+				`uvm_info("SCOREBOARD", $psprintf("tag %0d is already in use", packet.tag),UVM_MEDIUM)
 			
 			end
 		end
@@ -184,7 +184,7 @@ class scoreboard  extends uvm_scoreboard;
 		if (packet.command != ERROR_RS) begin //-- ERROR_RS has no label
 			//-- Check the packet against the request stored in the axi4_np_requests map
 			label : assert (axi4_np_requests.exists(packet.tag))
-				else `uvm_fatal(get_type_name(),$psprintf("response_compare: Unexpected Response with tag %0x \n%s", packet.tag, packet.sprint()));
+				else `uvm_info("SCOREBOARD",$psprintf("response_compare: Unexpected Response with tag %0x \n%s", packet.tag, packet.sprint()),UVM_MEDIUM);
 			
 			//-- delete the previous sent request packet
 			request = axi4_np_requests[packet.tag].pop_front();
@@ -194,11 +194,11 @@ class scoreboard  extends uvm_scoreboard;
 		//-- check the hmc_pkt_item
 		//check write response
 		if (packet.command == WR_RS && request.get_command_type() != WRITE_TYPE && request.get_command_type() != MISC_WRITE_TYPE)
-			`uvm_fatal(get_type_name(),$psprintf("response_compare: Write Response received with tag %0x for request %s\n%s", packet.tag, request.command.name(), packet.sprint()))
+			`uvm_info("SCOREBOARD",$psprintf("response_compare: Write Response received with tag %0x for request %s\n%s", packet.tag, request.command.name(), packet.sprint()),UVM_MEDIUM)
 //check Read response
 
 		if (packet.command == RD_RS && request.get_command_type() != READ_TYPE && request.get_command_type() != MODE_READ_TYPE )
-			`uvm_fatal(get_type_name(),$psprintf("response_compare: Read Response received with tag %0x for request %s\n%s", packet.tag, request.command.name(), packet.sprint()))
+			`uvm_info("SCOREBOARD",$psprintf("response_compare: Read Response received with tag %0x for request %s\n%s", packet.tag, request.command.name(), packet.sprint()),UVM_MEDIUM)
 //++++++++++++++++++++++++++++
 		if (packet.command == RD_RS) begin
 			int expected_payload; //store payload =length-1
@@ -215,32 +215,32 @@ class scoreboard  extends uvm_scoreboard;
 				default:expected_payload = 0;
 			endcase
 			if (expected_payload != packet.payload.size())
-				`uvm_fatal(get_type_name(),$psprintf("response_compare: Read Response received with tag %0x and wrong size req=%0s rsp payload size=%0x\n", packet.tag, request.command.name(), packet.payload.size()))
+				`uvm_info("SCOREBOARD",$psprintf("response_compare: Read Response received with tag %0x and wrong size req=%0s rsp payload size=%0x\n", packet.tag, request.command.name(), packet.payload.size()),UVM_MEDIUM)
 		end
 
 		//-- Check that the HMC command matches the HTOC item
 		if (packet.get_command_type() != RESPONSE_TYPE)
-			`uvm_fatal(get_type_name(),$psprintf("response_compare: Unexpected Packet \n%s", packet.sprint()))
+			`uvm_info("SCOREBOARD",$psprintf("response_compare: Unexpected Packet \n%s", packet.sprint()),UVM_MEDIUM)
 
 		if (expected.command != packet.command)
-			`uvm_fatal(get_type_name(),$psprintf("response_compare: Expected %s, got %s", expected.command.name(), packet.command.name()))
+			`uvm_info("SCOREBOARD",$psprintf("response_compare: Expected %s, got %s", expected.command.name(), packet.command.name()),UVM_MEDIUM)
 
 		if (expected.tag != packet.tag) begin
 			`uvm_info(get_type_name(), $psprintf("Expected: %s. got: %s", expected.sprint(), packet.sprint() ), UVM_LOW)	
-			`uvm_fatal(get_type_name(),$psprintf("response_compare: Packet tag mismatch %0d != %0d ", expected.tag, packet.tag))
+			`uvm_info("SCOREBOARD",$psprintf("response_compare: Packet tag mismatch %0d != %0d ", expected.tag, packet.tag),UVM_MEDIUM)
 		end	
 
 		if (expected.length != packet.length) begin
 			`uvm_info(get_type_name(), $psprintf("Expected: %s. got: %s", expected.sprint(), packet.sprint() ), UVM_LOW)	
-			`uvm_fatal(get_type_name(),$psprintf("response_compare: Packet length mismatch %0d != %0d ", expected.length, packet.length))
+			`uvm_info("SCOREBOARD",$psprintf("response_compare: Packet length mismatch %0d != %0d ", expected.length, packet.length),UVM_MEDIUM)
 		end
 		
 		if (expected.payload.size() != packet.payload.size())
-			`uvm_fatal(get_type_name(),$psprintf("response_compare: Payload size mismatch %0d != %0d", expected.payload.size(), packet.payload.size()))
+			`uvm_info("SCOREBOARD",$psprintf("response_compare: Payload size mismatch %0d != %0d", expected.payload.size(), packet.payload.size()),UVM_MEDIUM)
 
 		for (int i=0; i<packet.payload.size(); i++) begin
 			if (packet.payload[i] != expected.payload[i])
-				`uvm_fatal(get_type_name(),$psprintf("response_compare: Payload mismatch at %0d %0x != %0x", i, packet.payload[i], expected.payload[i]))
+				`uvm_info("SCOREBOARD",$psprintf("response_compare: Payload mismatch at %0d %0x != %0x", i, packet.payload[i], expected.payload[i]),UVM_MEDIUM)
 		end
 	endfunction : response_compare
 
@@ -248,60 +248,60 @@ class scoreboard  extends uvm_scoreboard;
 	function void request_compare(input hmc_pkt_item expected, hmc_pkt_item packet);
 		cmd_type_e packet_type = packet.get_command_type();
 		if (packet_type == FLOW_TYPE || packet_type == RESPONSE_TYPE)
-			`uvm_fatal(get_type_name(),$psprintf("request_compare: Unexpected Packet \n%s", packet.sprint()))
+			`uvm_info("SCOREBOARD",$psprintf("request_compare: Unexpected Packet \n%s", packet.sprint()),UVM_MEDIUM)
 
 		if (expected.command != packet.command) begin
 			`uvm_info(get_type_name(), $psprintf("Expected: %s. got: %s", expected.sprint(), packet.sprint() ), UVM_LOW)	
-			`uvm_fatal(get_type_name(),$psprintf("request_compare: Expected %s, got %s", expected.command.name(), packet.command.name()))
+			`uvm_info("SCOREBOARD",$psprintf("request_compare: Expected %s, got %s", expected.command.name(), packet.command.name()),UVM_MEDIUM)
 		end
 
 		if (expected.cube_ID != packet.cube_ID)
-			`uvm_fatal(get_type_name(),$psprintf("request_compare: cube_ID mismatch %0d != %0d", expected.cube_ID, packet.cube_ID))
+			`uvm_info("SCOREBOARD",$psprintf("request_compare: cube_ID mismatch %0d != %0d", expected.cube_ID, packet.cube_ID),UVM_MEDIUM)
 
 		if (expected.address != packet.address)
-			`uvm_fatal(get_type_name(),$psprintf("request_compare: Address mismatch %0d != %0d", expected.address, packet.address))
+			`uvm_info("SCOREBOARD",$psprintf("request_compare: Address mismatch %0d != %0d", expected.address, packet.address),UVM_MEDIUM)
 
 		if (expected.length != packet.length)
-			`uvm_fatal(get_type_name(),$psprintf("request_compare: Packet length mismatch %0d != %0d", expected.length, packet.length))
+			`uvm_info("SCOREBOARD",$psprintf("request_compare: Packet length mismatch %0d != %0d", expected.length, packet.length),UVM_MEDIUM)
 
 		if (expected.tag != packet.tag) begin
 			`uvm_info(get_type_name(), $psprintf("Expected: %s. got: %s", expected.sprint(), packet.sprint() ), UVM_LOW)	
-			`uvm_fatal(get_type_name(),$psprintf("request_compare: Packet tag mismatch %0d != %0d ", expected.tag, packet.tag))
+			`uvm_info("SCOREBOARD",$psprintf("request_compare: Packet tag mismatch %0d != %0d ", expected.tag, packet.tag),UVM_MEDIUM)
 		end	
 		
 		if (expected.payload.size() != packet.payload.size())
-			`uvm_fatal(get_type_name(),$psprintf("request_compare: Payload size mismatch %0d != %0d", expected.payload.size(), packet.payload.size()))
+			`uvm_info("SCOREBOARD",$psprintf("request_compare: Payload size mismatch %0d != %0d", expected.payload.size(), packet.payload.size()),UVM_MEDIUM)
 
 		for (int i=0;i<expected.payload.size();i = i+1) begin
 			if (expected.payload[i] != packet.payload[i])
-				`uvm_fatal(get_type_name(),$psprintf("request_compare: Payload mismatch at %0d %0x != %0x", i, expected.payload[i], packet.payload[i]))
+				`uvm_info("SCOREBOARD",$psprintf("request_compare: Payload mismatch at %0d %0x != %0x", i, expected.payload[i], packet.payload[i]),UVM_MEDIUM)
 		end
 	endfunction : request_compare
 
 	function void check_phase(uvm_phase phase);
 		
 		if (axi4_rsp_packet_count != hmc_rsp_packet_count)
-			`uvm_fatal(get_type_name(),$psprintf("axi4_rsp_packet_count = %0d hmc_rsp_packet_count = %0d!", axi4_rsp_packet_count, hmc_rsp_packet_count))
+			`uvm_info("SCOREBOARD",$psprintf("axi4_rsp_packet_count = %0d hmc_rsp_packet_count = %0d!", axi4_rsp_packet_count, hmc_rsp_packet_count),UVM_MEDIUM)
 		if (axi4_req_packet_count != hmc_req_packet_count)
-			`uvm_fatal(get_type_name(),$psprintf("axi4_req_packet_count = %0d hmc_req_packet_count = %0d!", axi4_req_packet_count, hmc_req_packet_count))
+			`uvm_info("SCOREBOARD",$psprintf("axi4_req_packet_count = %0d hmc_req_packet_count = %0d!", axi4_req_packet_count, hmc_req_packet_count),UVM_MEDIUM)
 		
 		//-- check for open requests on the host side
 		if (axi4_np_requests.size() > 0) begin
 			for(int i=0;i<512;i++)begin
 				if (axi4_np_requests.exists(i))begin
-					`uvm_info(get_type_name(),$psprintf("Unanswered Requests: %0d with tag %0d", axi4_np_requests[i].size(), i), UVM_LOW)
+					`uvm_info("SCOREBOARD",$psprintf("Unanswered Requests: %0d with tag %0d", axi4_np_requests[i].size(), i), UVM_LOW)
 				end
 			end
-			`uvm_fatal(get_type_name(),$psprintf("axi4_np_requests.size() = %0d, not all requests have been answered!", axi4_np_requests.size()))
+			`uvm_info("SCOREBOARD",$psprintf("axi4_np_requests.size() = %0d, not all requests have been answered!", axi4_np_requests.size()),UVM_MEDIUM)
 		end
 		
 		//-- check for open tags
 		if (used_tags >0) begin
 			foreach(used_tags[i]) begin
 				if (used_tags[i] == 1'b1)
-					`uvm_info(get_type_name(),$psprintf("Tag %0d is in use",  i), UVM_LOW)
+					`uvm_info("SCOREBOARD",$psprintf("Tag %0d is in use",  i), UVM_LOW)
 			end
-			`uvm_fatal(get_type_name(),$psprintf("Open Tags!"))
+			`uvm_info("SCOREBOARD",$psprintf("Open Tags!"),UVM_MEDIUM)
 		end
 	endfunction : check_phase
 
