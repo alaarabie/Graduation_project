@@ -93,8 +93,8 @@ function void env::connect_phase(uvm_phase phase);
   // Syntax :
   //m_agent.ap_name.connect(m_scoreboard.ap_name.analysis_export);
   
-  //axi_agent_h.mon_request.connect(m_coverage.analysis_export);  // Should send the hmc_pkt_item
-  //axi_agent_h.mon_response.connect(m_coverage.analysis_export); // Should send the hmc_pkt_item
+  axi_agent_h.mon_request.connect(m_coverage.analysis_export);  // Should send the hmc_pkt_item
+  axi_agent_h.mon_response.connect(m_coverage.analysis_export); // Should send the hmc_pkt_item
   hmc_agent_h.mon_req_ap.connect(m_coverage.analysis_export);
   hmc_agent_h.mon_res_ap.connect(m_coverage.analysis_export);
 
