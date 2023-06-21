@@ -37,6 +37,7 @@ forever begin
 // check reset	
 if(vif.res_n == 0) begin
 vif.t_valid <= 0;
+vif.rx_ready <= 1;
 `uvm_info(get_type_name(),$psprintf("during reset"), UVM_HIGH)
 @(posedge vif.res_n);
 `uvm_info(get_type_name(),$psprintf("coming out of reset"), UVM_HIGH)
@@ -62,9 +63,8 @@ valid_data #(.DWIDTH(DWIDTH), .NUM_DATA_BYTES(NUM_DATA_BYTES)) vld_data;
 seq_item_port.try_next_item(vld_data);
 if (vld_data != null) // Got a valid item from the sequencer, execute it 
 begin 	
-`uvm_info(get_type_name(),$psprintf("data is ready to be sent"), UVM_HIGH)
-`uvm_info(get_type_name(),$psprintf("send %0x %0x", vld_data.t_user, vld_data.t_data), UVM_HIGH)
-
+`uvm_info(get_type_name(),$sformatf("data is ready to be sent"), UVM_MEDIUM)
+`uvm_info(get_type_name(),$sformatf("\tsend t_user=%0x \n\tt_data=%0x", vld_data.t_user, vld_data.t_data), UVM_MEDIUM)
 // wait until delay
 repeat(vld_data.delay)
 @(posedge vif.clk);
@@ -80,7 +80,7 @@ vif.t_data  <= 0;
 vif.t_user  <= 0;
 vif.t_valid <= 0;
 
-`uvm_info(get_type_name(),$psprintf("data is sent"), UVM_HIGH)
+`uvm_info(get_type_name(),$sformatf("data is sent"), UVM_HIGH)
 seq_item_port.item_done();
 end	
 else @(posedge vif.clk);
