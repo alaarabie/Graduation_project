@@ -7,7 +7,7 @@ localparam DWIDTH =512;
 `uvm_object_utils(axi_seq)
 `uvm_declare_p_sequencer(axi_sequencer)
 
-int unsigned num_packets = 2;          
+int unsigned num_packets = 12;          
    
 rand hmc_pkt_item_request hmc_items[]; 
 hmc_pkt_item_request hmc_packets_ready[$];
