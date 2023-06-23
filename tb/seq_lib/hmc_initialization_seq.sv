@@ -18,8 +18,10 @@ class hmc_initialization_seq extends base_seq  ;
 
    start_item(request_packet) ;
    finish_item(request_packet) ;
-   `uvm_info("HMC_Initialization_seq", $sformatf("Line 21"),UVM_LOW)  
+   `uvm_info("HMC_Initialization_seq", $sformatf("Line 21"),UVM_LOW)
+   start_item(response_packet) ;     
    TX_FSM() ;
+   finish_item(response_packet) ; 
 
  endtask : body
 
@@ -27,17 +29,13 @@ class hmc_initialization_seq extends base_seq  ;
         
         if(request_packet.init_state==2'b0)
          begin //INIT_TX_NULL_1
-            start_item(response_packet) ;
             assert(response_packet.randomize() with {command==NULL;is_ts1==1'b0;}) ;
             response_packet.crc=response_packet.calculate_crc() ;
-            finish_item(response_packet) ;
          end
         else if((request_packet.init_state==2'b10)||(request_packet.rx_state==3'b110))
          begin //INIT_TX_NULL_2        
-            start_item(response_packet) ;
             assert(response_packet.randomize() with {command==NULL;is_ts1==1'b0;}) ;    
             response_packet.crc=response_packet.calculate_crc() ;                              
-            finish_item(response_packet) ;     
          end 
          // tx_state
 

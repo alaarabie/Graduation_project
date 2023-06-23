@@ -22,8 +22,7 @@ package test_pkg ;
   `include "axi-test/axi_vseq.sv"
   `include "axi-test/axi_test.sv"
 
-  `include "final-test/hmc_req_resp_vseq.sv" 
-  `include "final-test/rf_check_vseq.sv" 
+  `include "final-test/hmc_req_resp_vseq.sv"  
   `include "final-test/hmc_final_test.sv"
 
 endpackage : test_pkg

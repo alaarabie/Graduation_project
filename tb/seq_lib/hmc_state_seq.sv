@@ -23,6 +23,7 @@ endclass : hmc_state_seq
     tx_state = rf_rb.m_reg_status_init.status_init_tx_init_state.get();
     rx_state = rf_rb.m_reg_status_init.status_init_rx_init_state.get();    
     response_packet.init_state = tx_state ;
-    response_packet.rx_state = rx_state ;    
+    response_packet.rx_state = rx_state ;
+    `uvm_info("hmc_state_seq", $sformatf("tx_state=%b, rx_state=%b",tx_state, rx_state),UVM_LOW)        
     finish_item(response_packet) ;    
   endtask : body

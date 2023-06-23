@@ -13,29 +13,11 @@ function rf_status_init_mirror_seq::new(string name = "");
 endfunction : new
 
 task rf_status_init_mirror_seq::body();
-  string print_reg;
   super.body();
 
   // will continuously perform read operations to mirror the hardware into the register model
   //rf_rb.m_reg_status_init.mirror(status, .path(UVM_FRONTDOOR), .parent(this));
 
   rf_rb.m_reg_status_init.read(status, data, .parent(this));
-
-      print_reg = $sformatf("\n*******************************\n\tSSTATUS INIT REGISTER\n*******************************
-                         \t lane_descramblers_locked=%0x, 
-                         \t descrambler_part_alligned=%0x, 
-                         \t descrambler_alligned=%0x, 
-                         \t all_descramblers_alligned=%1b, 
-                         \t status_init_rx_init_state=%3b, 
-                         \t status_init_tx_init_state=%2b\n**************************************************************\n", 
-                         rf_rb.m_reg_status_init.lane_descramblers_locked.get(),
-                         rf_rb.m_reg_status_init.descrambler_part_alligned.get(),
-                         rf_rb.m_reg_status_init.descrambler_alligned.get(),
-                         rf_rb.m_reg_status_init.all_descramblers_alligned.get(),
-                         rf_rb.m_reg_status_init.status_init_rx_init_state.get(),
-                         rf_rb.m_reg_status_init.status_init_tx_init_state.get()
-                        );
-
-  `uvm_info("rf_status_init_mirror_seq", print_reg,UVM_LOW)
 
 endtask : body

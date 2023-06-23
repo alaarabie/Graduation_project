@@ -1,9 +1,8 @@
 class hmc_response_seq extends base_seq  ;
- `uvm_object_utils(hmc_response_seq)
+ `uvm_object_utils(hmc_response_seq) 
 
  hmc_pkt_item response_packet ;
  hmc_pkt_item request_packet ; 
-
 
  function new (string name = "");
     super.new(name);
@@ -17,15 +16,16 @@ class hmc_response_seq extends base_seq  ;
    
     start_item(request_packet) ;
     finish_item(request_packet) ;
+    request_packet.print() ;
    
    start_item(response_packet) ; 
-
+    
     if(response_packet.start_retry==1'b1)
      begin
       assert(response_packet.randomize() with {command==IRTRY;is_ts1==1'b0;clear_error_abort==1'b0;
                                                start_retry==1'b1;
                                                return_retry_ptr==request_packet.forward_retry_ptr;}) ;  
-      response_packet.crc=response_packet.calculate_crc() ;        
+      response_packet.crc=response_packet.calculate_crc() ;       
      end
     else
      begin
@@ -253,9 +253,13 @@ class hmc_response_seq extends base_seq  ;
 
         endcase // request_packet.command       
      end
+
+    response_packet.init_state=2'b11 ;
+    response_packet.rx_state=3'b111 ;     
+    response_packet.print() ;
     
     finish_item(response_packet) ;
- 
+
  endtask : body
 
 
