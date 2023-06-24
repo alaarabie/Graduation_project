@@ -48,6 +48,7 @@ int req_pos[4] ;
 int null_pos[4] ;
 bit req_finish[4] ;
 bit p_TRET[4] ;
+int null_before_TRET_count ;
 
 task send_to_DUT(bit current_response_packet[],hmc_pkt_item response_pkt_item,bit[3:0] l);
     response_packet[l-1] = current_response_packet; 
@@ -64,21 +65,47 @@ task send_to_DUT(bit current_response_packet[],hmc_pkt_item response_pkt_item,bi
     // LNG_int = int'(LNG);
     // bit [LNG-1:0] packed_response ;
 
-
+	`uvm_info("HMC_IF", $sformatf("p_TRET[%d]=%d",l-1,p_TRET[l-1]),UVM_LOW) 
 	if(p_TRET[l-1]==1'b1)
 	 begin
-	   phy_data_rx_phy2link[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE]= { << { response_packet[l-1] }}; 	   	
+	 	if(null_before_TRET_count<4)
+	 	 begin
+	 	   `uvm_info("HMC_IF", $sformatf("null_before_TRET_count=%d",null_before_TRET_count),UVM_LOW) 	 	 	
+	 	   phy_data_rx_phy2link[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE]= { << { response_packet[l-1] }}; 	
+	 	   null_before_TRET_count=null_before_TRET_count+1 ;
+	 	 end
+	 	else if(l==4'b1)
+	 	 begin
+		   // phy_data_rx_phy2link[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE]= { << { response_packet[l-1] }}; 	   	
+		   phy_data_rx_phy2link[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE]=128'h0 ;	 		
+	 	 end
+	 	else if(l==4'b10)
+	 	 begin
+		   // phy_data_rx_phy2link[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE]= { << { response_packet[l-1] }}; 	   	
+		   phy_data_rx_phy2link[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE]=128'hffffffffffffffff ;	 		
+	 	 end
+	 	else if(l==4'b11)
+	 	 begin
+		   // phy_data_rx_phy2link[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE]= { << { response_packet[l-1] }}; 	   	
+		   phy_data_rx_phy2link[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE]=128'hffffffffffffffffffffffffffffffff ;	 		
+	 	 end	
+	 	else if(l==4'b100)
+	 	 begin
+		   // phy_data_rx_phy2link[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE]= { << { response_packet[l-1] }}; 	   	
+		   phy_data_rx_phy2link[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE]=128'h0 ;	 		
+	 	 end		 	  	 
 		j[l-1]=1'b1 ;
+	 	`uvm_info("HMC_IF", $sformatf("phy_data_rx_phy2link=%h",phy_data_rx_phy2link),UVM_LOW)		
 	 end
 
-	if(LNG==4'b0)
+	else if(LNG==4'b0)
 	 begin
-	 	if(p_TRET[l-1]==1'b0)
-	 	 begin
+	 	// if(p_TRET[l-1]==1'b0)
+	 	//  begin
 	   	null_packed_response[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE] = { << { response_packet[l-1] }}; 
 	    	phy_data_rx_phy2link[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE] = null_packed_response[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE] ;
 			j[l-1]=1'b1 ;
-	 	 end
+	 	 // end
 	 end		
 
 	     

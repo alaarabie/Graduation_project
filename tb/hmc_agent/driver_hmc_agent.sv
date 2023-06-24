@@ -75,6 +75,8 @@ class driver_hmc_agent #(DWIDTH = 512 ,
 
         irtry_to_send=5'b10010 ;
 
+        vif.null_before_TRET_count=0 ;
+
         forever begin : response_loop
         
           if(!vif.res_n)
