@@ -85,8 +85,8 @@ class driver_hmc_agent #(DWIDTH = 512 ,
              vif.phy_rx_ready=1'b0 ;
              vif.phy_tx_ready=1'b0 ;
              vif.phy_bit_slip='b0 ;
-             vif.k=0 ;
-             vif.a=0 ;
+             vif.k={1'b0,1'b0,1'b0,1'b0} ;
+             vif.a={1'b0,1'b0,1'b0,1'b0} ;
              req_LNG={4'b0,4'b0,4'b0,4'b0} ; // length of requests             
              x=1 ;                 
             end
@@ -141,7 +141,7 @@ class driver_hmc_agent #(DWIDTH = 512 ,
 
                     vif.vif_request_packet=current_request_packet ;
 
-                    vif.z=1 ;
+                    vif.z[l-1]=1'b1 ;
     
                     `uvm_info("HMC_AGENT_DRIVER", $sformatf("current_request_packet array length=%d",current_request_packet[l-1].size()),UVM_LOW)
                     `uvm_info("HMC_AGENT_DRIVER", $sformatf("current_request_packet array =%p",current_request_packet[l-1]),UVM_LOW)                    
@@ -173,9 +173,10 @@ class driver_hmc_agent #(DWIDTH = 512 ,
                              begin           
                                 assert (request_packet.unpack(current_request_packet[l-1]));  
                              end
-                            else if(vif.null_pos[l-1]==1'b1)
+                            else if((vif.null_pos[l-1]==1'b1)||(vif.p_TRET[l-1]==1'b1))
                              begin
-                                assert (request_packet.unpack(current_null_FLITS[l-1]));                                    
+                                 request_packet.command=TRET ;
+                                 // assert (request_packet.unpack(current_null_FLITS[l-1]));
                              end   
                          end
                                                            
@@ -250,7 +251,7 @@ class driver_hmc_agent #(DWIDTH = 512 ,
                         irtry_rx_no=0 ;
                         is_irtry_rx=1'b0 ;
                         response_packet=retried_response_packet ;
-                        if((vif.req_finish[l-1]==1'b1)||(h<=3'b101)||(vif.null_pos[l-1]==1'b1))
+                        if((vif.req_finish[l-1]==1'b1)||(h<=3'b101)||(vif.null_pos[l-1]==1'b1)||(vif.p_TRET[l-1]==1'b1))
                          begin
                             response_packet.print() ;
                             `uvm_info("HMC_AGENT_DRIVER", $sformatf("current_response_packet=%p",current_response_packet),UVM_LOW)                      
@@ -262,7 +263,7 @@ class driver_hmc_agent #(DWIDTH = 512 ,
                     else
                      begin
                         seq_item_port.get_next_item(response_packet) ;
-                        if((vif.req_finish[l-1]==1'b1)||(h<=3'b101)||(vif.null_pos[l-1]==1'b1))
+                        if((vif.req_finish[l-1]==1'b1)||(h<=3'b101)||(vif.null_pos[l-1]==1'b1)||(vif.p_TRET[l-1]==1'b1))
                          begin                        
                             if(((request_packet.command & `TYPE_MASK)!=6'b011000)&&((request_packet.command & `TYPE_MASK)!=6'b100000))
                              begin
@@ -279,14 +280,21 @@ class driver_hmc_agent #(DWIDTH = 512 ,
                     if(((request_packet.command & `TYPE_MASK)!=6'b011000)&&((request_packet.command & `TYPE_MASK)!=6'b100000))
                      begin
                         response_packet.new_request=1'b1 ;
-                        vif.k=1 ;          
-                        vif.a=1 ;                     
+                        vif.k[l-1]=1'b1 ;
+                        if(vif.p_TRET[l-1]==1'b1)
+                         begin
+                           vif.a[l-1]=1'b0 ;
+                         end
+                        else
+                         begin
+                           vif.a[l-1]=1'b1 ;
+                         end                           
                      end  
                     else
                      begin
                         response_packet.new_request=1'b1 ;
-                        vif.k=0 ;          
-                        vif.a=0 ;                           
+                        vif.k[l-1]=1'b0 ;          
+                        vif.a[l-1]=1'b0 ;                           
                      end
                  end
 ////////////////////////////////////////////////////////////////////////////////////////////                 
@@ -297,12 +305,12 @@ class driver_hmc_agent #(DWIDTH = 512 ,
                     //`uvm_info("HMC_AGENT_DRIVER", $sformatf("Line 113"),UVM_LOW)                      
                     if ((vif.phy_data_tx_link2phy[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE])!=128'b0) begin
                         response_packet.new_request=1'b1 ;
-                        vif.k=1 ;          
+                        vif.k[l-1]=1'b1 ;          
                      end 
                     else begin
                          response_packet.new_request=1'b0;                   
                      end
-                     vif.a=1 ;
+                     vif.a[l-1]=1'b1 ;
 
                     // `uvm_info("hmc_vseq", $sformatf("current_request_packet=%p",current_request_packet) ,UVM_LOW)        
                     // vif.vif_request_packet=current_request_packet ;  
@@ -318,7 +326,7 @@ class driver_hmc_agent #(DWIDTH = 512 ,
 
                     vif.vif_request_packet=current_request_packet ;  
                     // {<<bit{vif.vif_request_packet}}=current_request_packet ;      
-                    vif.z=1 ;
+                    vif.z[l-1]=1'b1 ;
      
                     `uvm_info("HMC_AGENT_DRIVER", $sformatf("phy_data_tx_link2phy=%b",vif.phy_data_tx_link2phy) ,UVM_LOW)          
                     `uvm_info("HMC_AGENT_DRIVER", $sformatf("vif.is_TS1=%b",vif.is_TS1),UVM_LOW)  
@@ -413,6 +421,7 @@ class driver_hmc_agent #(DWIDTH = 512 ,
         int t=0 ;
         bit g[FLIT_SIZE] ;
         vif.req_finish={1'b0,1'b0,1'b0,1'b0} ;
+        vif.p_TRET={1'b0,1'b0,1'b0,1'b0} ;
 
             for (int i=1; i<=4; i++)
              begin
@@ -435,7 +444,7 @@ class driver_hmc_agent #(DWIDTH = 512 ,
                      begin
                         `uvm_info("Packing_FLITS", $sformatf("vif.phy_data_tx_link2phy[%d:%d]=%b",((FLIT_SIZE*(i-1))+FLIT_SIZE-1),((i-1)*FLIT_SIZE),vif.phy_data_tx_link2phy[((FLIT_SIZE*(i-1))+FLIT_SIZE-1)-:FLIT_SIZE]),UVM_LOW)
                         LNG = vif.phy_data_tx_link2phy[(10+FLIT_SIZE*(i-1))-:4] ;     
-                        if(LNG>=4'b1)
+                        if((LNG>=4'b1)&&(LNG<=4'b1001))
                          begin
                            req_LNG[i-1]=LNG ;
                            p[i-1]=i ;
@@ -443,6 +452,12 @@ class driver_hmc_agent #(DWIDTH = 512 ,
                            vif.req_pos[i-1]=i ;
                            e=e+1 ;
                          end
+                         
+                        else if((LNG>4'b1001)||(((vif.phy_data_tx_link2phy[((FLIT_SIZE*(i-1))+FLIT_SIZE-1)-:FLIT_SIZE])=='b0)&&(request_packet.init_state==2'b11)&&(request_packet.rx_state=3'b111)))
+                         begin
+                           vif.p_TRET[i-1]=1'b1 ;
+                         end
+
                         else if((vif.phy_data_tx_link2phy[((FLIT_SIZE*(i-1))+FLIT_SIZE-1)-:FLIT_SIZE])=='b0)
                          begin
                             n=n+1 ;  
@@ -450,7 +465,7 @@ class driver_hmc_agent #(DWIDTH = 512 ,
                             `uvm_info("Packing_FLITS", $sformatf("m[%d]=%d",i-1,m[i-1]),UVM_LOW)  
                             vif.null_pos[i-1]=i ;
                          end 
-                   
+
                      end
 
                  end
@@ -475,11 +490,14 @@ class driver_hmc_agent #(DWIDTH = 512 ,
               end 
              else if((p[i-1]==0)&&(m[i-1]==0))
               begin
-                // if(i>4)
-                //  begin            
-                //     i=1 ;
-                //  end            
-                  vif.is_TS1=1'b1 ;          
+                  if((vif.p_TRET[i-1]==1'b1)&&(request_packet.init_state==2'b11)&&(request_packet.rx_state==3'b111))
+                   begin
+                     vif.is_TS1=1'b0 ;
+                   end
+                  else
+                   begin
+                     vif.is_TS1=1'b1 ;                                  
+                   end             
               end
 
              end

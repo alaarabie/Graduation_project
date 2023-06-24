@@ -31,7 +31,7 @@ logic                         FERR_N ;			   // output
 
 monitor_hmc_agent proxy ;
 hmc_pkt_item  response_item;
-bit response_packet[] ;
+bit response_packet[FPW][] ;
 hmc_pkt_item  request_pkt_item;
 hmc_pkt_item null_FLIT_item;
 bit vif_request_packet[FPW][] ;
@@ -40,16 +40,18 @@ bit [3:0] LNG ;
 bit [DWIDTH-1:0] null_packed_response ;
 bit [(9*FLIT_SIZE)-1:0] req_packed_response ;
 int LNG_int ; 
-shortint j,k,z,y,a ; // y is a signal to know that all of the response is sent @ y=1
+shortint y ; // y is a signal to know that all of the response is sent @ y=1
+bit j[4],k[4],z[4],a[4] ;
 bit [3:0] c ;
 bit is_TS1 ;
 int req_pos[4] ;
 int null_pos[4] ;
 bit req_finish[4] ;
+bit p_TRET[4] ;
 
 task send_to_DUT(bit current_response_packet[],hmc_pkt_item response_pkt_item,bit[3:0] l);
-    response_packet = current_response_packet; 
-	 `uvm_info("HMC_IF", $sformatf("response_packet array =%p",response_packet),UVM_MEDIUM)    
+    response_packet[l-1] = current_response_packet; 
+	 `uvm_info("HMC_IF", $sformatf("response_packet array =%p",response_packet[l-1]),UVM_MEDIUM)    
     // {<<bit{response_packet}} = current_response_packet;
     LNG = response_pkt_item.length;
 	 `uvm_info("HMC_IF", $sformatf("at L=%b ,LNG=%d",l,LNG),UVM_LOW)    
@@ -62,20 +64,22 @@ task send_to_DUT(bit current_response_packet[],hmc_pkt_item response_pkt_item,bi
     // LNG_int = int'(LNG);
     // bit [LNG-1:0] packed_response ;
 
-	j=1 ;
+
+	if(p_TRET[l-1]==1'b1)
+	 begin
+	   phy_data_rx_phy2link[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE]= { << { response_packet[l-1] }}; 	   	
+		j[l-1]=1'b1 ;
+	 end
 
 	if(LNG==4'b0)
 	 begin
-	    null_packed_response[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE] = { << { response_packet }}; 
-	    phy_data_rx_phy2link[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE] = null_packed_response[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE] ;
+	 	if(p_TRET[l-1]==1'b0)
+	 	 begin
+	   	null_packed_response[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE] = { << { response_packet[l-1] }}; 
+	    	phy_data_rx_phy2link[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE] = null_packed_response[((FLIT_SIZE*(l-1))+FLIT_SIZE-1)-:FLIT_SIZE] ;
+			j[l-1]=1'b1 ;
+	 	 end
 	 end		
-		//LNG = response_pkt_item.length;
-		//assert (response_pkt_item.pack(response_packet)); // call do_pack
-	    //response_packet = packet ;
-		//LNG = response_packet[10:7];
-		// if(LNG==4'b1)
-		//  begin
-		     //phy_data_rx_phy2link = {response_packet,((LNG-FPW)*FLIT_SIZE)'b0} ;	
 
 	     
      else if(LNG!=0)
@@ -86,7 +90,7 @@ task send_to_DUT(bit current_response_packet[],hmc_pkt_item response_pkt_item,bi
         y=0 ;
 	    for(bit [3:0] m=4'b0; m<=LNG-4'b1; m++)
 	     begin
-	        req_packed_response[((FLIT_SIZE*m)+FLIT_SIZE-1)-:FLIT_SIZE]= { << { response_packet }}; 		
+	        req_packed_response[((FLIT_SIZE*m)+FLIT_SIZE-1)-:FLIT_SIZE]= { << { response_packet[l-1] }}; 		
 	     end
 
     	 `uvm_info("HMC_IF", $sformatf("at L=%b ,req_packed_response=%b",l,req_packed_response),UVM_LOW)
@@ -100,6 +104,7 @@ task send_to_DUT(bit current_response_packet[],hmc_pkt_item response_pkt_item,bi
             if (LNG<=4'b0)
              begin
                 y=1 ;                           
+	         	 j[l-1]=1'b1 ;
                 break ;
              end                                   	
          end
@@ -132,44 +137,10 @@ task send_to_DUT(bit current_response_packet[],hmc_pkt_item response_pkt_item,bi
          if (LNG<=4'b0)
           begin
             y=1 ;            
+				j[l-1]=1'b1 ;
           end                      
       end        
 
-	    //  if((l+LNG-1)<=(FPW-1))
-	    //   begin
-	    //     phy_data_rx_phy2link[(l+LNG)*(FLIT_SIZE)-1-:(LNG*FLIT_SIZE)] = req_packed_response[(LNG*FLIT_SIZE)-1 -:(LNG*FLIT_SIZE)];      			
-	    //     y=1 ;
-	    //   end
-	    //   else if((l+LNG-1)>(FPW-1))
-	    //    begin
-	    //     phy_data_rx_phy2link[(FPW*FLIT_SIZE)-1-:((FPW-l)*(FLIT_SIZE))] = req_packed_response[((FPW-l)*(FLIT_SIZE))-1-:((FPW-l)*(FLIT_SIZE))];
-	    //     y=0 ;
-	    //     @(posedge clk) ;
-        //     for(int i=0 ; i<=$floor(LNG/FPW)-1;i++)
-	    //      begin
-		//       	if(i>$floor(LNG/FPW)-1)
-		//       	 begin
-		//       		break ;
-		//       	 end
-        //         else if((i==$floor(LNG/FPW)-1)&&((LNG%FPW)!=0))
-        //          begin
-        //             phy_data_rx_phy2link[((LNG%FPW)*(FLIT_SIZE))-1-:((LNG%FPW)*(FLIT_SIZE))] = req_packed_response[((LNG%FPW)*(FLIT_SIZE))+((FPW-l)*(FLIT_SIZE))+i*(FPW*FLIT_SIZE)-1 -:((LNG%FPW)*(FLIT_SIZE))];                   	
-        //             y=1 ;
-        //          end
-        //         else if((i==$floor(LNG/FPW)-1)&&((LNG%FPW)==0))
-        //          begin
-        //             phy_data_rx_phy2link = req_packed_response[((FPW-l)*(FLIT_SIZE))+(i+1)*(FPW*FLIT_SIZE)-1-:(FPW*FLIT_SIZE)];                   	
-        //             y=1 ;
-        //          end                 
-        //         else if (i<$floor(LNG/FPW)-1)
-        //          begin
-        //             phy_data_rx_phy2link = req_packed_response[((FPW-l)*(FLIT_SIZE))+(i+1)*(FPW*FLIT_SIZE)-1-:(FPW*FLIT_SIZE)];
-        //             @(posedge clk) ;
-        //          end   
-	    //   	 end	          			
-	    //    end     		
-
-            // [((LNG%FPW)*(FLIT_SIZE))+((FPW-l)*(FLIT_SIZE))+i*(FPW*FLIT_SIZE)-1:((FPW-l)*(FLIT_SIZE))+i*(FPW*FLIT_SIZE)]
      if(l==4'b100)
       begin
      	   @(posedge clk) ;
@@ -182,40 +153,41 @@ task run();
 
 	   @(posedge clk) ;
 
-	 	if (j==1) begin
-	 		response_item=hmc_pkt_item::type_id::create("response_item") ;
-	 		`uvm_info("HMC_IF", $sformatf("response_packet array =%p",response_packet),UVM_LOW)
-	 		assert (response_item.unpack(response_packet));
-	        proxy.notify_res_transaction(response_item) ;	
-	        j=0 ;
-	 	end
-	 	
-	 	else if ((k==1)&&(z==1)&&(is_TS1==1'b0)) begin
-	 		for(int i=1; i<=4; i++)
+	 	for(int i=1; i<=4; i++)
+	 	 begin
+		 	if ((j[i-1]==1'b1)||(p_TRET[i-1]==1'b1)) 
+		 	 begin
+		 		response_item=hmc_pkt_item::type_id::create("response_item") ;		 	
+			 	`uvm_info("HMC_IF", $sformatf("response_packet[%d] array =%p",i-1,response_packet[i-1]),UVM_LOW)
+			 	assert (response_item.unpack(response_packet[i-1]));
+			   proxy.notify_res_transaction(response_item) ;	
+		   	j[i-1]=1'b0 ;
+		    end
+
+	 		else if ((k[i-1]==1'b1)&&(z[i-1]==1'b1)&&(is_TS1==1'b0)) 
 	 		 begin
-	 		 	if(req_finish[i-1]==1'b1)
+	 		   if(req_finish[i-1]==1'b1)
 	 		 	 begin
 			 		request_pkt_item=hmc_pkt_item::type_id::create("request_pkt_item") ;	 	
 	 		      `uvm_info("HMC_IF", $sformatf("request_packet array length=%d",vif_request_packet[i-1].size()),UVM_LOW)			 			
 			 		assert (request_pkt_item.unpack(vif_request_packet[i-1]));
-		            proxy.notify_req_transaction(request_pkt_item) ;
-		            k=0 ;
-		            z=0 ;			 		 		
+		         proxy.notify_req_transaction(request_pkt_item) ;
+		         k[i-1]=1'b0 ;
+		         z[i-1]=1'b0 ;			 		 		
 	 		 	 end 			
 	 		 end
-	 	end
-	 	else if ((k==0)&&(is_TS1==1'b0)&&(a==1))
-	 	 begin
-	 	 	for(int i=1; i<=4; i++)
+
+	 		else if ((k[i-1]==1'b0)&&(is_TS1==1'b0)&&(a[i-1]==1'b1))
 	 	 	 begin
 	 	 	 	if(null_pos[i-1]==1)
 	 	 	 	 begin
 				 	null_FLIT_item=hmc_pkt_item::type_id::create("null_FLIT_item") ; 		
 				 	`uvm_info("HMC_IF", $sformatf("vif_null_FLITS array length=%d",vif_null_FLITS[i-1].size()),UVM_LOW)			 			
 			 		assert (null_FLIT_item.unpack(vif_null_FLITS[i-1]));
-		            proxy.notify_req_transaction(null_FLIT_item) ;	 	 	 		
-	 	 	 	 end	 	 		
-	 	 	 end 	     	
+		         proxy.notify_req_transaction(null_FLIT_item) ;	 	 	 		
+	 	 	 	 end	 	 			     	
+	 	    end
+
 	 	 end
 	 
 endtask : run
