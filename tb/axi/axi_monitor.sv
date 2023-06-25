@@ -128,8 +128,8 @@ function void collect_req_packet();
 	//-- First flit is always header
 	current_flit = req_flit_queue.pop_front();
 	req_pkt_lng = current_flit[10:7];
-	`uvm_info(get_type_name(),$psprintf("packet length %0d ", req_pkt_lng), UVM_MEDIUM)
-	`uvm_info(get_type_name(),$psprintf("queue size %0d ", req_flit_queue.size()+1), UVM_MEDIUM)
+	//`uvm_info(get_type_name(),$psprintf("packet length %0d ", req_pkt_lng), UVM_MEDIUM)
+	//`uvm_info(get_type_name(),$psprintf("queue size %0d ", req_flit_queue.size()+1), UVM_MEDIUM)
 	flit_queue_lost : assert (req_flit_queue.size() >= req_pkt_lng - 1);		
 
 	bitstream = new[req_pkt_lng*128];
@@ -216,8 +216,8 @@ function void collect_res_packet();
 	//-- First flit is always header
 	current_flit = res_flit_queue.pop_front();
 	res_pkt_lng = current_flit[10:7];
-	`uvm_info(get_type_name(),$psprintf("packet length %0d ", res_pkt_lng), UVM_MEDIUM)
-	`uvm_info(get_type_name(),$psprintf("queue size %0d ", res_flit_queue.size()+1), UVM_MEDIUM)
+	//`uvm_info(get_type_name(),$psprintf("packet length %0d ", res_pkt_lng), UVM_MEDIUM)
+	//`uvm_info(get_type_name(),$psprintf("queue size %0d ", res_flit_queue.size()+1), UVM_MEDIUM)
 	flit_queue_lost : assert (res_flit_queue.size() >= res_pkt_lng - 1);		
 
 	bitstream = new[res_pkt_lng*128];
