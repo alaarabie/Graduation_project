@@ -6,7 +6,7 @@ function new(string name = "hmc_pkt_item_request");
   super.new(name);
 endfunction : new
 
-//constraint to generate write and read commands
+// constraint to generate write and read commands
 constraint c_req_command {
 command inside {
   // Write Requests
@@ -37,8 +37,11 @@ constraint c_zero_tail_fields {
 }
 
 
-// helper field
-rand int        flit_delay;
+// constraint for correct pack
+constraint c_is_ts1 {
+  is_ts1 == 0;
+}
+
 
  endclass :  hmc_pkt_item_request
 
