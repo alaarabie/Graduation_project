@@ -27,9 +27,11 @@ class hmc_agent#(DWIDTH = 512 ,
   	if(hmc_agent_config_h.active == UVM_ACTIVE) begin
   		sequencer_hmc_agent_h = sequencer_hmc_agent::type_id::create("sequencer_hmc_agent_h", this);
   		driver_hmc_agent_h = driver_hmc_agent#(DWIDTH, NUM_LANES, FPW, FLIT_SIZE)::type_id::create("driver_hmc_agent_h",this);
+      driver_hmc_agent_h.hmc_agent_config_h=hmc_agent_config_h;
   	end
 
   	monitor_hmc_agent_h = monitor_hmc_agent#(DWIDTH, NUM_LANES, FPW, FLIT_SIZE)::type_id::create("monitor_hmc_agent_h",this);
+    monitor_hmc_agent_h.hmc_agent_config_h=hmc_agent_config_h;
 
   	mon_req_ap = new("mon_req_ap",this);
     mon_res_ap = new("mon_res_ap",this);    
