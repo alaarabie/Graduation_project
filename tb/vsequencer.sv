@@ -4,7 +4,7 @@ class vsequencer extends  uvm_sequencer;
 
   rf_sequencer  m_rf_seqr;
   sequencer_hmc_agent m_seqr_hmc_agent;
-  axi_sequencer m_axi_sqr;
+  axi_sequencer_t m_axi_sqr;
   env_cfg cfg ;
   
 
