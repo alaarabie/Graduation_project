@@ -18,12 +18,15 @@ task rf_control_configuration_seq::body();
   rf_rb.m_reg_control.read(status, data, .parent(this));
 
   //rf_rb.m_reg_control.p_rst_n.set(1'h1);
-  //rf_rb.m_reg_control.scrambler_disable.set(1'h1);
   //rf_rb.m_reg_control.hmc_init_cont_set.set(1'h1);
+  //rf_rb.m_reg_control.set_hmc_sleep.set(1'h0);
+  //rf_rb.m_reg_control.warm_reset.set(1'h0);
+  //rf_rb.m_reg_control.scrambler_disable.set(1'h1);
+  //rf_rb.m_reg_control.run_length_enable.set(1'h0);
   //rf_rb.m_reg_control.rx_token_count.set({8{1'b1}});
 
-
-  rf_rb.m_reg_control.write(status, 64'h181000ff0033, .parent(this));
+  //rf_rb.m_reg_control.write(status, 64'h181000ff0013, .parent(this));
+  rf_rb.m_reg_control.write(status, 64'h0028101000750033, .parent(this));
   rf_rb.m_reg_control.read(status, data, .parent(this));
 
 endtask : body

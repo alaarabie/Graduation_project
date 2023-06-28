@@ -49,13 +49,6 @@ class hmc_pkt_item extends  uvm_sequence_item;
   rand     bit            poisoned;       // a flag, if CRC is inverted
   rand     bit            crc_error;      // a flag, if CRC isn't matching
 
-  rand bit is_ts1 ;
-
-  bit  is_state_item;
-  bit [1:0] init_state;
-  bit  new_request ;
-  bit [2:0] rx_state ;
-
   //*****************************************************************************//
 
   `uvm_object_utils_begin(hmc_pkt_item)
@@ -92,12 +85,6 @@ class hmc_pkt_item extends  uvm_sequence_item;
   //*****************************************************************************//
   //***************************      Constraints      ***************************//
   //*****************************************************************************//
-
-  constraint init_state_c {
-    is_state_item == 0;
-    // init_state == 0;
-    new_request == 0 ;
-  }
 
   constraint cube_id_c {
     cube_ID == 0;
@@ -209,9 +196,7 @@ class hmc_pkt_item extends  uvm_sequence_item;
   virtual function void do_pack(uvm_packer packer);
 
     super.do_pack(packer);
-    packer.big_endian = 0; // This bit determines the order that integral data is packed
-    if(!is_ts1)
-     begin          
+    packer.big_endian = 0; // This bit determines the order that integral data is packed          
         //---------------------------------------------------------------------------------------------------//
         // pack header (Request)
         // CUB[63:61] - RES[60:58] - ADRS[57:24] - TAG[23:15] - DLN[14:11] - LNG[10:7] - RES[6] - CMD[5:0]
@@ -277,7 +262,6 @@ class hmc_pkt_item extends  uvm_sequence_item;
 
           default : `uvm_fatal(get_type_name(), $psprintf("pack function called for a hmc_pkt_item with an illegal command type='h%0h!", command))
         endcase
-     end
   endfunction: do_pack
 
   //*****************************************************************************//
