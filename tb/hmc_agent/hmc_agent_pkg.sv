@@ -20,6 +20,7 @@ typedef enum {
 
 	`include "hmc_agent_config.svh"
 	`include "hmc_agent_base_driver.svh"
+	`include "hmc_agent_driver.svh"
 	`include "hmc_agent_monitor.svh"
 	`include "hmc_agent_sequencer.svh"	
 	`include "hmc_agent.svh"	
