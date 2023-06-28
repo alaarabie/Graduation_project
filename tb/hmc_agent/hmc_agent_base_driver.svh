@@ -103,7 +103,7 @@ class hmc_agent_base_driver #(NUM_LANES=16) extends uvm_driver #(hmc_pkt_item);
    bit [7:4]   ts1_bottom_lane   = 4'h3; // for lane 0
    bit [7:4]   ts1_middle_lane   = 4'h5; // for all in between
 
-   //?? Configuration parameters
+   // Initialization flags
    bit init_continue;
    bit can_continue;
 

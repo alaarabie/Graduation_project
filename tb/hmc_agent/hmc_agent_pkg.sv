@@ -18,7 +18,14 @@ typedef enum {
 	SEND_RETRY_PACKETS
 } init_state_t;
 
+typedef enum {
+	REQUESTER,
+	RESPONDER
+} link_type_t;
+
 	`include "hmc_agent_config.svh"
+	`include "hmc_cdr.svh"
+	`include "hmc_transaction_mon.svh"
 	`include "hmc_agent_base_driver.svh"
 	`include "hmc_agent_driver.svh"
 	`include "hmc_agent_monitor.svh"

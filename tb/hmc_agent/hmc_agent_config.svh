@@ -4,7 +4,8 @@ class hmc_agent_config#(NUM_LANES = 16) extends uvm_object;
 
    virtual hmc_agent_if #(NUM_LANES) vif;
    
-   uvm_active_passive_enum     active = UVM_ACTIVE;
+   uvm_active_passive_enum active = UVM_ACTIVE;
+   uvm_active_passive_enum enable_tag_checking = UVM_ACTIVE;
 
   // Full = 16, Half = 8
   int width = NUM_LANES;
@@ -15,13 +16,16 @@ class hmc_agent_config#(NUM_LANES = 16) extends uvm_object;
   // lanes polarity and lanes reversal
   bit [NUM_LANES-1:0] reverse_polarity = 0;
   bit reverse_lanes = 0;
+  int run_length_limit = 85
 
   int irtry_flit_count_to_send = 24;  // hexa = 18
   int irtry_flit_count_received_threshold = 16; // hexa = 10
 
-  int hmc_tokens = 25 ;
+  int hmc_tokens = 25;
+  int rx_tokens = 30;
 
   // Error Porbabilities
+  bit lane_errors_enabled = 0;
   int poisoned_probability = 0;
   int lng_error_probability = 0;
   int seq_error_probability = 0;
