@@ -16,9 +16,9 @@ class hmc_agent_base_driver #(NUM_LANES=16) extends uvm_driver #(hmc_pkt_item);
    init_state_t last_state = LINK_UP;
 
   // some classes to handle buffers, tokens, link status
-   hmc_token_handler token_handler;
-   hmc_retry_buffer  retry_buffer;
-   hmc_link_status   remote_status;
+   hmc_token_handler             token_handler;
+   hmc_retry_buffer              retry_buffer;
+   hmc_link_status#(NUM_LANES)   remote_status;
 
   //?? link and driver(local) parameters (timing and other stuff)
    // hmc_link_config link_config;

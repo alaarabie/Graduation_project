@@ -2,7 +2,7 @@ class hmc_transaction_mon extends uvm_monitor;
 
 	`uvm_component_utils(hmc_transaction_mon)
 
-	uvm_active_passive_enum enable_tag_checking = UVM_ACTIVE;
+	uvm_active_passive_enum enable_tag_checking = UVM_PASSIVE;
 
 	hmc_pkt_item	hmc_buffer[$];
 	bit [7:0]	last_rrp = 0;

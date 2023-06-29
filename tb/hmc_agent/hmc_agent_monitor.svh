@@ -9,10 +9,11 @@ class hmc_agent_monitor#(NUM_LANES = 16) extends uvm_monitor;
 	bit requester_flag; 
 
 	// Some Classes needed for calculations
-	hmc_link_status link_status;
-	hmc_link_status remote_link_status;
-	hmc_transaction_mon transaction_mon;
-	hmc_cdr #(NUM_LANES) cdr;
+	hmc_status#(NUM_LANES) 			status;
+	hmc_link_status#(NUM_LANES) link_status;
+	hmc_link_status#(NUM_LANES) remote_link_status;
+	hmc_transaction_mon 			  transaction_mon;
+	hmc_cdr #(NUM_LANES) 				cdr;
 
 	// Analysis Ports
 	uvm_analysis_port #(hmc_pkt_item) item_collected_port; // should be the main port?
@@ -77,15 +78,16 @@ class hmc_agent_monitor#(NUM_LANES = 16) extends uvm_monitor;
 		vif = hmc_agent_cfg.vif ;
 		start_clear_retry_event = new("start_retry_event");
 		if (requester_flag) begin
-			link_status = hmc_link_status::type_id::create("Requester_link_status", this);
-			remote_link_status = hmc_link_status::type_id::create("Responder_link_status", this);
+			link_status = status.Requester_link_status;
+			remote_link_status = status.Responder_link_status;
 			set_config_int("cdr", "link_type", REQUESTER);
 		end else begin
-			link_status = hmc_link_status::type_id::create("Responder_link_status", this);
-			remote_link_status = hmc_link_status::type_id::create("Requester_link_status", this);
+			link_status = status.Responder_link_status;
+			remote_link_status = status.Requester_link_status;
 			set_config_int("cdr", "link_type", RESPONDER);
 		end
 		cdr = hmc_cdr#(.NUM_LANES(NUM_LANES))::type_id::create("cdr", this);
+		//if (!link_config.responder.active) begin
 		// link_status.set_relaxed_token_handling(1); //TODO : check this later
 	endfunction : build_phase
 

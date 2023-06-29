@@ -24,7 +24,12 @@ typedef enum {
 } link_type_t;
 
 	`include "hmc_agent_config.svh"
+	`include "hmc_link_status.svh"
+	`include "hmc_status.svh"
 	`include "hmc_cdr.svh"
+	`include "hmc_retry_buffer.svh"
+	`include "hmc_token_handler.svh"
+	`include "hmc_tag_mon.svh"
 	`include "hmc_transaction_mon.svh"
 	`include "hmc_agent_base_driver.svh"
 	`include "hmc_agent_driver.svh"
