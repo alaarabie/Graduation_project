@@ -88,7 +88,7 @@ function void write_req (input valid_data #(.DWIDTH(DWIDTH), .NUM_DATA_BYTES(NUM
 	while (req_packet_queue.size()>0) begin
 		packet = req_packet_queue.pop_front();
 		request.write(packet);
-		`uvm_info("AXI4 to HMC Monitor",$psprintf("\n%s", packet.sprint()), UVM_MEDIUM)
+		`uvm_info("AXI4 to HMC Monitor",$psprintf("\n%s", packet.sprint()), UVM_HIGH)
 	end
 
 endfunction : write_req
@@ -176,7 +176,7 @@ function void write_res (input valid_data #(.DWIDTH(DWIDTH), .NUM_DATA_BYTES(NUM
 	while (res_packet_queue.size()>0) begin
 		packet = res_packet_queue.pop_front();
 		response.write(packet);
-		`uvm_info("AXI4 to HMC Monitor",$psprintf("\n%s", packet.sprint()), UVM_MEDIUM)
+		`uvm_info("AXI4 to HMC Monitor",$psprintf("\n%s", packet.sprint()), UVM_HIGH)
 	end
 
 endfunction : write_res

@@ -35,7 +35,7 @@ function void starting ();
    foreach (hmc_items[i]) begin
    hmc_items[i] = hmc_pkt_item_request::type_id::create($psprintf("hmc_item[%0d]", i));
    assert(hmc_items[i].randomize());
-   //`uvm_info(get_type_name(),$psprintf("%0d HMC packets command", hmc_items[i].command), UVM_MEDIUM)  
+   //`uvm_info(get_type_name(),$psprintf("%0d HMC packets command", hmc_items[i].command), UVM_MEDIUM) 
    end   
 endfunction : starting
 
@@ -60,6 +60,8 @@ task aquire_tags();
       if (tag >= 0) begin
          `uvm_info(get_type_name(),$psprintf("HMC Packet #%0d command is: %0s tag is: %0d", i, hmc_items[i].command, hmc_items[i].tag), UVM_MEDIUM)
          hmc_packets_ready.push_back(hmc_items[i]);
+         // help to generate response
+         request_queue.push_back(hmc_items[i]);
          //working_pos = i+1;
       end else begin
       break;   //-- send all already processed AXI4 Cycles if tag_handler can not provide an additional tag
@@ -230,6 +232,7 @@ repeat (1) begin
    starting(); 
    `uvm_info(get_type_name(),$psprintf("HMC Packets to send: %0d", hmc_items.size()), UVM_MEDIUM)
    aquire_tags();
+   -> item_available;
    // send all packets with tags
    hmc_packet_2_axi_cycles();
    // send axi4_queue

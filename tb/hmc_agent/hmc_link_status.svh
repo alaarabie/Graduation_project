@@ -1,10 +1,10 @@
-class hmc_link_status#(NUM_LANES = 16) extends uvm_component;
+class hmc_link_status extends uvm_component;
 
-	`uvm_component_param_utils(hmc_link_status#(NUM_LANES))
+	`uvm_component_utils(hmc_link_status)
 
 	init_state_t current_state;
 
-	//int num_lanes = 8; changed with the parameter
+	int num_lanes = 8;
 
 	// status bits
 	bit first_null_detected = 0;	//-- first NULL Flit detected after TS1 sequence
@@ -36,27 +36,25 @@ class hmc_link_status#(NUM_LANES = 16) extends uvm_component;
 
 	bit relaxed_token_handling=1'b0;
 
-	`uvm_component_utils(hmc_link_status)
-	
 	function new ( string name="hmc_link_status", uvm_component parent );
 		super.new(name, parent);
 	endfunction : new
 
 	function void reset();//--TODO power down reset?
-		lanes_locked	= new[NUM_LANES];
-		lanes_aligned	= new[NUM_LANES];
+		lanes_locked	= new[num_lanes];
+		lanes_aligned	= new[num_lanes];
 		lanes_polarity	= {16{1'b0}};
-		lanes_nonzero	= new[NUM_LANES];
-		for (int i=0; i < NUM_LANES; i++) begin
+		lanes_nonzero	= new[num_lanes];
+		
+		for (int i=0; i < num_lanes; i++) begin
 			lanes_locked[i]		= 0;
 			lanes_aligned[i]	= 0;
 			lanes_polarity[i] 	= 0;
-			lanes_nonzero[i] 	= 0;
-			lane_reversed 		= 0;
+			lanes_nonzero[i] 	= 0;	
 		end
 
 		num_lanes_locked 	= 0;
-
+		lane_reversed 		= 0;
 		first_null_detected = 0;
 		null_after_ts1_seen = 0;
 		error_abort_mode 	= 0;
@@ -89,8 +87,8 @@ class hmc_link_status#(NUM_LANES = 16) extends uvm_component;
 	endfunction : get_next_sequence_number
 
 	function bit get_all_lanes_locked();
-		all_lanes_locked = num_lanes_locked == NUM_LANES;
-		return num_lanes_locked == NUM_LANES;
+		all_lanes_locked = num_lanes_locked == num_lanes;
+		return num_lanes_locked == num_lanes;
 	endfunction : get_all_lanes_locked
 
 	function void set_aligned(input int lane);
@@ -103,7 +101,14 @@ class hmc_link_status#(NUM_LANES = 16) extends uvm_component;
 	endfunction : get_aligned
 
 	function bit get_all_lanes_aligned();
-		all_lanes_alligned = (lanes_aligned == lanes_locked) && (lanes_aligned == {NUM_LANES{1'b1}});
+		bit aligned_lanes;
+		aligned_lanes = 1;
+		for (int i = 0; i < num_lanes; i++) begin
+			if (lanes_aligned[i] != 1'b1) begin
+				aligned_lanes = 0;
+			end
+		end
+		all_lanes_alligned = (lanes_aligned == lanes_locked) && aligned_lanes;
 		return all_lanes_alligned;
 	endfunction : get_all_lanes_aligned
 
@@ -181,5 +186,3 @@ class hmc_link_status#(NUM_LANES = 16) extends uvm_component;
 	endfunction : report_phase
 
 endclass : hmc_link_status
-
-`endif // HMC_LINK_STATUS_SV

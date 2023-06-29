@@ -34,9 +34,9 @@ task rf_check_vseq::body();
   `uvm_info("rf_check_vseq", "Executing sequence", UVM_MEDIUM)
 
       rf_status_general_seq_h.start(m_rf_seqr);
-      //rf_status_init_mirror_seq_h.start(m_rf_seqr);
-      //rf_control_read_seq_h.start(m_rf_seqr);
-      //rf_counters_seq_h.start(m_rf_seqr);
+      rf_status_init_mirror_seq_h.start(m_rf_seqr);
+      rf_control_read_seq_h.start(m_rf_seqr);
+      rf_counters_seq_h.start(m_rf_seqr);
   
   `uvm_info("rf_check_vseq", "Sequence complete", UVM_MEDIUM)
 

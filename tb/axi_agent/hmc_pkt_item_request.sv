@@ -37,11 +37,5 @@ constraint c_zero_tail_fields {
 }
 
 
-// constraint for correct pack
-constraint c_is_ts1 {
-  is_ts1 == 0;
-}
-
-
  endclass :  hmc_pkt_item_request
 

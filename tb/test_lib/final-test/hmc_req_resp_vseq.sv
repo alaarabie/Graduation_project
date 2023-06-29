@@ -27,23 +27,21 @@ task hmc_req_resp_vseq::body();
     `uvm_info("hmc_req_resp_vseq", "Executing sequence", UVM_MEDIUM)
 
       fork 
-        begin // Thread 1 \\
-            `uvm_info("hmc_req_resp_vseq", "Executing axi_seq", UVM_MEDIUM) 
-            #1000;   
-            axi_seq_h.start(m_axi_sqr);      
-            `uvm_info("hmc_req_resp_vseq", "axi_seq complete", UVM_MEDIUM)            
-        end
+        //begin // Thread 1 \\
+        //    `uvm_info("hmc_req_resp_vseq", "Executing axi_seq", UVM_MEDIUM) 
+        //    #1000000;   
+        //    axi_seq_h.start(m_axi_sqr);      
+        //    `uvm_info("hmc_req_resp_vseq", "axi_seq complete", UVM_MEDIUM)            
+        //end
         begin // Thread 2 \\
-          repeat(200) begin
             `uvm_info("hmc_req_resp_vseq", "Executing hmc_response_seq", UVM_MEDIUM)
-            hmc_response_seq_h.start(m_seqr_hmc_agent) ;
+            hmc_response_seq_h.start(m_hmc_sqr) ;
             `uvm_info("hmc_req_resp_vseq", "hmc_response_seq complete", UVM_MEDIUM) 
-          end
         end
      
       join
 
-      #10000;
+      #2000;
 
 `uvm_info("hmc_req_resp_vseq", "Sequence complete", UVM_MEDIUM)
 

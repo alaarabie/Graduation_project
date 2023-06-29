@@ -47,6 +47,9 @@ wire            LxTXPS_pullup;
 assign          LxTXPS_pullup = (LxTXPS === 1'bz) ? 1'b1 : LxTXPS;
 wire            FERR_N_pullup;
 assign          FERR_N_pullup = (FERR_N === 1'bz) ? 1'b1 : FERR_N;
+//----------------------------- Signal Routing from SerDes to HMC
+wire [NUM_LANES-1:0] serial_Rx;
+wire [NUM_LANES-1:0] serial_Txp;
 //------------------------------ Attach the HMC Link interface
  assign HMC_IF.REFCLKP = clk_hmc_refclk;
  assign HMC_IF.REFCLKN = ~clk_hmc_refclk;
@@ -148,7 +151,7 @@ always @(posedge clk) LxTXPS_synced <= LxTXPS;
          .phy_init_cont_set(), //Can be used to release transceiver reset if used
          // hmc
          .P_RST_N(P_RST_N),
-         .LXRXPS(LXRXPS),
+         .LXRXPS(LxRXPS),
          .LXTXPS(LxTXPS_pullup),
          .FERR_N(FERR_N_pullup),
          // register file
@@ -196,6 +199,13 @@ initial begin
 end
 
 //*********** CLOCK **********//
+  initial begin
+    clk    <= 1'b1;
+    clk_hmc_refclk  <= 1'b1;
+    res_n     <= 1'b0;
+    #500ns;
+    @(posedge clk) res_n <= 1'b1;
+  end
   always begin
     case(FPW)
         2: begin

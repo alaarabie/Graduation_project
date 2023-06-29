@@ -16,8 +16,6 @@ class hmc_retry_buffer extends uvm_component;
 	`uvm_analysis_imp_decl(_return_pointer)
 	uvm_analysis_imp_return_pointer#(int, hmc_retry_buffer) return_pointer_imp;
 
-	`uvm_component_utils(hmc_retry_buffer)
-
 	function new(string name, uvm_component parent);
 		super.new(name,parent);
 		return_pointer_imp = new ("return_pointer_imp",this);

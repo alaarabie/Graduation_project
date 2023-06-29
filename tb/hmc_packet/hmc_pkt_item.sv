@@ -74,12 +74,7 @@ class hmc_pkt_item extends  uvm_sequence_item;
     `uvm_field_int      (data_invalid,     UVM_DEFAULT | UVM_NOPACK | UVM_DEC)
 
     `uvm_field_int      (poisoned,         UVM_DEFAULT | UVM_NOPACK | UVM_DEC)
-    `uvm_field_int      (crc_error,        UVM_DEFAULT | UVM_NOPACK | UVM_DEC)
-    `uvm_field_int      (is_state_item,        UVM_DEFAULT | UVM_NOPACK | UVM_DEC)
-    `uvm_field_int      (init_state,        UVM_DEFAULT | UVM_NOPACK | UVM_DEC) 
-    `uvm_field_int      (new_request,        UVM_DEFAULT | UVM_NOPACK | UVM_DEC)       
-    `uvm_field_int      (is_ts1,        UVM_DEFAULT | UVM_NOPACK | UVM_DEC)
-    `uvm_field_int      (rx_state,        UVM_DEFAULT | UVM_NOPACK | UVM_DEC)    
+    `uvm_field_int      (crc_error,        UVM_DEFAULT | UVM_NOPACK | UVM_DEC)  
   `uvm_object_utils_end
 
   //*****************************************************************************//

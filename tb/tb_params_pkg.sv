@@ -18,11 +18,11 @@ import hmc_agent_pkg::*;
   //Configure the Functionality
   parameter LOG_MAX_RX_TOKENS     = 10;    //Set the depth of the RX input buffer. Must be >= LOG(rf_rx_buffer_rtc) in the RF. Dont't care if OPEN_RSP_MODE=1
   parameter LOG_MAX_HMC_TOKENS    = 10;   //Set the depth of the HMC input buffer. Must be >= LOG of the corresponding field in the HMC internal register
-  parameter HMC_RX_AC_COUPLED     = 0;    //Set to 0 to bypass the run length limiter, saves logic and 1 cycle delay
-  parameter DETECT_LANE_POLARITY  = 0;    //Set to 0 if lane polarity is not applicable, saves logic
-  parameter CTRL_LANE_POLARITY    = 0;    //Set to 0 if lane polarity is not applicable or performed by the transceivers, saves logic and 1 cycle delay
+  parameter HMC_RX_AC_COUPLED     = 1;    //Set to 0 to bypass the run length limiter, saves logic and 1 cycle delay
+  parameter DETECT_LANE_POLARITY  = 1;    //Set to 0 if lane polarity is not applicable, saves logic
+  parameter CTRL_LANE_POLARITY    = 1;    //Set to 0 if lane polarity is not applicable or performed by the transceivers, saves logic and 1 cycle delay
                                           //If set to 1: Only valid if DETECT_LANE_POLARITY==1, otherwise tied to zero
-  parameter CTRL_LANE_REVERSAL    = 0;    //Set to 0 if lane reversal is not applicable or performed by the transceivers, saves logic
+  parameter CTRL_LANE_REVERSAL    = 1;    //Set to 0 if lane reversal is not applicable or performed by the transceivers, saves logic
   parameter CTRL_SCRAMBLERS       = 1;    //Set to 0 to remove the option to disable (de-)scramblers for debugging, saves logic
   parameter OPEN_RSP_MODE         = 0;    //Set to 1 if running response open loop mode, bypasses the RX input buffer
   parameter RX_RELAX_INIT_TIMING  = 1;    //Per default, incoming TS1 sequences are only checked for the lane independent h'F0 sequence. Save resources and
@@ -30,7 +30,7 @@ import hmc_agent_pkg::*;
   parameter RX_BIT_SLIP_CNT_LOG   = 5;    //Define the number of cycles between bit slips. Refer to the transceiver user guide
                                           //Example: RX_BIT_SLIP_CNT_LOG=5 results in 2^5=32 cycles between two bit slips
   parameter SYNC_AXI4_IF          = 1;    //Set to 1 if AXI IF is synchronous to clk_hmc to use simple fifos
-  parameter XIL_CNT_PIPELINED     = 0;    //If Xilinx counters are used, set to 1 to enabled output register pipelining
+  parameter XIL_CNT_PIPELINED     = 1;    //If Xilinx counters are used, set to 1 to enabled output register pipelining
   //Set the direction of bitslip. Set to 1 if bitslip performs a shift right, otherwise set to 0 (see the corresponding transceiver user guide)
   parameter BITSLIP_SHIFT_RIGHT   = 1;    
   //Debug Params

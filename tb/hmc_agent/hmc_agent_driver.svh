@@ -1,4 +1,4 @@
-class hmc_agent_driver #(NUM_LANES=16) extends hmc_agent_base_driver#(NUM_LANES);
+class hmc_agent_driver#(NUM_LANES=16) extends hmc_agent_base_driver#(NUM_LANES);
 
   `uvm_component_param_utils(hmc_agent_driver#(NUM_LANES))
 
@@ -100,7 +100,7 @@ endclass : hmc_agent_driver
 // drive_lanes(input bit[NUM_LANES-1:0] new_value)
 //*******************************************************************************
 function void hmc_agent_driver::drive_lanes(input bit[NUM_LANES-1:0] new_value);
-   bit [NUM_LANES-:0] lanes_reordered; // just to handle lane reversal if needed
+   bit [NUM_LANES-1:0] lanes_reordered; // just to handle lane reversal if needed
 
    if (hmc_agent_cfg.reverse_lanes) begin // check lane reversal
       for (int i = 0; i < hmc_agent_cfg.width; i++) begin
@@ -125,8 +125,9 @@ endfunction : drive_lanes
 //*******************************************************************************
 // clear_lanes()
 //*******************************************************************************
-task clear_lanes();
-   bit empty = 1; // while lane_queues.size > 0
+task hmc_agent_driver::clear_lanes();
+   bit empty;
+   empty = 1; // while lane_queues.size > 0
    while(empty) begin
       empty = 0;
       @driver_clk;
@@ -181,7 +182,7 @@ task hmc_agent_driver::init();
    set_init_continue(); // just as if..
    //now init_continue is set
    vif.TXPS = 1'b1;
-   next_state = PRPS;
+   next_state = PRBS;
 endtask : init
 
 
@@ -231,6 +232,22 @@ endtask : null_flits
 
 
 //*******************************************************************************
+// ts1()
+//*******************************************************************************
+task hmc_agent_driver::ts1();
+   int ts1_fits = 0;
+
+   // Save the timestamp
+   ts1_timestamp = $time;
+   `uvm_info("HMC_AGENT_DRIVER_ts1()", $sformatf("Sending TS1 Sequences"),UVM_MEDIUM)
+   //wait for Requester to send NULL FLITs
+   while (!(remote_status.current_state>TS1))
+      send_ts1(256); // 16 fits per sequence number, 16 sequence numbers
+   next_state = NULL_FLITS_2;
+endtask : ts1
+
+
+//*******************************************************************************
 // null_flits_2()
 //*******************************************************************************
 task hmc_agent_driver::null_flits_2();
@@ -238,7 +255,7 @@ task hmc_agent_driver::null_flits_2();
    // send at least 32 null flits
    null_flit_count_randomization_succeeds : assert (std::randomize(null_flit_count) with {null_flit_count >= 32 && null_flit_count < 512;});
    for (int i = 0; i < null_flit_count; i++) begin
-      drive_flits(128'h0);
+      drive_flit(128'h0);
    end
    next_state = INITIAL_TRETS;
 endtask : null_flits_2

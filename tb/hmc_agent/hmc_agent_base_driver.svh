@@ -1,14 +1,14 @@
-class hmc_agent_base_driver #(NUM_LANES=16) extends uvm_driver #(hmc_pkt_item);
+class hmc_agent_base_driver#(NUM_LANES=16) extends uvm_driver#(hmc_pkt_item);
 
   `uvm_component_param_utils(hmc_agent_base_driver#(NUM_LANES))
 
   // interface and config handles
-   virtual hmc_agent_if #(NUM_LANES) vif ;
+   virtual hmc_agent_if #(NUM_LANES) vif;
    hmc_agent_config #(NUM_LANES) hmc_agent_cfg;
 
   // Forward Retry Pointer Port (connected with the Monitor)
    `uvm_analysis_imp_decl(_hmc_frp)
-   uvm_analysis_imp_hmc_frp #(hmc_pkt_item, hmc_agent_base_driver#(.DWIDTH(NUM_LANES))) hmc_frp_port;
+   uvm_analysis_imp_hmc_frp #(hmc_pkt_item, hmc_agent_base_driver#(.NUM_LANES(NUM_LANES))) hmc_frp_port;
  
   // Initial States Declaration
    init_state_t next_state = RESET;
@@ -18,7 +18,7 @@ class hmc_agent_base_driver #(NUM_LANES=16) extends uvm_driver #(hmc_pkt_item);
   // some classes to handle buffers, tokens, link status
    hmc_token_handler             token_handler;
    hmc_retry_buffer              retry_buffer;
-   hmc_link_status#(NUM_LANES)   remote_status;
+   hmc_link_status               remote_status;
 
   //?? link and driver(local) parameters (timing and other stuff)
    // hmc_link_config link_config;
@@ -144,31 +144,47 @@ class hmc_agent_base_driver #(NUM_LANES=16) extends uvm_driver #(hmc_pkt_item);
  extern task drive_tx_packet(input hmc_pkt_item pkt);
  extern function void reset_lfsr();
  extern function void step_scramblers();
- extern function bit[NUM_LANES-1:0] get_scrambler_value();
  extern function void set_init_continue(); // I2C or JTAG would configure the HMC during reset
-
+ 
  virtual function void drive_lanes(input bit[NUM_LANES-1:0] new_value);
    `uvm_info("HMC_AGENT_BASE_DRIVER_drive_lanes()",$sformatf("called virtual function drive_lanes!"), UVM_HIGH)
  endfunction : drive_lanes
 
-virtual function void write_hmc_frp(input hmc_pkt_item pkt);
-   bit [7:0] frp;
 
-   `uvm_info("HMC_AGENT_BASE_DRIVER_write_hmc_frp()", $sformatf("hmc_frp: %s with FRP %0d & size %0d",pkt.command.name(), pkt.forward_retry_ptr, pkt.length),UVM_HIGH)
-   // IRTRY and PRET do not have valid frp fields
-   if (pkt.command != IRTRY && pkt.command != PRET) begin
-      frp = pkt.forward_retry_ptr;
-      if (frp != last_frp) begin
-         frp_queue.push_back(frp);
-         last_frp = frp;
-      end
-   end
-   if (pkt.get_command_type() != FLOW_TYPE && !pkt.poisoned ) begin
-      used_tokens_does_not_overflow : assert ( used_tokens < used_tokens + pkt.length);
-      used_tokens = used_tokens + pkt.length;
-   end
-endfunction : write_hmc_frp
+ virtual function void write_hmc_frp(input hmc_pkt_item pkt);
+    bit [7:0] frp;
 
+    `uvm_info("HMC_AGENT_BASE_DRIVER_write_hmc_frp()", $sformatf("hmc_frp: %s with FRP %0d & size %0d",pkt.command.name(), pkt.forward_retry_ptr, pkt.length),UVM_HIGH)
+    // IRTRY and PRET do not have valid frp fields
+    if (pkt.command != IRTRY && pkt.command != PRET) begin
+       frp = pkt.forward_retry_ptr;
+       if (frp != last_frp) begin
+          frp_queue.push_back(frp);
+          last_frp = frp;
+       end
+    end
+    if (pkt.get_command_type() != FLOW_TYPE && !pkt.poisoned ) begin
+       used_tokens_does_not_overflow : assert ( used_tokens < used_tokens + pkt.length);
+       used_tokens = used_tokens + pkt.length;
+    end
+ endfunction : write_hmc_frp
+
+
+ //*******************************************************************************
+ // get_scrambler_value()
+ // fills out the get_scrambler_value field
+ //*******************************************************************************
+ function bit[NUM_LANES-1:0] get_scrambler_value();
+    if(hmc_agent_cfg.scramblers_enabled) begin
+       for (int i = 0; i < NUM_LANES; i++) begin
+          get_scrambler_value[i] = lfsr[i][0];
+       end
+    end else begin
+       for (int i = 0; i < NUM_LANES; i++) begin
+          get_scrambler_value = {NUM_LANES{1'b0}};
+       end
+    end
+ endfunction : get_scrambler_value
 
 endclass : hmc_agent_base_driver
 
@@ -188,10 +204,10 @@ task hmc_agent_base_driver::reset();
    init_continue = 0;
    can_continue = 0;
    // reset the retry buffer class
-   retry_buffer.reset()
+   retry_buffer.reset();
 
    //--now wait for the reset to finish
-   wait(vif.P_RST_N)
+   wait(vif.P_RST_N);
    reset_timestamp = $time();
 
    // reset is done, now begin initialization
@@ -229,12 +245,12 @@ task hmc_agent_base_driver::send_ts1(int ts1_fits); // ts1_fits: number of ts1 t
       ts1_values[lane]  = {ts1_high, ts1_middle_lane, 4'h0}; // middle lanes
    ts1_values[hmc_agent_cfg.width-1] = {ts1_high, ts1_top_lane, 4'h0}; // lane 15 or 7
 
-   while (ts1_fits > 0) begin : send TS1 flits
-      for (ts1_seq_num=0; ts1_seq_num < 16 && ts1_fits > 0; ts1_seq_num++) begin : Cycle through all the sequence numbers
-         for (int i=0; i < hmc_agent_cfg.width; i++) begin : Add the sequence number to the ts1_values
+   while (ts1_fits > 0) begin : send_TS1_flits
+      for (ts1_seq_num=0; ts1_seq_num < 16 && ts1_fits > 0; ts1_seq_num++) begin : Cycle_through_all_the_sequence_numbers
+         for (int i=0; i < hmc_agent_cfg.width; i++) begin : Add_the_sequence_number_to_the_ts1_values
             ts1_values[i][3:0] = ts1_seq_num;
-         end : Add the sequence number to the ts1_values
-         for (int i = 0; i < 16; i++) begin : Send the flits of the ts1 values
+         end : Add_the_sequence_number_to_the_ts1_values
+         for (int fit = 0; fit < 16; fit++) begin : Send_the_flits_of_the_ts1_values
             for (int lane=0; lane < hmc_agent_cfg.width; lane++) begin
                fit_val[lane] = ts1_values[lane][fit]; 
             end
@@ -245,9 +261,9 @@ task hmc_agent_base_driver::send_ts1(int ts1_fits); // ts1_fits: number of ts1 t
                drive_fit({NUM_LANES{1'b0}});
             end
             ts1_fits = ts1_fits - 1; // next iteration
-         end : Send the flits of the ts1 values
-      end : Cycle through all the sequence numbers
-   end : send TS1 flits 
+         end : Send_the_flits_of_the_ts1_values
+      end : Cycle_through_all_the_sequence_numbers
+   end : send_TS1_flits 
 endtask : send_ts1
 
 
@@ -288,7 +304,7 @@ task hmc_agent_base_driver::initial_trets();
                                        command == TRET;
                                        poisoned == 0;
                                        crc_error == 0;
-                                       return_token_cnt == tokens_to_send && return_token_count > 0;
+                                       return_token_cnt == tokens_to_send && return_token_cnt > 0;
                                        });
      send_packet(tret);
      tokens_to_send = tokens_to_send - tret.return_token_cnt; // next iteration
@@ -311,7 +327,7 @@ task hmc_agent_base_driver::send_packet(input hmc_pkt_item pkt);
    // firstly, save packet in Retry buffer if not (IRTRY, NULL, or PRET)
    // Tokens and Sequence numbers are saved in the retry buffer.
    if (pkt.command == NULL ||
-       pkt.command == PRET
+       pkt.command == PRET ||
        pkt.command == IRTRY) begin // call retry_send_packet
       packet_frp = 0;
       retry_send_packet(pkt); // ready to be sent
@@ -329,7 +345,7 @@ task hmc_agent_base_driver::send_packet(input hmc_pkt_item pkt);
             end else begin // else of line280
                tok_cnt_randomization_succeeds : assert(std::randomize(tok_cnt) with{
                                                       (tok_cnt >= 0) &&
-                                                      tok_cnt < 32
+                                                      tok_cnt < 32   &&
                                                       tok_cnt <= (used_tokens - sent_tokens);
                                                       });
             end // end of else in line 282
@@ -344,7 +360,7 @@ task hmc_agent_base_driver::send_packet(input hmc_pkt_item pkt);
          if (state != INITIAL_TRETS) begin
             sent_tokens += pkt.return_token_cnt;
          end // end of line301
-         `uvm_info("HMC_AGENT_BASE_DRIVER_send_packet()", $sformatf("Sending CDM  %s with TRETS %d", pkt.command.name(), pkt.return_token_count), UVM_HIGH)
+         `uvm_info("HMC_AGENT_BASE_DRIVER_send_packet()", $sformatf("Sending CDM  %s with TRETS %d", pkt.command.name(), pkt.return_token_cnt), UVM_HIGH)
          retry_send_packet(pkt);
       end // end of line299
    end // end of else in line 275
@@ -391,8 +407,8 @@ task hmc_agent_base_driver::retry_send_packet(input hmc_pkt_item pkt);
       1: copy.sequence_number = copy.sequence_number - 1; // subtract one
       1: begin
             random_SEQ_succeeds : assert(
-               std::randomize(seq_number) with { seq_number !=copy.sequence_number;});
-            copy.sequence_number = seq_number; // total random number
+               std::randomize(seq_num) with { seq_num !=copy.sequence_number;});
+            copy.sequence_number = seq_num; // total random number
          end
       endcase
       `uvm_info("HMC_AGENT_BASE_DRIVER_retry_send_packet()",$sformatf("injecting SEQ error in CMD %s and FRP %d",copy.command.name(), copy.forward_retry_ptr), UVM_HIGH)
@@ -479,7 +495,7 @@ task hmc_agent_base_driver::drive_flit(input bit [127:0] flit);
       fits[i/hmc_agent_cfg.width][i%hmc_agent_cfg.width] = flit[i];
    end
    for (int i = 0; i < 128/hmc_agent_cfg.width; i++) begin
-      drive_fit(flits[i])
+      drive_fit(fits[i]);
    end
 endtask : drive_flit
 
@@ -625,7 +641,7 @@ task hmc_agent_base_driver::send_irtry(input bit start, input bit clear);
 
    pret_randomization : assert (irtry.randomize() with {command == IRTRY;
                                 start_retry == start;
-                                clear_error_abort == clear});
+                                clear_error_abort == clear;});
    send_packet(irtry);
 endtask : send_irtry
 
@@ -672,28 +688,11 @@ endtask : send_retry_packets
 function void hmc_agent_base_driver::reset_lfsr();
    for (int i = 0; i < NUM_LANES; i++) begin
       if(hmc_agent_cfg.reverse_lanes)
-         lsfr[i] = lfsr_seed[NUM_LANES-1-i]; //reverse lane by lane
+         lfsr[i] = lfsr_seed[NUM_LANES-1-i]; //reverse lane by lane
       else
-         lsfr[i] = lfsr_seed[i];
+         lfsr[i] = lfsr_seed[i];
    end
 endfunction : reset_lfsr
-
-
-//*******************************************************************************
-// get_scrambler_value()
-// fills out the get_scrambler_value field
-//*******************************************************************************
-function bit[NUM_LANES-1:0] hmc_agent_base_driver::get_scrambler_value();
-   if(hmc_agent_cfg.scramblers_enabled) begin
-      for (int i = 0; i < NUM_LANES; i++) begin
-         get_scrambler_value[i] = lfsr[i][0];
-      end
-   end else begin
-      for (int i = 0; i < NUM_LANES; i++) begin
-         get_scrambler_value = {NUM_LANES{1'b0}};
-      end
-   end
-endfunction : get_scrambler_value
 
 
 //*******************************************************************************

@@ -66,7 +66,7 @@ class hmc_transaction_mon extends uvm_monitor;
 					end
 					else 
 						`uvm_fatal("HMC_TRANSACTION_MON_write_hmc_rrp()",$sformatf("Cant find RRP %d in retry buffer", rrp))
-				end while (current_packet.forward_retry_pointer != rrp);
+				end while (current_packet.forward_retry_ptr != rrp);
 			end else 
 			`uvm_info("HMC_TRANSACTION_MON_write_hmc_rrp()",$sformatf("retry buffer is empty, can not find matching rrp (%0d)", rrp), UVM_HIGH)
 			last_rrp = rrp;
@@ -107,7 +107,7 @@ function void hmc_transaction_mon::tag_handling(hmc_pkt_item packet);
 	end
 	
 	if (packet.get_command_type() 	== RESPONSE_TYPE &&
-					 packet.command != ERROR_RESPONSE &&
+					 packet.command != ERROR_RS &&
 					!packet.poisoned)
 	begin
 		tag_mon.release_tag(packet.tag);

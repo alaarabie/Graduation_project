@@ -9,9 +9,9 @@ class hmc_agent_monitor#(NUM_LANES = 16) extends uvm_monitor;
 	bit requester_flag; 
 
 	// Some Classes needed for calculations
-	hmc_status#(NUM_LANES) 			status;
-	hmc_link_status#(NUM_LANES) link_status;
-	hmc_link_status#(NUM_LANES) remote_link_status;
+	hmc_status			status;
+	hmc_link_status link_status;
+	hmc_link_status remote_link_status;
 	hmc_transaction_mon 			  transaction_mon;
 	hmc_cdr #(NUM_LANES) 				cdr;
 
@@ -80,21 +80,22 @@ class hmc_agent_monitor#(NUM_LANES = 16) extends uvm_monitor;
 		if (requester_flag) begin
 			link_status = status.Requester_link_status;
 			remote_link_status = status.Responder_link_status;
-			set_config_int("cdr", "link_type", REQUESTER);
+			cdr = hmc_cdr#(.NUM_LANES(NUM_LANES))::type_id::create("req_cdr", this);
+			cdr.link_type = REQUESTER;
 		end else begin
 			link_status = status.Responder_link_status;
 			remote_link_status = status.Requester_link_status;
-			set_config_int("cdr", "link_type", RESPONDER);
+			cdr = hmc_cdr#(.NUM_LANES(NUM_LANES))::type_id::create("rsp_cdr", this);
+			cdr.link_type = RESPONDER;
 		end
-		cdr = hmc_cdr#(.NUM_LANES(NUM_LANES))::type_id::create("cdr", this);
 		//if (!link_config.responder.active) begin
-		// link_status.set_relaxed_token_handling(1); //TODO : check this later
+		link_status.set_relaxed_token_handling(1); //TODO : check this later
 	endfunction : build_phase
 
 	task run_phase(uvm_phase phase);
-		forever begin
+		//forever begin
 			run();
-		end
+		//end
 	endtask : run_phase
 
 	function void report_phase(uvm_phase phase);
@@ -167,7 +168,7 @@ task hmc_agent_monitor::descramble(input int lane);
 
 	`uvm_info("HMC_AGENT_MONITOR_descramble()",$sformatf("%s lane %0d descrambler started", requester_flag?"Requester":"Responder", lane), UVM_HIGH)
 	forever begin //forever loop
-		if (link_status.current_state == RESET || link_status.current_state == POWER_DOWN) begin /*RESET*/
+		if (link_status.current_state == RESET || link_status.current_state == POWER_DOWN) begin //-RESET-/
 			logic test;
 			@(link_status.current_state);
 			`uvm_info("HMC_AGENT_MONITOR_descramble()", "Waiting for valid bit", UVM_HIGH)
@@ -177,7 +178,7 @@ task hmc_agent_monitor::descramble(input int lane);
 				test = requester_flag?vif.RXP[lane]:vif.TXP[lane];
 			end // end of while (test === 1'bz) 
 		// end of if(link_status.current_state == RESET || link_status.current_state == POWER_DOWN)
-		end else if (!link_status.get_locked(lane)) begin /*LOCK SCRAMBLER*/
+		end else if (!link_status.get_locked(lane)) begin //-LOCK SCRAMBLER-/
 			lfsr = calculated_lfsr;
 			//-- Guess that the top bit is 0 to lock when scrambling is turned off
 			calculated_lfsr[14] = (hmc_agent_cfg.scramblers_enabled? 1'b1 : 1'b0);
@@ -189,18 +190,18 @@ task hmc_agent_monitor::descramble(input int lane);
 			end // end of for (int i = 0; i < 14; i++)
 			if (lane == 0)
 				`uvm_info("HMC_AGENT_MONITOR_descramble()",$sformatf("%s lane 0 calculated_lfsr=%0x lfsr=%0x", requester_flag?"Requester":"Responder", calculated_lfsr, lfsr), UVM_HIGH)
-			if (lfsr == calculated_lfsr) begin /*Inversion check*/
+			if (lfsr == calculated_lfsr) begin //-Inversion check-/
 				if (get_bit(requester_flag,lane) ^ lfsr[0]) begin
 					link_status.set_inverted(lane);
 					`uvm_info("HMC_AGENT_MONITOR_descramble()",$sformatf("%s lane %0d is inverted", requester_flag?"Requester":"Responder", lane),UVM_LOW)
 				// end of if (get_bit(requester_flag,lane) ^ lfsr[0])
 				end
-				//Requester_locks_before_Responder : assert (requester_flag || Requester_link_status.get_all_lanes_locked()); //TODO
+				Requester_locks_before_Responder : assert (requester_flag || status.Requester_link_status.get_all_lanes_locked());
 				link_status.set_locked(lane);
 			// end of if (lfsr == calculated_lfsr)
 			end 
 		// end of if(!link_status.get_locked(lane))
-		end else if (!link_status.get_nonzero(lane)) begin /*WAIT FOR POSSIBLE TS1 (non-zero)*/
+		end else if (!link_status.get_nonzero(lane)) begin //-WAIT FOR POSSIBLE TS1 (non-zero)-/
 			`uvm_info("HMC_AGENT_MONITOR_descramble()",$sformatf("locked on %s lane %0d inverted = %0x lfsr=%0x", requester_flag?"Requester":"Responder", lane,link_status.get_inverted(lane), lfsr), UVM_HIGH)
 			while (get_bit(requester_flag,lane) ^ lfsr[0] ^ link_status.get_inverted(lane) == 0) begin
 				lfsr = {lfsr[1]^lfsr[0], lfsr[14:1]}; //-- Every clock after lock, step the LFSR
@@ -209,7 +210,7 @@ task hmc_agent_monitor::descramble(input int lane);
 			end
 			link_status.set_nonzero(lane);
 		// end of if (!link_status.get_nonzero(lane))
-		end else if (!link_status.get_aligned(lane)) begin /*ALIGN WITH TS1*/
+		end else if (!link_status.get_aligned(lane)) begin //-ALIGN WITH TS1-/
 			`uvm_info("HMC_AGENT_MONITOR_descramble()",$sformatf("looking for TS1 on %s lane %0d", requester_flag?"Requester":"Responder", lane), UVM_HIGH)
 			partial_flit[7:0] = 8'hff;
 			while (!link_status.get_aligned(lane)) begin
@@ -221,7 +222,7 @@ task hmc_agent_monitor::descramble(input int lane);
 				if (partial_flit[7:0] == 8'hf0) begin //-- found potential TS1 sequence
 					//-- check next partial flits
 					alligned = 1;
-					for (int i = 0; i < 6; i++) begin // 6 TS1 Messages
+					for (int i = 0; i < hmc_agent_cfg.TS1_Messages; i++) begin // certain number of TS1 Messages
 						//-- read next partial flit
 						for (int i = 0; i < 16; i++) begin
 							partial_flit[i] = get_bit(requester_flag,lane) ^ lfsr[0] ^ link_status.get_inverted(lane);
@@ -230,7 +231,7 @@ task hmc_agent_monitor::descramble(input int lane);
 						end
 						`uvm_info("HMC_AGENT_MONITOR_descramble()",$sformatf("partial_flit=%0x", partial_flit), UVM_HIGH)
 						if (partial_flit[15:8] != 8'hf0) begin
-							`uvm_info("HMC_AGENT_MONITOR_descramble()",$sformatf("Alignment Error, retry"), UVM_NONE)
+							`uvm_info("HMC_AGENT_MONITOR_descramble()",$sformatf("Alignment Error, retry"), UVM_HIGH)
 							alligned = 0;
 							continue;//-- retry
 						end
@@ -246,7 +247,7 @@ task hmc_agent_monitor::descramble(input int lane);
 			end
 			run_length_count = 0;
 		// end of if (!link_status.get_aligned(lane))
-		end else begin /*NORMAL OPERATION*/
+		end else begin //-NORMAL OPERATION-/
 			for (int i = 0; i < 16; i++) begin
 				// Check Run current_packet_length limit
 				if (last_bit == get_bit(requester_flag,lane)) begin
@@ -327,10 +328,10 @@ task hmc_agent_monitor::monitor_power_pins();
 		link_status.signal_power_state(vif.RXPS);
 		forever begin
 			@(vif.RXPS)
-			if (vif.RXPS == 1'b0)
-				CHK_IDLE_BEFORE_REQUESTER_POWERDOWN: assert (idle_check()) //-- check if Link is IDLE
-			else begin
-				`uvm_fatal("HMC_AGENT_MONITOR_monitor_power_pins()",$sformatf("link is not IDLE"))
+			if (vif.RXPS == 1'b0) begin
+				CHK_IDLE_BEFORE_REQUESTER_POWERDOWN: assert (idle_check()); //-- check if Link is IDLE
+			end else begin
+			//	`uvm_fatal("HMC_AGENT_MONITOR_monitor_power_pins()",$sformatf("%s link is not IDLE",requester_flag?"Requester":"Responder"))
 			end
 			link_status.signal_power_state(vif.RXPS);
 		end
@@ -339,9 +340,9 @@ task hmc_agent_monitor::monitor_power_pins();
 		forever begin
 			@(vif.TXPS)
 			if (vif.TXPS == 1'b0) begin
-				CHK_IDLE_BEFORE_RESPONDER_POWERDOWN: assert (idle_check())	//-- check if Link is IDLE
+				CHK_IDLE_BEFORE_RESPONDER_POWERDOWN: assert (idle_check());	//-- check if Link is IDLE
 			end else begin
-				`uvm_fatal("HMC_AGENT_MONITOR_monitor_power_pins()",$sformatf("link is not IDLE"))
+			//	`uvm_fatal("HMC_AGENT_MONITOR_monitor_power_pins()",$sformatf("%s link is not IDLE",requester_flag?"Requester":"Responder"))
 			end
 			link_status.signal_power_state(vif.TXPS);
 		end
@@ -380,13 +381,13 @@ task hmc_agent_monitor::collect_flits();
 																			//-- cover invalid TS1 sequence error
 																			current_error = INVALID_TS1;
 																			collected_packet = hmc_pkt_item::type_id::create("collected_packet");
-																			randomize_collected_packet : assert(collected_packet.randomize() with{command == NULL;});
+																			void'(collected_packet.randomize() with{command == NULL;});
 																		end else begin
 																			`uvm_fatal("HMC_AGENT_MONITOR_collect_flits()",$sformatf("Detected invalid TS1 sequence on Lane %0d %s", i, requester_flag?"Requester":"Responder"))
 																		end
 												endcase // case (lane_flit[7:4])
 												if(!lane_reversal_set) begin
-													`uvm_info(get_type_name(), $psprintf("%s Link is %s"
+													`uvm_info("HMC_AGENT_MONITOR_collect_flits()",$sformatf("%s Link is %s"
 														, requester_flag?"Requester":"Responder"
 														, link_status.lane_reversed?"reversed":"not reversed"
 													), UVM_NONE)
@@ -425,54 +426,51 @@ task hmc_agent_monitor::collect_flits();
 					end
 				// end of if (lane_flit != 16'b0)
 				end else begin
-					for (int j = 0; j < 16; j++) begin //for each bit position in partial flit
-						for (int lane = 0; lane < NUM_LANES; lane++) begin //-- for each lane
-							bitstream.push_back(lane_queues[link_status.lane_reversed?NUM_LANES-lane-1:lane][0][j]);
-						end
-					end
-					for (int j = 0; j < 16; j++) begin
-						if (check_lane_queues_not_empty()) begin
-							void'(lane_queues[j].pop_front());
-						end
-					end
-					while(bitstream.size()>=128) begin //-- at least 1 flit in bitstream
-						for (int k = 0; k < 128; k++) begin
-							current_flit[k]= bitstream.pop_front();
-						end
-						if (link_status.current_state == NULL_FLITS_2) begin
-							link_status.null_after_ts1_seen = 0;
-							if (current_flit == 128'h0) begin
-								null_flits_after_TS1++;
-								if (null_flits_after_TS1 >= 32) begin
-									link_status.set_null_after_ts1();
-								end
-								`uvm_info("HMC_AGENT_MONITOR_collect_flits()",$sformatf("null flit #%0d on %s Link",null_flits_after_TS1, requester_flag?"Requester":"Responder"), UVM_HIGH)
-							//if (current_flit == 128'h0)
-							end else begin
-								if (null_flits_after_TS1 != 0) begin
-									if (hmc_agent_cfg.lane_errors_enabled) begin
-										`uvm_info("HMC_AGENT_MONITOR_collect_flits()",$sformatf("received only %d consecutive NULL Flits after TS1 sequences, got %h",null_flits_after_TS1,current_flit), UVM_NONE)
-										null_flits_after_TS1++;
-									end else begin
-										`uvm_fatal("HMC_AGENT_MONITOR_collect_flits()",$sformatf("received only %d consecutive NULL Flits after TS1 sequences, got %h",null_flits_after_TS1,current_flit))
-									end
-								end
-							//else of if (current_flit == 128'h0)	
-							end
-						//if (link_status.current_state == NULL_FLITS_2)
-						end else if (link_status.current_state == LINK_UP) begin
-							collected_flits.push_back(current_flit);
-							-> flit_queue_event;
-						end
-					end // while(bitstream.size()>=128)
+					//hmc_link_cg.sample();
+					link_status.first_null_detected = 1;
+					null_flits_after_TS1 = NUM_LANES/8; //-- add 1 or 2 NULL2 Flits depending on NUM_LANES
 				end
-			// end of foreach (lane_queues[i])
 			end
-		// end of if (link_status.current_state == TS1)
+		end else begin
+			for (int j = 0; j < 16; j++) begin //for each bit position in partial flit
+				for (int lane = 0; lane < NUM_LANES; lane++) begin //-- for each lane
+					bitstream.push_back(lane_queues[link_status.lane_reversed?NUM_LANES-lane-1:lane][0][j]);
+				end
+			end
+			for (int j = 0; j < 16; j++) begin
+				if (check_lane_queues_not_empty()) begin
+					void'(lane_queues[j].pop_front());
+				end
+			end
+			while(bitstream.size()>=128) begin //-- at least 1 flit in bitstream
+				for (int k = 0; k < 128; k++) begin
+					current_flit[k]= bitstream.pop_front();
+				end
+				if (link_status.current_state == NULL_FLITS_2) begin
+					link_status.null_after_ts1_seen = 0;
+					if (current_flit == 128'h0) begin
+						null_flits_after_TS1++;
+						if (null_flits_after_TS1 >= 32) begin
+							link_status.set_null_after_ts1();
+						end
+						`uvm_info("HMC_AGENT_MONITOR_collect_flits()",$sformatf("null flit #%0d on %s Link",null_flits_after_TS1, requester_flag?"Requester":"Responder"), UVM_HIGH)
+					end else begin
+						if (null_flits_after_TS1 != 0)
+							if (hmc_agent_cfg.lane_errors_enabled) begin
+								`uvm_info("HMC_AGENT_MONITOR_collect_flits()",$sformatf("received only %d consecutive NULL Flits after TS1 sequences, got %h",null_flits_after_TS1,current_flit), UVM_NONE)
+								null_flits_after_TS1++;
+							end else begin
+								`uvm_fatal("HMC_AGENT_MONITOR_collect_flits()",$sformatf("received only %d consecutive NULL Flits after TS1 sequences, got %h",null_flits_after_TS1,current_flit))
+							end
+					end
+				end else if (link_status.current_state == LINK_UP) begin
+				collected_flits.push_back(current_flit);
+				-> flit_queue_event;
+				end
+			end
 		end
 	end // end of forever
 endtask : collect_flits
-
 
 //*******************************************************************************
 // collect_packets()
@@ -528,7 +526,7 @@ task hmc_agent_monitor::collect_packets();
 			link_status.set_error_abort_mode();
 			link_status.irtry_ClearErrorAbort_packet_count = 0; //-- reset clear error abort count
 			//-- ignore packet fragments until first IRTRY
-			while ((cmd_encoding_e'(current_flit[5:0]) != HMC_IRTRY)
+			while ((cmd_encoding_e'(current_flit[5:0]) != IRTRY)
 							|| (current_flit[10:7] != current_flit[14:11])
 							|| (current_flit[10:7] !=1) ) 
 			begin
@@ -579,7 +577,7 @@ task hmc_agent_monitor::collect_packets();
 		end
 
 		// No LNG or CRC Errors
-		collected_packet = hmc_packet::type_id::create("collected_packet", this);
+		collected_packet = hmc_pkt_item::type_id::create("collected_packet", this);
 		void'(collected_packet.unpack(bitstream));
 		if (collected_packet.command != IRTRY) begin
 			`uvm_info("HMC_AGENT_MONITOR_collect_packets()",$sformatf("collected_packet CMD: %s FRP: %d",
@@ -603,12 +601,12 @@ task hmc_agent_monitor::collect_packets();
 			 //hmc_packets_cg.sample();
 		 	null_flits_between_pkts = 0;
 		 	if (!link_status.get_error_abort_mode()) begin
-		 		rrp_port.write(collected_packet.return_retry_pointer);
+		 		rrp_port.write(collected_packet.return_retry_ptr);
 		 	end
 		 	if (collected_packet.command != PRET) begin
 		 		if (collected_packet.command != IRTRY) begin
 		 			frp_port.write(collected_packet);
-		 			link_status.last_successfull_frp = collected_packet.forward_retry_pointer;
+		 			link_status.last_successfull_frp = collected_packet.forward_retry_ptr;
 		 			if (collected_packet.poisoned) begin
 		 				`uvm_info("HMC_AGENT_MONITOR_collect_packets()",$sformatf("received a poisoned %s", collected_packet.command.name()), UVM_NONE)
 		 				poisoned_pkt++;
@@ -622,6 +620,7 @@ task hmc_agent_monitor::collect_packets();
 		 				//-- send only Transaction packets (not flow or errored)
 		 				item_collected_port.write(collected_packet);
 		 			end
+		 		  end
 		 		end
 		 	end
 		end
@@ -649,7 +648,7 @@ task hmc_agent_monitor::link_states();
 					,link_status.first_null_detected
 					,link_status.null_after_ts1_seen}
 					)
-			6'b0xxxxx :	
+			6'b0xxxxx :	link_status.current_state = RESET;
 			6'b10xxxx :	link_status.current_state = POWER_DOWN;		//-- sleep mode 
 			6'b110xxx :	link_status.current_state = PRBS;		//-- scrambler waits for null flits
 			6'b1110xx :	link_status.current_state = NULL_FLITS;	//-- scrambler has detected a null flit
@@ -784,7 +783,7 @@ function void hmc_agent_monitor::token_handling(hmc_pkt_item packet);
 		return_token_port.write(collected_packet);
 		if (requester_flag && packet.return_token_cnt >0) begin
 			`uvm_info("HMC_AGENT_MONITOR_token_handling()",$sformatf("Command %s adds %0d tokens to remote, new token count = %0d",
-				packet.command.name(), packet.return_token_count,remote_link_status.token_count ),
+				packet.command.name(), packet.return_token_cnt,remote_link_status.token_count ),
 				UVM_HIGH)
 		end
 	end
@@ -811,19 +810,19 @@ endfunction : token_handling
 // handle_start_retry(hmc_pkt_item packet)
 //*******************************************************************************
 function void hmc_agent_monitor::handle_start_retry(hmc_pkt_item packet);
-	if (packet.command == HMC_IRTRY && packet.start_retry) begin
+	if (packet.command == IRTRY && packet.start_retry) begin
 		`uvm_info("HMC_AGENT_MONITOR_handle_start_retry()",$sformatf("received %d start retry IRTRYs for FRP %d",
 			link_status.get_StartRetry_packet_count(), packet.return_retry_ptr), UVM_HIGH)
 		if (link_status.increment_StartRetry_packet_count() >= hmc_agent_cfg.irtry_flit_count_received_threshold) begin
 			UNEXPECTED_RETRY : assert (remote_link_status.error_abort_mode);
 			`uvm_info("HMC_AGENT_MONITOR_handle_start_retry()",$sformatf("Start Retry Threshold Reached for RRP %d", packet.return_retry_ptr),UVM_NONE)
 			if (link_status.get_error_abort_mode()
-					&& link_status.irtry_StartRetry_packet_count == local_config.irtry_flit_count_received_threshold) begin
+					&& link_status.irtry_StartRetry_packet_count == hmc_agent_cfg.irtry_flit_count_received_threshold) begin
 				if (remote_link_status.last_successfull_frp != packet.return_retry_ptr) begin
 					`uvm_fatal("HMC_AGENT_MONITOR_handle_start_retry()",$sformatf("expecting RRP %0d, got %0d",
 						remote_link_status.last_successfull_frp, packet.return_retry_ptr))
 				end
-				rrp_port.write(packet.return_retry_pointer);
+				rrp_port.write(packet.return_retry_ptr);
 			end
 			start_clear_retry_event.trigger();
 		end

@@ -21,7 +21,7 @@ class hmc_token_handler extends uvm_component;
 
 
 	function void write_tokens(input hmc_pkt_item packet);
-		`uvm_info("HMC_TOKEN_HANDLER_write_tokens()", $sformatf("write_tokens received %0d available_tokens = %0d", packet.return_token_count, available_tokens), UVM_HIGH)
+		`uvm_info("HMC_TOKEN_HANDLER_write_tokens()", $sformatf("write_tokens received %0d available_tokens = %0d", packet.return_token_cnt, available_tokens), UVM_HIGH)
 		available_tokens = available_tokens + packet.return_token_cnt;
 	endfunction : write_tokens
 

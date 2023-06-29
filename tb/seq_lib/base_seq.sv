@@ -10,6 +10,9 @@ class base_seq extends  uvm_sequence #(uvm_sequence_item);
   rand uvm_reg_data_t data;  // For passing data
   uvm_status_e status;       // Returning access status
 
+  hmc_pkt_item request_queue[$]; // store requests
+  event item_available;
+
   extern function new (string name = "");
   extern task body();
 

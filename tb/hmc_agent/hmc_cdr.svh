@@ -36,7 +36,7 @@ class hmc_cdr #(NUM_LANES = 16) extends uvm_component;
 				end
 				// THREAD A2
 				begin
-					timeout_length = link_config.bit_time;
+					timeout_length = hmc_agent_cfg.bit_time;
 					forever begin
 						fork
 							// THREAD B1

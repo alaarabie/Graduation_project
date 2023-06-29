@@ -8,12 +8,12 @@ class hmc_agent#(NUM_LANES = 16) extends uvm_agent;
   uvm_analysis_port #(hmc_pkt_item) hmc_rsp_ap ;  
 
   hmc_agent_sequencer m_sqr ;
-  driver_hmc_agent#(NUM_LANES) m_driver ;
+  hmc_agent_driver#(NUM_LANES) m_driver ;
   hmc_agent_monitor#(NUM_LANES) m_req_monitor ;
   hmc_agent_monitor#(NUM_LANES) m_rsp_monitor ;
 
   // Additional classes
-  hmc_status#(NUM_LANES)  h_status;
+  hmc_status              h_status;
   hmc_token_handler       token_handler;
   hmc_retry_buffer        retry_buffer;
   hmc_tag_mon             tag_mon;
@@ -40,7 +40,7 @@ class hmc_agent#(NUM_LANES = 16) extends uvm_agent;
       token_handler = hmc_token_handler::type_id::create("token_handler",this);
       retry_buffer  = hmc_retry_buffer::type_id::create("retry_buffer",this);
       
-      m_driver = driver_hmc_agent#(NUM_LANES)::type_id::create("m_driver",this);
+      m_driver = hmc_agent_driver#(NUM_LANES)::type_id::create("m_driver",this);
       m_driver.hmc_agent_cfg = m_cfg;
       m_driver.token_handler = token_handler;
       m_driver.retry_buffer  = retry_buffer;
@@ -59,14 +59,14 @@ class hmc_agent#(NUM_LANES = 16) extends uvm_agent;
       req_transaction_mon.tag_mon = tag_mon;
     end
 
-
+    
   	m_req_monitor = hmc_agent_monitor#(NUM_LANES)::type_id::create("m_req_monitor",this);
     m_req_monitor.hmc_agent_cfg   = m_cfg;
-    m_req_monitor.status          = h_status;
     m_req_monitor.requester_flag  = 1;
+    m_req_monitor.status          = h_status;
     m_req_monitor.transaction_mon = rsp_transaction_mon;
 
-    m_rsp_monitor = hmc_agent_monitor#(NUM_LANES)::type_id::create("m_req_monitor",this);
+    m_rsp_monitor = hmc_agent_monitor#(NUM_LANES)::type_id::create("m_rsp_monitor",this);
     m_rsp_monitor.hmc_agent_cfg   = m_cfg;
     m_rsp_monitor.status          = h_status;
     m_rsp_monitor.requester_flag  = 0;   
@@ -80,7 +80,7 @@ class hmc_agent#(NUM_LANES = 16) extends uvm_agent;
       m_driver.seq_item_port.connect(m_sqr.seq_item_export);
 
       m_driver.remote_status = m_rsp_monitor.remote_link_status;
-      driver.start_clear_retry_event = m_rsp_monitor.start_clear_retry_event;
+      m_driver.start_clear_retry_event = m_rsp_monitor.start_clear_retry_event;
 
       m_rsp_monitor.frp_port.connect(m_driver.hmc_frp_port);
       m_rsp_monitor.return_token_port.connect(token_handler.token_imp);

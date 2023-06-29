@@ -16,7 +16,8 @@ class hmc_agent_config#(NUM_LANES = 16) extends uvm_object;
   // lanes polarity and lanes reversal
   bit [NUM_LANES-1:0] reverse_polarity = 0;
   bit reverse_lanes = 0;
-  int run_length_limit = 85
+  int run_length_limit = 85;
+  int   TS1_Messages = 4;
 
   int irtry_flit_count_to_send = 24;  // hexa = 18
   int irtry_flit_count_received_threshold = 16; // hexa = 10

@@ -36,7 +36,6 @@
  *
  *
  */
-
 module deserializer #(
 	parameter LOG_DWIDTH=7,
 	parameter DWIDTH=64
@@ -70,7 +69,7 @@ always @ (posedge fast_clk) begin
 		bit_slip_done 	<= 1'b0;
 	end else begin	
 		
-		d_in_dly <= data_in; // had a delay #1ps here
+		d_in_dly <= data_in;
 
 		if (!bit_slip || bit_slip_done) begin
 			if(curr_bit == DWIDTH-1) begin
