@@ -10,21 +10,22 @@ class hmc_response_seq extends base_seq;
   endfunction : new
 
   task body() ;
+    hmc_pkt_item req = hmc_pkt_item::type_id::create("req");
+    hmc_pkt_item rsp = hmc_pkt_item::type_id::create("rsp");
     super.body();
-    // wait for axi to finish adding requests
-    @(item_available);
-    // Creating responses from axi requests
-    for (int i = 0; i < request_queue.size(); i++) begin
-      create_response_packet(request_queue[i]);
-    end
+
+    start_item(req);
+    finish_item(req);
+
+    // Creating responses and save inside response_queue
+    `uvm_info("HMC_RESPONSE_SEQ_body()",$sformatf("create response to request: %s @%0x",req.command.name(), req.address),UVM_MEDIUM)
+    create_response_packet(req);
  
-    // Sending the response packets from queue
-    for (int i = 0; i < response_queue.size(); i++) begin
-      response_packet = response_queue.pop_front();
-      start_item(response_packet);
-      // here will wait for driver to take the item
-      finish_item(response_packet);
-    end
+    // Sending the response packet from queue
+    start_item(rsp);
+    rsp = response_queue.pop_front();
+    `uvm_info("HMC_RESPONSE_SEQ_body()",$sformatf("Sending Response %s @%0x",rsp.command.name(), rsp.address),UVM_MEDIUM)
+    finish_item(rsp);
   endtask : body
 
   extern task create_response_packet(hmc_pkt_item request);
@@ -43,7 +44,7 @@ task hmc_response_seq::create_response_packet(hmc_pkt_item request);
   bit [127:0] rand_flit;
   bit [127:0] payload_flits [$];
 
-  `uvm_info("HMC_RESPONSE_SEQ_create_response_packet()",$sformatf("Generating response for a %s @%0x",request.command.name(), request.address),UVM_HIGH)
+  `uvm_info("HMC_RESPONSE_SEQ_create_response_packet()",$sformatf("Generating response for a %s @%0x",request.command.name(), request.address),UVM_MEDIUM)
   response = hmc_pkt_item::type_id::create("response");
 
   //void'(this.randomize(error_response));

@@ -9,6 +9,9 @@ class hmc_agent_base_driver#(NUM_LANES=16) extends uvm_driver#(hmc_pkt_item);
   // Forward Retry Pointer Port (connected with the Monitor)
    `uvm_analysis_imp_decl(_hmc_frp)
    uvm_analysis_imp_hmc_frp #(hmc_pkt_item, hmc_agent_base_driver#(.NUM_LANES(NUM_LANES))) hmc_frp_port;
+  // Take request packet from driver
+  `uvm_analysis_imp_decl(_request)
+   uvm_analysis_imp_request #(hmc_pkt_item, hmc_agent_base_driver#(.NUM_LANES(NUM_LANES))) request_import;
  
   // Initial States Declaration
    init_state_t next_state = RESET;
@@ -20,18 +23,15 @@ class hmc_agent_base_driver#(NUM_LANES=16) extends uvm_driver#(hmc_pkt_item);
    hmc_retry_buffer              retry_buffer;
    hmc_link_status               remote_status;
 
-  //?? link and driver(local) parameters (timing and other stuff)
-   // hmc_link_config link_config;
-   // hmc_local_link_config local_config;
-
   //-- Packets to send
    hmc_pkt_item packet_queue[$];
+   hmc_pkt_item request_queue[$];
 
   //?? a queue of each lane
    typedef bit lane_queue [$];
    lane_queue lane_queues [NUM_LANES]; 
 
-  //?? Events (I think they aren't needed for now)
+  // Events
    event driver_clk;
    uvm_event start_clear_retry_event;
 
@@ -114,8 +114,8 @@ class hmc_agent_base_driver#(NUM_LANES=16) extends uvm_driver#(hmc_pkt_item);
 
   function void build_phase(uvm_phase phase);
      	if(!uvm_config_db #(hmc_agent_config#(NUM_LANES))::get(this, "","hmc_agent_config_t", hmc_agent_cfg))
-     		`uvm_fatal("HMC_AGENT_DRIVER","Failed to get vif")
-        vif = hmc_agent_cfg.vif ;
+     		`uvm_fatal("HMC_AGENT_BASE_DRIVER","Failed to get hmc_agent_cfg")
+        vif = hmc_agent_cfg.int_vif ;
   endfunction : build_phase
 
   virtual task run_phase(uvm_phase phase);
@@ -170,6 +170,12 @@ class hmc_agent_base_driver#(NUM_LANES=16) extends uvm_driver#(hmc_pkt_item);
  endfunction : write_hmc_frp
 
 
+  virtual function void write_request(input hmc_pkt_item pkt);
+    `uvm_info("HMC_AGENT_BASE_DRIVER_write_request()", $sformatf("request: %s",pkt.command.name()),UVM_MEDIUM)
+    request_queue.push_back(pkt);
+ endfunction : write_request
+
+
  //*******************************************************************************
  // get_scrambler_value()
  // fills out the get_scrambler_value field
@@ -222,7 +228,7 @@ endtask : reset
 task hmc_agent_base_driver::clk_gen(); // not sure what's the point of driver clk
    @(posedge vif.REFCLKP);
    forever begin
-      #100ps -> driver_clk; // 10Gbit speed
+      #hmc_agent_cfg.bit_time -> driver_clk; // 10Gbit speed
    end
 endtask : clk_gen
 
@@ -235,7 +241,7 @@ task hmc_agent_base_driver::send_ts1(int ts1_fits); // ts1_fits: number of ts1 t
     // four bit counter that increments from 0 to 15 with each successive TS1
     // sent on a lane. Sequence value will roll back to 0 after 15 is reached
     bit [4:0] ts1_seq_num; 
-    bit [NUM_LANES-1:0] fit_val; //??
+    bit [NUM_LANES-1:0] fit_val;
     bit [15:0] ts1_values [NUM_LANES-1:0]; //ts1 word value for each lane
 
     // filling the lane by lane TS1 word depending on width configuration
@@ -244,13 +250,16 @@ task hmc_agent_base_driver::send_ts1(int ts1_fits); // ts1_fits: number of ts1 t
     for (int lane=1; lane < hmc_agent_cfg.width-1; lane++)
       ts1_values[lane]  = {ts1_high, ts1_middle_lane, 4'h0}; // middle lanes
    ts1_values[hmc_agent_cfg.width-1] = {ts1_high, ts1_top_lane, 4'h0}; // lane 15 or 7
-
-   while (ts1_fits > 0) begin : send_TS1_flits
-      for (ts1_seq_num=0; ts1_seq_num < 16 && ts1_fits > 0; ts1_seq_num++) begin : Cycle_through_all_the_sequence_numbers
-         for (int i=0; i < hmc_agent_cfg.width; i++) begin : Add_the_sequence_number_to_the_ts1_values
+   //Send some (possibly incomplete) TS1 flits
+   while (ts1_fits > 0) begin
+      // Cycle through all the sequence numbers
+      for (ts1_seq_num=0; ts1_seq_num < 16 && ts1_fits > 0; ts1_seq_num++) begin
+         // Add the sequence number to the ts1_values
+         for (int i=0; i < hmc_agent_cfg.width; i++) begin
             ts1_values[i][3:0] = ts1_seq_num;
-         end : Add_the_sequence_number_to_the_ts1_values
-         for (int fit = 0; fit < 16; fit++) begin : Send_the_flits_of_the_ts1_values
+         end
+         // Send the fits of the ts1 values
+         for (int fit = 0; fit < 16; fit++) begin
             for (int lane=0; lane < hmc_agent_cfg.width; lane++) begin
                fit_val[lane] = ts1_values[lane][fit]; 
             end
@@ -261,9 +270,9 @@ task hmc_agent_base_driver::send_ts1(int ts1_fits); // ts1_fits: number of ts1 t
                drive_fit({NUM_LANES{1'b0}});
             end
             ts1_fits = ts1_fits - 1; // next iteration
-         end : Send_the_flits_of_the_ts1_values
-      end : Cycle_through_all_the_sequence_numbers
-   end : send_TS1_flits 
+         end
+      end
+   end
 endtask : send_ts1
 
 
@@ -304,7 +313,7 @@ task hmc_agent_base_driver::initial_trets();
                                        command == TRET;
                                        poisoned == 0;
                                        crc_error == 0;
-                                       return_token_cnt == tokens_to_send && return_token_cnt > 0;
+                                       return_token_cnt <= tokens_to_send && return_token_cnt > 0;
                                        });
      send_packet(tret);
      tokens_to_send = tokens_to_send - tret.return_token_cnt; // next iteration
@@ -546,17 +555,29 @@ endtask : link_up
 // get response packets from the sequence
 //*******************************************************************************
 task hmc_agent_base_driver::get_packets();
-   hmc_pkt_item packet;
-   // here the sequence must somehow know the requests
-   // can make a variable in the base sequence to save the requests
-   // then create their responses one by one
-   if( seq_item_port.has_do_available() ) begin // I think this if is useless
-      if( packet_queue.size() == 0) begin
-         seq_item_port.get_next_item(packet);
-         packet_queue.push_back(packet);
-         seq_item_port.item_done();
+   hmc_pkt_item request_packet;
+   hmc_pkt_item response_packet;
+
+   // check if the request_queue is empty then send requests to the sequence and return the response
+      if( request_queue.size() > 0) begin
+         if( packet_queue.size() == 0) begin
+
+            request_packet = request_queue.pop_front();
+            `uvm_info("HMC_AGENT_BASE_DRIVER_get_packets()",$sformatf("filled the request: %s",request_packet.command.name()),UVM_MEDIUM)
+
+            // give the request to the sequence
+            seq_item_port.get_next_item(request_packet);
+            seq_item_port.item_done();
+
+            // take the response from the sequence
+            seq_item_port.get_next_item(response_packet);
+            // put it inside the packet_queue
+            packet_queue.push_back(response_packet);
+            `uvm_info("HMC_AGENT_BASE_DRIVER_get_packets()",$sformatf("recieved Response: %s from seq",response_packet.command.name()),UVM_MEDIUM)
+            seq_item_port.item_done();
+            
+         end     
       end
-   end
 endtask : get_packets
 
 

@@ -81,7 +81,7 @@ virtual function void build();
  rf_map.add_reg(m_reg_sent_r,                  4'h5, "RO");
  rf_map.add_reg(m_reg_poisoned_packets,        4'h6, "RO");
  rf_map.add_reg(m_reg_rcvd_rsp,                4'h7, "RO");
- rf_map.add_reg(m_reg_counter_reset,           4'h8, "RO");
+ rf_map.add_reg(m_reg_counter_reset,           4'h8, "RW");
  rf_map.add_reg(m_reg_tx_link_retries,         4'h9, "RO");
  rf_map.add_reg(m_reg_errors_on_rx,            4'hA, "RO");
  rf_map.add_reg(m_reg_run_length_bit_flip,     4'hB, "RO");

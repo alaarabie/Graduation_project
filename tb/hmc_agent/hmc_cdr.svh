@@ -17,7 +17,6 @@ class hmc_cdr #(NUM_LANES = 16) extends uvm_component;
 		super.build_phase(phase);
 		if(!uvm_config_db#(hmc_agent_config#(NUM_LANES))::get(this, "", "hmc_agent_config_t",hmc_agent_cfg))
 			`uvm_fatal("HMC_CDR_build_phase()","Failed to get CONFIG");
-		vif = hmc_agent_cfg.vif;
 	endfunction : build_phase
 	
 	

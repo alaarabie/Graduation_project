@@ -7,6 +7,7 @@ class hmc_agent_driver#(NUM_LANES=16) extends hmc_agent_base_driver#(NUM_LANES);
    function new (string name, uvm_component parent);
       super.new(name,parent);
       hmc_frp_port = new("hmc_frp_port",this);
+      request_import = new("request_import",this);
    endfunction : new
 
 
@@ -92,6 +93,7 @@ class hmc_agent_driver#(NUM_LANES=16) extends hmc_agent_base_driver#(NUM_LANES);
    extern task null_flits_2();
    extern function void drive_lanes(input bit[NUM_LANES-1:0] new_value); 
    extern task clear_lanes();
+
 
 endclass : hmc_agent_driver
 
@@ -216,9 +218,11 @@ task hmc_agent_driver::null_flits();
 
    null_timestamp = $time();
    reset_lfsr();
+   `uvm_info("HMC_AGENT_DRIVER_null_flits()", "Driver entered NULL_FLITS state", UVM_HIGH)
    //wait for Requester to send TS1
-   while (!(remote_status.current_state > NULL_FLITS))
+   while (!(remote_status.current_state > NULL_FLITS)) begin
       drive_fit({NUM_LANES {1'b0}});
+   end
    // now requester sent ts1
    req_ts1_timestamp = $time;
    // send a bit more null flits, for at most tRESP2
@@ -237,6 +241,7 @@ endtask : null_flits
 task hmc_agent_driver::ts1();
    int ts1_fits = 0;
 
+   `uvm_info("HMC_AGENT_DRIVER_ts1()", "Driver entered TS1 state", UVM_HIGH)
    // Save the timestamp
    ts1_timestamp = $time;
    `uvm_info("HMC_AGENT_DRIVER_ts1()", $sformatf("Sending TS1 Sequences"),UVM_MEDIUM)
@@ -252,6 +257,7 @@ endtask : ts1
 //*******************************************************************************
 task hmc_agent_driver::null_flits_2();
    int null_flit_count;
+   `uvm_info("HMC_AGENT_DRIVER_null_flits_2()", "Driver entered NULL_FLITS_2 state", UVM_HIGH)
    // send at least 32 null flits
    null_flit_count_randomization_succeeds : assert (std::randomize(null_flit_count) with {null_flit_count >= 32 && null_flit_count < 512;});
    for (int i = 0; i < null_flit_count; i++) begin

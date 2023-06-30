@@ -1,13 +1,11 @@
-
 class axi_seq extends base_seq;
 
 localparam NUM_DATA_BYTES =64;
 localparam DWIDTH =512; 
 
 `uvm_object_utils(axi_seq)
-`uvm_declare_p_sequencer(axi_sequencer)
 
-int unsigned num_packets = 3;          
+int unsigned num_packets = 2;          
    
 rand hmc_pkt_item_request hmc_items[]; 
 hmc_pkt_item_request hmc_packets_ready[$];
@@ -41,7 +39,7 @@ endfunction : starting
 
 
 // assign tag field to each request packet   
-task aquire_tags();
+function void aquire_tags();
    for (int i = 0; i < hmc_items.size(); i++) 
    begin
       // only register a tag if response required >> all but posted commands
@@ -60,14 +58,12 @@ task aquire_tags();
       if (tag >= 0) begin
          `uvm_info(get_type_name(),$psprintf("HMC Packet #%0d command is: %0s tag is: %0d", i, hmc_items[i].command, hmc_items[i].tag), UVM_MEDIUM)
          hmc_packets_ready.push_back(hmc_items[i]);
-         // help to generate response
-         request_queue.push_back(hmc_items[i]);
          //working_pos = i+1;
       end else begin
       break;   //-- send all already processed AXI4 Cycles if tag_handler can not provide an additional tag
       end
    end
-endtask : aquire_tags
+ endfunction : aquire_tags 
 
    
 // pack the request packet, and divide the packet to flits
@@ -226,18 +222,14 @@ task send_axi4_cycles();
 endtask : send_axi4_cycles
    
 task body();   
-repeat (1) begin
    super.body();
-
    starting(); 
    `uvm_info(get_type_name(),$psprintf("HMC Packets to send: %0d", hmc_items.size()), UVM_MEDIUM)
    aquire_tags();
-   -> item_available;
    // send all packets with tags
    hmc_packet_2_axi_cycles();
    // send axi4_queue
    send_axi4_cycles();
-end
 endtask : body
 
 endclass : axi_seq

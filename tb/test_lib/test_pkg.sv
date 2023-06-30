@@ -16,7 +16,7 @@ package test_pkg ;
   `include "rf-reset-test/rf_reset_vseq.sv"
   `include "rf-reset-test/rf_reset_test.sv"
 
-  `include "final-test/hmc_req_resp_vseq.sv"  
+  `include "final-test/hmc_final_test_vseq.sv"  
   `include "final-test/rf_check_vseq.sv"  
   `include "final-test/hmc_final_test.sv"
 

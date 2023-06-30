@@ -21,8 +21,8 @@ module tb_top();
           .HMC_RF_AWIDTH(HMC_RF_AWIDTH))
     RF (.clk(clk), .res_n(res_n));
 
-  hmc_agent_if #(.NUM_LANES(NUM_LANES)) 
-  HMC_IF ();
+  hmc_agent_if #(.NUM_LANES(NUM_LANES)) hmc_if ();
+  hmc_agent_if #(.NUM_LANES(NUM_LANES)) hmc_int_if ();
 
   axi_interface #(.DWIDTH(DWIDTH),
                  .NUM_DATA_BYTES(NUM_DATA_BYTES))
@@ -31,7 +31,14 @@ module tb_top();
 //*******************************************************//
 
 //*************** Handling HMC interface ***************//
+assign hmc_int_if.REFCLK_BOOT = hmc_if.REFCLK_BOOT;
+assign hmc_int_if.REFCLKN = hmc_if.REFCLKN;
+assign hmc_int_if.REFCLKP = hmc_if.REFCLKP;
+assign hmc_int_if.P_RST_N = hmc_if.P_RST_N;
+assign hmc_int_if.RXPS = hmc_if.RXPS;
 
+assign hmc_if.TXPS = hmc_int_if.TXPS;
+assign hmc_if.FERR_N = hmc_int_if.FERR_N;
 //----------------------------- Wiring openHMC controller
 wire [DWIDTH-1:0]       to_serializers;
 wire [DWIDTH-1:0]       from_deserializers;
@@ -51,17 +58,17 @@ assign          FERR_N_pullup = (FERR_N === 1'bz) ? 1'b1 : FERR_N;
 wire [NUM_LANES-1:0] serial_Rx;
 wire [NUM_LANES-1:0] serial_Txp;
 //------------------------------ Attach the HMC Link interface
- assign HMC_IF.REFCLKP = clk_hmc_refclk;
- assign HMC_IF.REFCLKN = ~clk_hmc_refclk;
- assign FERR_N  = HMC_IF.FERR_N;
- assign HMC_IF.REFCLK_BOOT = 2'b00; // 00 -> 125 MHz, 01 -> 156.25 MHz, 10 -> 166.67 MHz
- assign HMC_IF.P_RST_N = P_RST_N;
- assign LxTXPS = HMC_IF.TXPS;
- assign HMC_IF.RXPS = LxRXPS;
+ assign hmc_if.REFCLKP = clk_hmc_refclk;
+ assign hmc_if.REFCLKN = ~clk_hmc_refclk;
+ assign FERR_N  = hmc_if.FERR_N;
+ assign hmc_if.REFCLK_BOOT = 2'b00; // 00 -> 125 MHz, 01 -> 156.25 MHz, 10 -> 166.67 MHz
+ assign hmc_if.P_RST_N = P_RST_N;
+ assign LxTXPS = hmc_if.TXPS;
+ assign hmc_if.RXPS = LxRXPS;
   
- assign HMC_IF.RXP = NUM_LANES==8 ? {8'h0, serial_Txp[NUM_LANES-1:0]} : serial_Txp; // Controller Tx is Cube Rx
- assign HMC_IF.RXN = ~HMC_IF.RXP;//NUM_LANES==8 ? {8'h0, ~serial_Txp[NUM_LANES-1:0]} : ~serial_Txp; // Controller Tx is Cube Rx
- assign serial_Rx = HMC_IF.TXP; // Controller Rx is Cube Tx
+ assign hmc_if.RXP = NUM_LANES==8 ? {8'h0, serial_Txp[NUM_LANES-1:0]} : serial_Txp; // Controller Tx is Cube Rx
+ assign hmc_if.RXN = ~hmc_if.RXP;//NUM_LANES==8 ? {8'h0, ~serial_Txp[NUM_LANES-1:0]} : ~serial_Txp; // Controller Tx is Cube Rx
+ assign serial_Rx = hmc_if.TXP; // Controller Rx is Cube Tx
 
 //----------------------------- Generate a fast clock for serializers
 bit clk_10G;
@@ -193,7 +200,10 @@ always @(posedge clk) LxTXPS_synced <= LxTXPS;
 
 initial begin
   uvm_config_db#(virtual rf_if #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH))::set(null, "uvm_test_top", "RF", RF);
-  uvm_config_db#(virtual hmc_agent_if #(NUM_LANES))::set(null, "uvm_test_top", "HMC_IF", HMC_IF);
+
+  uvm_config_db#(virtual hmc_agent_if #(NUM_LANES))::set(null, "uvm_test_top", "vif", hmc_if);
+  uvm_config_db#(virtual hmc_agent_if #(NUM_LANES))::set(null, "uvm_test_top", "int_vif", hmc_int_if);
+  
   uvm_config_db#(virtual axi_interface #(NUM_DATA_BYTES, DWIDTH))::set(null, "uvm_test_top", "AXI_IF", AXI_IF);
   run_test();
 end

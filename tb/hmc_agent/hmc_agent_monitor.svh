@@ -75,17 +75,20 @@ class hmc_agent_monitor#(NUM_LANES = 16) extends uvm_monitor;
 	function void build_phase(uvm_phase phase);
 		if(!uvm_config_db#(hmc_agent_config#(NUM_LANES))::get(this, "", "hmc_agent_config_t",hmc_agent_cfg))
 			`uvm_fatal("HMC_AGENT_MONITOR_build_phase()","Failed to get CONFIG") ;
-		vif = hmc_agent_cfg.vif ;
 		start_clear_retry_event = new("start_retry_event");
 		if (requester_flag) begin
+			vif = hmc_agent_cfg.int_vif;
 			link_status = status.Requester_link_status;
 			remote_link_status = status.Responder_link_status;
 			cdr = hmc_cdr#(.NUM_LANES(NUM_LANES))::type_id::create("req_cdr", this);
+			cdr.vif = hmc_agent_cfg.int_vif;
 			cdr.link_type = REQUESTER;
 		end else begin
+			vif = hmc_agent_cfg.vif;
 			link_status = status.Responder_link_status;
 			remote_link_status = status.Requester_link_status;
 			cdr = hmc_cdr#(.NUM_LANES(NUM_LANES))::type_id::create("rsp_cdr", this);
+			cdr.vif = hmc_agent_cfg.vif;
 			cdr.link_type = RESPONDER;
 		end
 		//if (!link_config.responder.active) begin

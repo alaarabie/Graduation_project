@@ -3,6 +3,7 @@ class hmc_agent_config#(NUM_LANES = 16) extends uvm_object;
   `uvm_object_param_utils(hmc_agent_config #(NUM_LANES))
 
    virtual hmc_agent_if #(NUM_LANES) vif;
+   virtual hmc_agent_if #(NUM_LANES) int_vif;
    
    uvm_active_passive_enum active = UVM_ACTIVE;
    uvm_active_passive_enum enable_tag_checking = UVM_PASSIVE;
@@ -22,8 +23,8 @@ class hmc_agent_config#(NUM_LANES = 16) extends uvm_object;
   int irtry_flit_count_to_send = 24;  // hexa = 18
   int irtry_flit_count_received_threshold = 16; // hexa = 10
 
-  int hmc_tokens = 25;
-  int rx_tokens = 30;
+  int hmc_tokens = 163;
+  int rx_tokens = 117;
 
   // Error Porbabilities
   bit lane_errors_enabled = 0;

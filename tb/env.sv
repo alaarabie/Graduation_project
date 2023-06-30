@@ -90,17 +90,18 @@ function void env::connect_phase(uvm_phase phase);
   m_vseqr.m_axi_sqr = axi_agent_h.a_sequencer;
 
   // Connect Coverage and Scoreboard analysis ports
-  // Syntax :
-  //m_agent.ap_name.connect(m_scoreboard.ap_name.analysis_export);
   
-  axi_agent_h.mon_request.connect(m_coverage.analysis_export);  // Should send the hmc_pkt_item
-  axi_agent_h.mon_response.connect(m_coverage.analysis_export); // Should send the hmc_pkt_item
+  axi_agent_h.mon_request.connect(m_coverage.analysis_export);
+  axi_agent_h.mon_response.connect(m_coverage.analysis_export);
   hmc_agent_h.hmc_req_ap.connect(m_coverage.analysis_export);
   hmc_agent_h.hmc_rsp_ap.connect(m_coverage.analysis_export);
 
-  //axi_agent_h.mon_request.connect(m_scoreboard.axi4_hmc_req.analysis_export);  // Should send the hmc_pkt_item
-  //axi_agent_h.mon_response.connect(m_scoreboard.axi4_hmc_rsp.analysis_export);  // Should send the hmc_pkt_item
+  //axi_agent_h.mon_request.connect(m_scoreboard.axi4_hmc_req.analysis_export);
+  //axi_agent_h.mon_response.connect(m_scoreboard.axi4_hmc_rsp.analysis_export);
   //hmc_agent_h.mon_req_ap.connect(m_scoreboard.hmc_req_port);
   //hmc_agent_h.mon_res_ap.connect(m_scoreboard.hmc_rsp_port);
+
+  //not the best approach, so that driver gives requests to sequence then generate responses
+  axi_agent_h.mon_request.connect(hmc_agent_h.m_driver.request_import);
 
 endfunction : connect_phase
