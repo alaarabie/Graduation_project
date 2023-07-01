@@ -83,6 +83,8 @@ class hmc_agent_monitor#(NUM_LANES = 16) extends uvm_monitor;
 			cdr = hmc_cdr#(.NUM_LANES(NUM_LANES))::type_id::create("req_cdr", this);
 			cdr.vif = hmc_agent_cfg.int_vif;
 			cdr.link_type = REQUESTER;
+			//link_status.set_relaxed_token_handling(0);
+			//remote_link_status.set_relaxed_token_handling(0);
 		end else begin
 			vif = hmc_agent_cfg.vif;
 			link_status = status.Responder_link_status;
@@ -90,9 +92,11 @@ class hmc_agent_monitor#(NUM_LANES = 16) extends uvm_monitor;
 			cdr = hmc_cdr#(.NUM_LANES(NUM_LANES))::type_id::create("rsp_cdr", this);
 			cdr.vif = hmc_agent_cfg.vif;
 			cdr.link_type = RESPONDER;
+			//link_status.set_relaxed_token_handling(0);
+			//remote_link_status.set_relaxed_token_handling(0);
 		end
-		//if (!link_config.responder.active) begin
-		link_status.set_relaxed_token_handling(1); //TODO : check this later
+		//if (!link_config.responder.active) begin //TODO : check this later
+		//status.Responder_link_status.set_relaxed_token_handling(1); 
 	endfunction : build_phase
 
 	task run_phase(uvm_phase phase);

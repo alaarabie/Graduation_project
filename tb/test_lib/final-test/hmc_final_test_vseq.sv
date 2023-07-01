@@ -26,7 +26,7 @@ task hmc_final_test_vseq::body();
   rf_control_configuration_seq_h = rf_control_configuration_seq::type_id::create("rf_control_configuration_seq_h");
 
   seq_set_cfg(axi_seq_h);
-  seq_set_cfg(hmc_response_seq_h);
+  seq_set_cfg2(hmc_response_seq_h);
   seq_set_cfg(rf_control_configuration_seq_h);
 
   bfm = hmc_model_init_seq::type_id::create("bfm");
@@ -44,16 +44,19 @@ task hmc_final_test_vseq::body();
       init.start(m_rf_seqr);
       #1us;
       fork
+
         begin
           #1us;
           axi_seq_h.start(m_axi_sqr);  
         end
+
         begin
-          #3us;
+          repeat(1) begin
           hmc_response_seq_h.start(m_hmc_sqr);
+          end
         end
       join
-      #2000ns;
+      #5000ns;
     `uvm_info("hmc_final_test", "Sequence complete", UVM_MEDIUM)
 
 endtask : body

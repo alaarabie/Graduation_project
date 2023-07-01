@@ -519,9 +519,18 @@ task hmc_agent_base_driver::link_up();
    hmc_pkt_item packet;
 
    get_packets(); // get response packets from the sequence
-
-   if (packet_queue.size() > 0 && token_handler.tokens_available(packet_queue[0].length) && (250-retry_buffer.get_buffer_used()) > packet_queue[0].length) begin
+   if (packet_queue.size() > 0) begin
+      `uvm_info("HMC_AGENT_BASE_DRIVER_link_up()",$sformatf("packet available in queue %s length: %b",packet_queue[0].command.name(), packet_queue[0].length),UVM_MEDIUM)
+      if (token_handler.tokens_available(packet_queue[0].length)) begin
+      `uvm_info("HMC_AGENT_BASE_DRIVER_link_up()",$sformatf("tokens available %b",token_handler.available_tokens),UVM_MEDIUM)
+      end
+      if ((250-retry_buffer.get_buffer_used()) > packet_queue[0].length) begin
+      `uvm_info("HMC_AGENT_BASE_DRIVER_link_up()",$sformatf("retry buffer has space"),UVM_MEDIUM)
+      end
+   end
+   if (packet_queue.size() > 0 /*&& token_handler.tokens_available(packet_queue[0].length)*/ && (250-retry_buffer.get_buffer_used()) > packet_queue[0].length) begin
       packet = packet_queue.pop_front();  //-- send the first packet in the queue
+      `uvm_info("HMC_AGENT_BASE_DRIVER_link_up()",$sformatf("Sending: %s",packet.command.name()),UVM_MEDIUM)
       if (next_poisoned < hmc_agent_cfg.poisoned_probability) begin //normal or poisoned?
          send_poisoned(packet);
       end else begin //else of line497
@@ -536,6 +545,7 @@ task hmc_agent_base_driver::link_up();
       `uvm_info("HMC_AGENT_BASE_DRIVER_link_up()",$sformatf("sending tret, (<%0d)", used_tokens-sent_tokens), UVM_HIGH)
       send_tret();
    end else begin //else of line499
+      `uvm_info("HMC_AGENT_BASE_DRIVER_link_up()",$sformatf("drive empty filt"),UVM_HIGH)
       drive_flit(128'h0);
    end
 
@@ -555,27 +565,42 @@ endtask : link_up
 // get response packets from the sequence
 //*******************************************************************************
 task hmc_agent_base_driver::get_packets();
-   hmc_pkt_item request_packet;
-   hmc_pkt_item response_packet;
+   // packets for sequence communication
+   /*hmc_pkt_item req_to_seq = hmc_pkt_item::type_id::create("req_to_seq");
+   hmc_pkt_item dummy = hmc_pkt_item::type_id::create("dummy");
+   hmc_pkt_item dummy2;
+   hmc_pkt_item rsp_from_seq;*/
+   hmc_pkt_item pkt;
 
    // check if the request_queue is empty then send requests to the sequence and return the response
       if( request_queue.size() > 0) begin
          if( packet_queue.size() == 0) begin
 
-            request_packet = request_queue.pop_front();
-            `uvm_info("HMC_AGENT_BASE_DRIVER_get_packets()",$sformatf("filled the request: %s",request_packet.command.name()),UVM_MEDIUM)
-
             // give the request to the sequence
-            seq_item_port.get_next_item(request_packet);
-            seq_item_port.item_done();
+            /*seq_item_port.get_next_item(dummy2); // just to trigger the sequence
+            dummy = request_queue.pop_front();
+            // copy dummy inside req
+            void'(req_to_seq.randomize());
+            req_to_seq.command = dummy.command;
+            req_to_seq.address = dummy.address;
+            req_to_seq.tag = dummy.tag;
+            `uvm_info("HMC_AGENT_BASE_DRIVER_get_packets()",$sformatf("filled the request: %s",req_to_seq.command.name()),UVM_MEDIUM)
+            req_to_seq.print();
+            seq_item_port.item_done(req_to_seq);
 
             // take the response from the sequence
-            seq_item_port.get_next_item(response_packet);
+            `uvm_info("HMC_AGENT_BASE_DRIVER_get_packets()","taking response from sequence",UVM_MEDIUM)
+            seq_item_port.get_next_item(rsp_from_seq);
             // put it inside the packet_queue
-            packet_queue.push_back(response_packet);
-            `uvm_info("HMC_AGENT_BASE_DRIVER_get_packets()",$sformatf("recieved Response: %s from seq",response_packet.command.name()),UVM_MEDIUM)
+            packet_queue.push_back(rsp_from_seq);
+            `uvm_info("HMC_AGENT_BASE_DRIVER_get_packets()",$sformatf("recieved Response: %s from seq",rsp_from_seq.command.name()),UVM_MEDIUM)
+            seq_item_port.item_done();*/
+
+            seq_item_port.get_next_item(pkt);
+            packet_queue.push_back(pkt);
+            pkt.print();
             seq_item_port.item_done();
-            
+
          end     
       end
 endtask : get_packets

@@ -1,8 +1,13 @@
-class hmc_response_seq extends base_seq;
+class hmc_response_seq extends uvm_sequence#(hmc_pkt_item);
   `uvm_object_utils(hmc_response_seq) 
 
-  hmc_pkt_item response_queue[$];
-  hmc_pkt_item response_packet;
+  env_cfg m_cfg;
+
+  /*hmc_pkt_item response_queue[$];
+  hmc_pkt_item dummy = hmc_pkt_item::type_id::create("dummy");
+  hmc_pkt_item my_req;
+  hmc_pkt_item my_rsp = hmc_pkt_item::type_id::create("my_rsp");*/
+  hmc_pkt_item rsp = hmc_pkt_item::type_id::create("rsp");
   //rand bit error_response;
 
   function new (string name = "");
@@ -10,22 +15,36 @@ class hmc_response_seq extends base_seq;
   endfunction : new
 
   task body() ;
-    hmc_pkt_item req = hmc_pkt_item::type_id::create("req");
-    hmc_pkt_item rsp = hmc_pkt_item::type_id::create("rsp");
-    super.body();
+    if(m_cfg == null) begin
+    `uvm_fatal(get_full_name(), "env_config is null")
+    end
+    
+    /*// Get request
+    start_item(dummy);
+    void'(dummy.randomize());
+    finish_item(dummy);
 
-    start_item(req);
-    finish_item(req);
+    get_response(my_req);
 
     // Creating responses and save inside response_queue
-    `uvm_info("HMC_RESPONSE_SEQ_body()",$sformatf("create response to request: %s @%0x",req.command.name(), req.address),UVM_MEDIUM)
-    create_response_packet(req);
- 
+    `uvm_info("HMC_RESPONSE_SEQ_body()",$sformatf("create response to request: %s @%0x",my_req.command.name(), my_req.address),UVM_MEDIUM)
+    create_response_packet(my_req);
+
+    // Respond:
     // Sending the response packet from queue
+    start_item(my_rsp);
+ 
+    my_rsp = response_queue.pop_front();
+    `uvm_info("HMC_RESPONSE_SEQ_body()",$sformatf("Sending Response %s @%0x",my_rsp.command.name(), my_rsp.address),UVM_MEDIUM)
+    finish_item(my_rsp);*/
+
     start_item(rsp);
-    rsp = response_queue.pop_front();
-    `uvm_info("HMC_RESPONSE_SEQ_body()",$sformatf("Sending Response %s @%0x",rsp.command.name(), rsp.address),UVM_MEDIUM)
+    void'(rsp.randomize() with {command == WR_RS;
+                                      address == 34'h264cd7770; 
+                                       tag    == 9'd1;
+                                      });
     finish_item(rsp);
+
   endtask : body
 
   extern task create_response_packet(hmc_pkt_item request);
