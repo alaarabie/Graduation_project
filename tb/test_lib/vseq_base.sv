@@ -33,8 +33,5 @@ class vseq_base extends  uvm_sequence #(uvm_sequence_item);
     seq_.m_cfg = m_cfg;
   endfunction
 
-  function void seq_set_cfg2(hmc_response_seq seq_);
-    seq_.m_cfg = m_cfg;
-  endfunction
 
 endclass : vseq_base

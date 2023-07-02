@@ -5,7 +5,7 @@ localparam DWIDTH =512;
 
 `uvm_object_utils(axi_seq)
 
-int unsigned num_packets = 1;          
+int unsigned num_packets = 5;          
    
 rand hmc_pkt_item_request hmc_items[]; 
 hmc_pkt_item_request hmc_packets_ready[$];

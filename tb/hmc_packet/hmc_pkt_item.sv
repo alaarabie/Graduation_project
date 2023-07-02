@@ -130,6 +130,7 @@ class hmc_pkt_item extends  uvm_sequence_item;
       // other Response types (LNG = 1)
       (length == 1 && command == WR_RS) ||
       (length == 1 && command == MD_WR_RS) ||
+      (length == 2 && command == MD_RD_RS) ||
       (length == 1 && command == ERROR_RS)
     ); 
   }

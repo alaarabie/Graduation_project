@@ -10,7 +10,7 @@ package rf_agent_pkg;
 `include "rf_agent_cfg.sv"
 `include "rf_monitor.sv"
 `include "rf_driver.sv"
-`include "rf_reg2hmc_adapter.sv"
+`include "rf_reg2openhmc_adapter.sv"
 `include "rf_sequencer.sv"
 `include "rf_agent.sv"
 

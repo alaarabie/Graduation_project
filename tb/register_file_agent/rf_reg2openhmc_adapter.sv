@@ -1,8 +1,20 @@
-class rf_reg2hmc_adapter extends  uvm_reg_adapter;
+class rf_reg2openhmc_adapter extends  uvm_reg_adapter;
   
-  `uvm_object_utils(rf_reg2hmc_adapter)
+  `uvm_object_utils(rf_reg2openhmc_adapter)
 
-  extern function new(string name = "");
+  function new(string name = "");
+    super.new(name);
+    // Does the protocol the Agent is modeling support byte enables?
+    // 0 = NO
+    // 1 = YES
+    supports_byte_enable = 0;
+    // Does the Agent's Driver provide separate response sequence items?
+    // i.e. Does the driver call seq_item_port.put()
+    // and do the sequences call get_response()?
+    // 0 = NO
+    // 1 = YES
+    provides_responses = 0;
+  endfunction : new
 
   virtual function uvm_sequence_item reg2bus(const ref uvm_reg_bus_op rw);
 
@@ -34,22 +46,4 @@ class rf_reg2hmc_adapter extends  uvm_reg_adapter;
     `uvm_info("REG2HMC_ADAPTER", $psprintf("\n(bus2reg): %s to addr: %h with Payload: %h \n", rw.kind.name(), rw.addr, rw.data),UVM_HIGH);
   endfunction : bus2reg
 
-endclass : rf_reg2hmc_adapter
-
-
-function rf_reg2hmc_adapter::new(string name = "");
-  super.new(name);
-
-  // Does the protocol the Agent is modeling support byte enables?
-  // 0 = NO
-  // 1 = YES
-  supports_byte_enable = 0;
-
-  // Does the Agent's Driver provide separate response sequence items?
-  // i.e. Does the driver call seq_item_port.put()
-  // and do the sequences call get_response()?
-  // 0 = NO
-  // 1 = YES
-  provides_responses = 0;
-
-endfunction : new
+endclass : rf_reg2openhmc_adapter

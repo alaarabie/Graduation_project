@@ -98,12 +98,13 @@ class hmc_retry_buffer extends uvm_component;
 		if (retry_in_progress == 0 && retry_buffer.size() > 0) begin
 			retry_in_progress = 1;
 			retry_packets = retry_buffer;
-			`uvm_info("HMC_RETRY_BUFFER_get_retry_packet()",$sformatf("get_retry_packet: start retry with %0d packets", retry_buffer.size()), UVM_HIGH)
+			`uvm_info("HMC_RETRY_BUFFER_get_retry_packet()",$sformatf("get_retry_packet: start retry with %0d packets", retry_buffer.size()), UVM_MEDIUM)
 			retry_pos = 0;
 		end
 
 		if (retry_pos <retry_packets.size()) begin
 			retry_pos ++;
+			retry_buffer.pop_front(); // added by me
 			return retry_packets[retry_pos-1];
 		end else begin
 			retry_in_progress = 0;

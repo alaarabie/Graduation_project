@@ -81,10 +81,7 @@ class hmc_agent#(NUM_LANES = 16) extends uvm_agent;
       
       m_driver = hmc_agent_driver#(NUM_LANES)::type_id::create("m_driver",this);
       m_driver.hmc_agent_cfg = m_cfg;
-      m_driver.token_handler = token_handler;
-      m_driver.retry_buffer  = retry_buffer;
       m_driver.remote_status = h_status.Requester_link_status;
-      m_driver.start_clear_retry_event = m_rsp_monitor.start_clear_retry_event;
     end
 
   endfunction : build_phase
@@ -97,6 +94,11 @@ class hmc_agent#(NUM_LANES = 16) extends uvm_agent;
       m_rsp_monitor.frp_port.connect(m_driver.hmc_frp_port);
       m_rsp_monitor.return_token_port.connect(token_handler.token_imp);
       m_rsp_monitor.rrp_port.connect(retry_buffer.return_pointer_imp);
+
+      m_driver.token_handler = token_handler;
+      m_driver.retry_buffer  = retry_buffer;
+      m_driver.start_clear_retry_event = m_rsp_monitor.start_clear_retry_event;
+
     end
 
     m_req_monitor.return_token_port.connect(req_transaction_mon.pkt_import);

@@ -8,7 +8,7 @@ class env extends  uvm_env;
 
   rf_agent_t         m_rf_agent;
   // Register layer adapter
-  rf_reg2hmc_adapter m_rf_reg2hmc_adapter;
+  rf_reg2openhmc_adapter m_rf_reg2openhmc_adapter;
   // Register predictor
   uvm_reg_predictor#(rf_item) m_rf_hmc2reg_predictor;
 // HMC agent and configuration
@@ -47,7 +47,7 @@ function void env::build_phase(uvm_phase phase);
 
   // Build the register model predictor
   m_rf_hmc2reg_predictor = uvm_reg_predictor#(rf_item)::type_id::create("m_rf_hmc2reg_predictor", this);
-  m_rf_reg2hmc_adapter = rf_reg2hmc_adapter::type_id::create("m_rf_reg2hmc_adapter");
+  m_rf_reg2openhmc_adapter = rf_reg2openhmc_adapter::type_id::create("m_rf_reg2openhmc_adapter");
 
 
   hmc_agent_h = hmc_agent_t::type_id::create("hmc_agent_h",this); 
@@ -72,13 +72,13 @@ function void env::connect_phase(uvm_phase phase);
   if(cfg.rf_rb.get_parent() == null) begin
     `uvm_info("env_connect_phase","set up register block seqr", UVM_MEDIUM)
     if(cfg.m_rf_agent_cfg.active == UVM_ACTIVE) begin
-      cfg.rf_rb.rf_map.set_sequencer(m_rf_agent.m_seqr, m_rf_reg2hmc_adapter);
+      cfg.rf_rb.rf_map.set_sequencer(m_rf_agent.m_seqr, m_rf_reg2openhmc_adapter);
     end
     // Register prediction part:
     // Set the predictor map:
     m_rf_hmc2reg_predictor.map = cfg.rf_rb.rf_map;
     // Set the predictor adapter:
-    m_rf_hmc2reg_predictor.adapter = m_rf_reg2hmc_adapter;
+    m_rf_hmc2reg_predictor.adapter = m_rf_reg2openhmc_adapter;
     // Disable the register models auto-prediction
     cfg.rf_rb.rf_map.set_auto_predict(0);
     // Connect the predictor to the bus agent monitor analysis port

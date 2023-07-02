@@ -142,6 +142,7 @@ class hmc_agent_base_driver#(NUM_LANES=16) extends uvm_driver#(hmc_pkt_item);
  extern task drive_fit(input bit[NUM_LANES-1:0] new_value);
  extern task drive_flit(input bit [127:0] flit);
  extern task drive_tx_packet(input hmc_pkt_item pkt);
+ extern function void get_response(input hmc_pkt_item request);
  extern function void reset_lfsr();
  extern function void step_scramblers();
  extern function void set_init_continue(); // I2C or JTAG would configure the HMC during reset
@@ -519,15 +520,6 @@ task hmc_agent_base_driver::link_up();
    hmc_pkt_item packet;
 
    get_packets(); // get response packets from the sequence
-   if (packet_queue.size() > 0) begin
-      `uvm_info("HMC_AGENT_BASE_DRIVER_link_up()",$sformatf("packet available in queue %s length: %b",packet_queue[0].command.name(), packet_queue[0].length),UVM_MEDIUM)
-      if (token_handler.tokens_available(packet_queue[0].length)) begin
-      `uvm_info("HMC_AGENT_BASE_DRIVER_link_up()",$sformatf("tokens available %b",token_handler.available_tokens),UVM_MEDIUM)
-      end
-      if ((250-retry_buffer.get_buffer_used()) > packet_queue[0].length) begin
-      `uvm_info("HMC_AGENT_BASE_DRIVER_link_up()",$sformatf("retry buffer has space"),UVM_MEDIUM)
-      end
-   end
    if (packet_queue.size() > 0 /*&& token_handler.tokens_available(packet_queue[0].length)*/ && (250-retry_buffer.get_buffer_used()) > packet_queue[0].length) begin
       packet = packet_queue.pop_front();  //-- send the first packet in the queue
       `uvm_info("HMC_AGENT_BASE_DRIVER_link_up()",$sformatf("Sending: %s",packet.command.name()),UVM_MEDIUM)
@@ -562,48 +554,109 @@ endtask : link_up
 
 //*******************************************************************************
 // get_packets()
-// get response packets from the sequence
+// get response packets
 //*******************************************************************************
 task hmc_agent_base_driver::get_packets();
-   // packets for sequence communication
-   /*hmc_pkt_item req_to_seq = hmc_pkt_item::type_id::create("req_to_seq");
-   hmc_pkt_item dummy = hmc_pkt_item::type_id::create("dummy");
-   hmc_pkt_item dummy2;
-   hmc_pkt_item rsp_from_seq;*/
    hmc_pkt_item pkt;
 
    // check if the request_queue is empty then send requests to the sequence and return the response
       if( request_queue.size() > 0) begin
          if( packet_queue.size() == 0) begin
-
-            // give the request to the sequence
-            /*seq_item_port.get_next_item(dummy2); // just to trigger the sequence
-            dummy = request_queue.pop_front();
-            // copy dummy inside req
-            void'(req_to_seq.randomize());
-            req_to_seq.command = dummy.command;
-            req_to_seq.address = dummy.address;
-            req_to_seq.tag = dummy.tag;
-            `uvm_info("HMC_AGENT_BASE_DRIVER_get_packets()",$sformatf("filled the request: %s",req_to_seq.command.name()),UVM_MEDIUM)
-            req_to_seq.print();
-            seq_item_port.item_done(req_to_seq);
-
-            // take the response from the sequence
-            `uvm_info("HMC_AGENT_BASE_DRIVER_get_packets()","taking response from sequence",UVM_MEDIUM)
-            seq_item_port.get_next_item(rsp_from_seq);
-            // put it inside the packet_queue
-            packet_queue.push_back(rsp_from_seq);
-            `uvm_info("HMC_AGENT_BASE_DRIVER_get_packets()",$sformatf("recieved Response: %s from seq",rsp_from_seq.command.name()),UVM_MEDIUM)
-            seq_item_port.item_done();*/
-
-            seq_item_port.get_next_item(pkt);
-            packet_queue.push_back(pkt);
-            pkt.print();
-            seq_item_port.item_done();
-
+            // give the request to the a function to generate response
+            pkt = request_queue.pop_front();
+            get_response(pkt);
          end     
       end
 endtask : get_packets
+
+
+//*******************************************************************************
+// get_response(input hmc_pkt_item request)
+// create a response from this request and store it in packet_queue()
+//*******************************************************************************
+function void hmc_agent_base_driver::get_response(input hmc_pkt_item request);
+  hmc_pkt_item response;
+  int response_length = 1;
+  //int new_timestamp;
+  //rand bit error_response;
+  bit [127:0] rand_flit;
+  bit [127:0] payload_flits [$];
+
+  `uvm_info("HMC_AGENT_BASE_DRIVER_get_response()",$sformatf("Generating response for a %s @%0x",request.command.name(), request.address),UVM_MEDIUM)
+  response = hmc_pkt_item::type_id::create("response");
+
+  //void'(this.randomize(error_response));
+  //new_timestamp = delay * 500ps + $time;
+
+  if (request.get_command_type() == READ_TYPE /*||
+      request.get_command_type() == MODE_READ_TYPE*/) 
+  begin : read
+      // know the length
+      case (request.command)
+        RD16 : response_length = 2;
+        RD32 : response_length = 3;
+        RD48 : response_length = 4;
+        RD64 : response_length = 5;
+        RD80 : response_length = 6;
+        RD96 : response_length = 7;
+        RD112 : response_length = 8;
+        RD128 : response_length = 9;
+        //MD_RD : response_length = 2;
+      endcase
+      // randomize the packet
+      void'(response.randomize() with {command == RD_RS;
+                                       address == request.address;
+                                       length  == response_length;
+                                       tag     == request.tag;
+                                      }); // error_status == 0 || error_response;
+      // randomize the packet's payload, maybe not needed?
+      for (int i = 0; i < response_length-1; i++) begin
+        randomize_flit_successful : assert(std::randomize(rand_flit));
+        payload_flits.push_front(rand_flit);
+      end
+      response.payload = payload_flits;
+      //response.timestamp = new_timestamp;
+      // enqueue the packet, ready to send
+      packet_queue.push_back(response);
+  end : read
+
+  else if (request.get_command_type() == MODE_READ_TYPE)
+   begin : mode_read
+      response_length = 2;
+      void'(response.randomize() with {command == MD_RD_RS;
+                                       address == request.address;
+                                       length  == response_length;
+                                       tag     == request.tag;
+                                      });
+      for (int i = 0; i < response_length-1; i++) begin
+        rand_flit = 128'h0; // mode read response has zeros in payload
+        payload_flits.push_front(rand_flit);
+      end
+      response.payload = payload_flits;
+      packet_queue.push_back(response);
+   end : mode_read
+
+  else if (request.get_command_type() == WRITE_TYPE || 
+           request.get_command_type() == MISC_WRITE_TYPE) 
+  begin : write
+      // know the length
+      response_length = 1; // there is already a constraint inside the packet
+      // randomize the packet
+      void'(response.randomize() with {command == WR_RS;
+                                       address == request.address; 
+                                       tag     == request.tag;
+                                      });
+      // no payload
+      packet_queue.push_back(response);
+  end : write
+
+  else if (request.get_command_type() != POSTED_WRITE_TYPE &&
+           request.get_command_type() != POSTED_MISC_WRITE_TYPE) 
+  begin : wrong_commands
+      // posted write requests gets not responses
+      `uvm_fatal("HMC_AGENT_BASE_DRIVER_get_response()",$sformatf("Unsupported command type %s", request.command.name()))
+  end : wrong_commands
+endfunction : get_response
 
 
 //*******************************************************************************

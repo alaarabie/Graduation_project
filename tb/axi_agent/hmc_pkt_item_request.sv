@@ -14,9 +14,9 @@ command inside {
   //  Misc Write Requests
   MD_WR, BWR, DUAL_2ADD8, SINGLE_ADD16,
   // Posted Write Requests
-  //P_WR16, P_WR32, P_WR48, P_WR64, P_WR80, P_WR96, P_WR112, P_WR128,
+  P_WR16, P_WR32, P_WR48, P_WR64, P_WR80, P_WR96, P_WR112, P_WR128,
   // Posted Misc Write Requests
-  //P_BWR, P_DUAL_2ADD8, P_SINGLE_ADD16,
+  P_BWR, P_DUAL_2ADD8, P_SINGLE_ADD16,
   // Read Requests
   RD16, RD32, RD48, RD64, RD80, RD96, RD112, RD128,
   // Mode Read Request
