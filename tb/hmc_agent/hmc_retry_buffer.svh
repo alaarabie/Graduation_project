@@ -104,7 +104,7 @@ class hmc_retry_buffer extends uvm_component;
 
 		if (retry_pos <retry_packets.size()) begin
 			retry_pos ++;
-			retry_buffer.pop_front(); // added by me
+			void'(retry_buffer.pop_front()); // added by me
 			return retry_packets[retry_pos-1];
 		end else begin
 			retry_in_progress = 0;

@@ -12,13 +12,11 @@ package seq_pkg ;
 
     `include "base_seq.sv"  
            
-    `include "rf_control_configuration_seq.sv"
     `include "rf_control_read_seq.sv"
     `include "rf_counters_seq.sv"
     `include "rf_status_general_seq.sv"
     `include "rf_control_sleep_seq.sv" 
-    `include "rf_reset_seq.sv" 
-    `include "rf_status_init_mirror_seq.sv"  
+    `include "rf_status_init_seq.sv"
     `include "hmc_model_init_seq.sv" 
     `include "openhmc_init_seq.sv"
                  

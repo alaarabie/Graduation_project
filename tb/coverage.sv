@@ -1,9 +1,21 @@
-class coverage extends uvm_subscriber #(hmc_pkt_item);
+class coverage extends uvm_component;
  `uvm_component_utils(coverage)
 
   // Variables
-   bit   [3:0]      length;
-   cmd_encoding_e   command;
+  bit   [3:0]      length;
+  cmd_encoding_e   command;
+
+  `uvm_analysis_imp_decl(_hmc_req)
+  uvm_analysis_imp_hmc_req #(hmc_pkt_item, coverage) hmc_req_import;
+    
+  `uvm_analysis_imp_decl(_hmc_rsp)
+  uvm_analysis_imp_hmc_rsp #(hmc_pkt_item, coverage) hmc_rsp_import;
+  
+  `uvm_analysis_imp_decl(_axi4_req)
+  uvm_analysis_imp_axi4_req #(hmc_pkt_item, coverage) axi4_req_import; 
+    
+  `uvm_analysis_imp_decl(_axi4_rsp)
+  uvm_analysis_imp_axi4_rsp #(hmc_pkt_item, coverage) axi4_rsp_import;
 
   //***********************************************************//
   //*********************** COVERGROUPS ***********************//
@@ -71,20 +83,52 @@ class coverage extends uvm_subscriber #(hmc_pkt_item);
   //***********************************************************//
   //********************** FUNCTIONS **************************//
   //***********************************************************//
-   function new (string name, uvm_component parent);
+  function new (string name, uvm_component parent);
     super.new(name, parent);
     command_cg = new();
     length_cg = new();
+
+    hmc_req_import = new("hmc_req_import",this);
+    hmc_rsp_import = new("hmc_rsp_import",this);
+    axi4_req_import = new("axi4_req_import",this);
+    axi4_rsp_import = new("axi4_rsp_import",this);
     
   endfunction : new
 
-  function void write(hmc_pkt_item t);
+  function void write_hmc_req(hmc_pkt_item t);
     command=t.command;
     length=t.length;
     
     command_cg.sample();
     length_cg.sample();
     
-  endfunction : write
+  endfunction : write_hmc_req
+
+  function void write_hmc_rsp(hmc_pkt_item t);
+    command=t.command;
+    length=t.length;
+    
+    command_cg.sample();
+    length_cg.sample();
+    
+  endfunction : write_hmc_rsp
+
+  function void write_axi4_req(hmc_pkt_item t);
+    command=t.command;
+    length=t.length;
+    
+    command_cg.sample();
+    length_cg.sample();
+    
+  endfunction : write_axi4_req
+
+  function void write_axi4_rsp(hmc_pkt_item t);
+    command=t.command;
+    length=t.length;
+    
+    command_cg.sample();
+    length_cg.sample();
+    
+  endfunction : write_axi4_rsp
   
 endclass : coverage

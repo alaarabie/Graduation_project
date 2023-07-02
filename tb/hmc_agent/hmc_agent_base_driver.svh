@@ -588,8 +588,7 @@ function void hmc_agent_base_driver::get_response(input hmc_pkt_item request);
   //void'(this.randomize(error_response));
   //new_timestamp = delay * 500ps + $time;
 
-  if (request.get_command_type() == READ_TYPE /*||
-      request.get_command_type() == MODE_READ_TYPE*/) 
+  if (request.get_command_type() == READ_TYPE) 
   begin : read
       // know the length
       case (request.command)
@@ -601,7 +600,6 @@ function void hmc_agent_base_driver::get_response(input hmc_pkt_item request);
         RD96 : response_length = 7;
         RD112 : response_length = 8;
         RD128 : response_length = 9;
-        //MD_RD : response_length = 2;
       endcase
       // randomize the packet
       void'(response.randomize() with {command == RD_RS;

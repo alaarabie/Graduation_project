@@ -91,17 +91,17 @@ function void env::connect_phase(uvm_phase phase);
 
   // Connect Coverage and Scoreboard analysis ports
   
-  axi_agent_h.mon_request.connect(m_coverage.analysis_export);
-  axi_agent_h.mon_response.connect(m_coverage.analysis_export);
-  hmc_agent_h.hmc_req_ap.connect(m_coverage.analysis_export);
-  hmc_agent_h.hmc_rsp_ap.connect(m_coverage.analysis_export);
+  axi_agent_h.mon_request.connect(m_coverage.axi4_req_import);
+  axi_agent_h.mon_response.connect(m_coverage.axi4_rsp_import);
+  hmc_agent_h.hmc_req_ap.connect(m_coverage.hmc_req_import);
+  hmc_agent_h.hmc_rsp_ap.connect(m_coverage.hmc_rsp_import);
 
-  //axi_agent_h.mon_request.connect(m_scoreboard.axi4_hmc_req.analysis_export);
-  //axi_agent_h.mon_response.connect(m_scoreboard.axi4_hmc_rsp.analysis_export);
+  //axi_agent_h.mon_request.connect(m_scoreboard.axi4_hmc_req);
+  //axi_agent_h.mon_response.connect(m_scoreboard.axi4_hmc_rsp);
   //hmc_agent_h.mon_req_ap.connect(m_scoreboard.hmc_req_port);
   //hmc_agent_h.mon_res_ap.connect(m_scoreboard.hmc_rsp_port);
 
-  //not the best approach, so that driver gives requests to sequence then generate responses
+  //not the best approach, so that driver generate responses
   axi_agent_h.mon_request.connect(hmc_agent_h.m_driver.request_import);
 
 endfunction : connect_phase

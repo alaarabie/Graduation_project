@@ -4,7 +4,7 @@ class rf_check_vseq extends vseq_base ;
 
   rf_control_read_seq rf_control_read_seq_h;
   rf_status_general_seq rf_status_general_seq_h;
-  rf_status_init_mirror_seq rf_status_init_mirror_seq_h;
+  rf_status_init_seq rf_status_init_seq_h;
   rf_counters_seq rf_counters_seq_h;
 
 
@@ -22,11 +22,11 @@ task rf_check_vseq::body();
 
   rf_control_read_seq_h      = rf_control_read_seq::type_id::create("rf_control_read_seq_h");
   rf_status_general_seq_h    = rf_status_general_seq::type_id::create("rf_status_general_seq_h");
-  rf_status_init_mirror_seq_h= rf_status_init_mirror_seq::type_id::create("rf_status_init_mirror_seq_h");
+  rf_status_init_seq_h= rf_status_init_seq::type_id::create("rf_status_init_seq_h");
   rf_counters_seq_h= rf_counters_seq::type_id::create("rf_counters_seq_h");
   seq_set_cfg(rf_control_read_seq_h);
   seq_set_cfg(rf_status_general_seq_h);
-  seq_set_cfg(rf_status_init_mirror_seq_h);
+  seq_set_cfg(rf_status_init_seq_h);
   seq_set_cfg(rf_counters_seq_h);
 
   super.body();
@@ -34,7 +34,7 @@ task rf_check_vseq::body();
   `uvm_info("rf_check_vseq", "Executing sequence", UVM_MEDIUM)
 
       rf_status_general_seq_h.start(m_rf_seqr);
-      rf_status_init_mirror_seq_h.start(m_rf_seqr);
+      rf_status_init_seq_h.start(m_rf_seqr);
       rf_control_read_seq_h.start(m_rf_seqr);
       rf_counters_seq_h.start(m_rf_seqr);
   
