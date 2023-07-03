@@ -337,8 +337,6 @@ task hmc_agent_monitor::monitor_power_pins();
 			@(vif.RXPS)
 			if (vif.RXPS == 1'b0) begin
 				CHK_IDLE_BEFORE_REQUESTER_POWERDOWN: assert (idle_check()); //-- check if Link is IDLE
-			end else begin
-			//	`uvm_fatal("HMC_AGENT_MONITOR_monitor_power_pins()",$sformatf("%s link is not IDLE",requester_flag?"Requester":"Responder"))
 			end
 			link_status.signal_power_state(vif.RXPS);
 		end
@@ -348,8 +346,6 @@ task hmc_agent_monitor::monitor_power_pins();
 			@(vif.TXPS)
 			if (vif.TXPS == 1'b0) begin
 				CHK_IDLE_BEFORE_RESPONDER_POWERDOWN: assert (idle_check());	//-- check if Link is IDLE
-			end else begin
-			//	`uvm_fatal("HMC_AGENT_MONITOR_monitor_power_pins()",$sformatf("%s link is not IDLE",requester_flag?"Requester":"Responder"))
 			end
 			link_status.signal_power_state(vif.TXPS);
 		end
@@ -483,6 +479,7 @@ endtask : collect_flits
 // collect_packets()
 //*******************************************************************************
 task hmc_agent_monitor::collect_packets();
+	hmc_pkt_item  flow_pkt;
 	bit 				  bitstream[];
 	flit_t        current_flit;
 	flit_t			  header_flit;
@@ -505,6 +502,9 @@ task hmc_agent_monitor::collect_packets();
 			current_flit = collected_flits.pop_front();	//-- header flit
 			if (current_flit[5:0] == NULL) begin //-- do not forward null packets "CMD[5:0]"
 				null_flits_between_pkts++;
+				flow_pkt = hmc_pkt_item::type_id::create("flow_pkt", this);
+				void'(flow_pkt.randomize() with{command == NULL;});
+				item_collected_port.write(flow_pkt);
 				if (link_status.irtry_StartRetry_packet_count > 0) begin
 					`uvm_info("HMC_AGENT_MONITOR_collect_packets()",$sformatf("clearing Start Retry Counter due to a NULL Packet after %0d consecutive StartRetry IRTRYs", link_status.get_StartRetry_packet_count()),UVM_HIGH)
 					link_status.irtry_StartRetry_packet_count = 0;
@@ -519,15 +519,15 @@ task hmc_agent_monitor::collect_packets();
 		end
 
 		//-- check length miss-match "DLN[14:11]" "LNG[10:7]" //-- TODO: include CMD in length check
-		if (current_flit[14:11] != current_flit[10:7] || current_flit[14:11] == 0) begin // Length mismatch or invalid current_packet_length
+		if (current_flit[14:11] != current_flit[10:7] || current_flit[10:7]==0) begin // Length mismatch
 			`uvm_info("HMC_AGENT_MONITOR_collect_packets()",$sformatf("%s: current_packet_length mismatch %0x len=%0d, dln = %0d", requester_flag?"Requester":"Responder", current_flit, current_flit[10:7], current_flit[14:11]),UVM_NONE)
 			lng_error ++;
 			current_error = LENGTH_ERROR;
 			collected_packet = hmc_pkt_item::type_id::create("collected_packet", this);
 			if (hmc_agent_cfg.lane_errors_enabled) begin
-				void'(collected_packet.randomize() with{command == NULL;}); // maybe assert?
+				void'(collected_packet.randomize() with{command == NULL;});
 			end else begin // if lane_errors_enabled=0 then it is un-intentional error
-				void'(collected_packet.randomize() with{command == cmd_encoding_e'(current_flit[5:0]);}); // maybe assert?
+				void'(collected_packet.randomize() with{command == cmd_encoding_e'(current_flit[5:0]);});
 			end
 			//hmc_pkt_error_cg.sample();
 			link_status.set_error_abort_mode();
@@ -586,6 +586,8 @@ task hmc_agent_monitor::collect_packets();
 		// No LNG or CRC Errors
 		collected_packet = hmc_pkt_item::type_id::create("collected_packet", this);
 		void'(collected_packet.unpack(bitstream));
+		item_collected_port.write(collected_packet);
+
 		if (collected_packet.command != IRTRY) begin
 			`uvm_info("HMC_AGENT_MONITOR_collect_packets()",$sformatf("collected_packet CMD: %s FRP: %d",
 				collected_packet.command.name(), collected_packet.forward_retry_ptr), UVM_HIGH)
@@ -605,7 +607,7 @@ task hmc_agent_monitor::collect_packets();
 			//-- at this point each packet should be clean
 			token_handling(collected_packet);
 			//-- commit the collected packet
-			 //hmc_packets_cg.sample();
+			//hmc_packets_cg.sample();
 		 	null_flits_between_pkts = 0;
 		 	if (!link_status.get_error_abort_mode()) begin
 		 		rrp_port.write(collected_packet.return_retry_ptr);
@@ -621,15 +623,9 @@ task hmc_agent_monitor::collect_packets();
 		 				//hmc_pkt_error_cg.sample();
 		 				continue;
 		 			end
-		 			if (collected_packet.command != TRET
-		 					&& !collected_packet.poisoned
-		 					&& collected_packet.command != IRTRY) begin 
-		 				//-- send only Transaction packets (not flow or errored)
-		 				item_collected_port.write(collected_packet);
-		 			end
-		 		  end
-		 		end
-		 	end
+	 		  end
+	 		end
+	 	end
 		end
 	end // end of forever 
 endtask : collect_packets

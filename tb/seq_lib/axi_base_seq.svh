@@ -1,11 +1,27 @@
-class axi_seq extends base_seq;
+class axi_base_seq extends base_seq;
 
-localparam NUM_DATA_BYTES =64;
+localparam NUM_DATA_BYTES = 64;
 localparam DWIDTH =512; 
 
-`uvm_object_utils(axi_seq)
+`uvm_object_utils(axi_base_seq)
 
-int unsigned num_packets = 6;          
+int unsigned num_packets = 5;  
+
+typedef enum {
+      WRITE,
+      POSTED,
+      MISC,
+      READ,
+      MODE_READ,
+      ALL_TYPES
+} request_class_e;      
+
+rand request_class_e req_class;
+
+constraint req_class_c {
+    req_class == ALL_TYPES;
+}
+
    
 rand hmc_pkt_item_request hmc_items[]; 
 hmc_pkt_item_request hmc_packets_ready[$];
@@ -22,7 +38,7 @@ tag <  512;
 }
 
 
-function new(string name="axi_seq");
+function new(string name="");
 super.new(name);
 endfunction : new
 
@@ -32,7 +48,17 @@ function void starting ();
    hmc_items = new[num_packets];
    foreach (hmc_items[i]) begin
    hmc_items[i] = hmc_pkt_item_request::type_id::create($psprintf("hmc_item[%0d]", i));
-   assert(hmc_items[i].randomize());
+   if (req_class == ALL_TYPES) begin
+      assert(hmc_items[i].randomize());
+   end else begin
+      assert(hmc_items[i].randomize() with {
+                                          if (req_class == WRITE) {command inside {WR16, WR32, WR48, WR64, WR80, WR96, WR112, WR128};}
+                                          if (req_class == POSTED) {command inside {P_WR16, P_WR32, P_WR48, P_WR64, P_WR80, P_WR96, P_WR112, P_WR128};}
+                                          if (req_class == MISC) {command inside {MD_WR, BWR, DUAL_2ADD8 , SINGLE_ADD16, P_BWR, P_DUAL_2ADD8, P_SINGLE_ADD16};}
+                                          if (req_class == READ) {command inside {RD16, RD32, RD48, RD64, RD80, RD96, RD112, RD128};}
+                                          if (req_class == MODE_READ) {command inside {MD_RD};}                     
+                                       });
+   end
    //`uvm_info(get_type_name(),$psprintf("%0d HMC packets command", hmc_items[i].command), UVM_MEDIUM) 
    end   
 endfunction : starting
@@ -134,7 +160,7 @@ function void hmc_packet_2_axi_cycles();
          // check if axi4_item is full >> push full axi item to axi4_queue
          if (flit_offset == 4)
          begin 
-            `uvm_info(get_type_name(),$psprintf("axi4_item is full (offset = %0d), writing element %0d to queue ", flit_offset, axi4_queue.size()), UVM_MEDIUM)
+            `uvm_info(get_type_name(),$psprintf("axi4_item is full (offset = %0d), writing element %0d to queue ", flit_offset, axi4_queue.size()), UVM_HIGH)
             axi4_queue.push_back(axi4_item);
                            
             //-- create new AXI4 cycle
@@ -183,16 +209,16 @@ function void hmc_packet_2_axi_cycles();
                    
          //-- debugging output
          if(current_flit[128]) 
-         `uvm_info(get_type_name(),$psprintf("FLIT is header at pos %d", flit_offset), UVM_MEDIUM)
+         `uvm_info(get_type_name(),$psprintf("FLIT is header at pos %d", flit_offset), UVM_HIGH)
          
          if(current_flit[129]) 
-         `uvm_info(get_type_name(),$psprintf("FLIT is tail at pos %d", flit_offset), UVM_MEDIUM)
+         `uvm_info(get_type_name(),$psprintf("FLIT is tail at pos %d", flit_offset), UVM_HIGH)
             
          flit_offset++;
       end
    end
    //-- push last axi4_item to axi4_queue
-   `uvm_info(get_type_name(),$psprintf("axi4_item is half-full (offset = %0d), writing element %0d to queue ", flit_offset, axi4_queue.size()), UVM_MEDIUM)
+   `uvm_info(get_type_name(),$psprintf("axi4_item is half-full (offset = %0d), writing element %0d to queue ", flit_offset, axi4_queue.size()), UVM_HIGH)
    axi4_queue.push_back(axi4_item);
 endfunction : hmc_packet_2_axi_cycles
    
@@ -202,7 +228,7 @@ task send_axi4_cycles();
    valid_data #(.DWIDTH(DWIDTH),.NUM_DATA_BYTES(NUM_DATA_BYTES)) axi4_item;
    while( axi4_queue.size() > 0 ) begin
       
-      `uvm_info(get_type_name(),$psprintf("axi4_queue contains %0d items", axi4_queue.size()), UVM_MEDIUM)
+      `uvm_info(get_type_name(),$psprintf("axi4_queue contains %0d items", axi4_queue.size()), UVM_HIGH)
       axi4_item = axi4_queue.pop_front();
 
 /*
@@ -224,7 +250,7 @@ endtask : send_axi4_cycles
 task body();   
    super.body();
    starting(); 
-   `uvm_info(get_type_name(),$psprintf("HMC Packets to send: %0d", hmc_items.size()), UVM_MEDIUM)
+   `uvm_info(get_type_name(),$psprintf("HMC Packets to send: %0d", hmc_items.size()), UVM_HIGH)
    aquire_tags();
    // send all packets with tags
    hmc_packet_2_axi_cycles();
@@ -232,6 +258,4 @@ task body();
    send_axi4_cycles();
 endtask : body
 
-endclass : axi_seq
-
-
+endclass : axi_base_seq

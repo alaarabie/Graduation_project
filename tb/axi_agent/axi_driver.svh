@@ -32,28 +32,50 @@ endfunction : build_phase
 
 // run phase
 task run_phase(uvm_phase phase);
-//super.run_phase(phase);
-forever begin
-// check reset	
-if(vif.res_n == 0) begin
-vif.t_valid <= 0;
-vif.t_data <= 0;
-vif.t_user <= 0;
-vif.rx_ready <= 1;
-`uvm_info(get_type_name(),$psprintf("during reset"), UVM_HIGH)
-@(posedge vif.res_n);
-`uvm_info(get_type_name(),$psprintf("coming out of reset"), UVM_HIGH)
-end
-fork 
-begin 
-@(negedge vif.res_n);
-end
-begin 
-drive_data();
-end
-join_any
-disable fork; 	
-end
+	//super.run_phase(phase);
+	forever begin
+		// check reset	
+		if(vif.res_n == 0) begin
+			vif.t_valid <= 0;
+			vif.t_data <= 0;
+			vif.t_user <= 0;
+			vif.rx_ready <= 0;
+			`uvm_info(get_type_name(),$psprintf("during reset"), UVM_HIGH)
+			@(posedge vif.res_n);
+			`uvm_info(get_type_name(),$psprintf("coming out of reset"), UVM_HIGH)
+		end
+
+		fork 
+			begin 
+				@(negedge vif.res_n);
+			end
+
+			begin 
+				drive_data();
+			end
+
+			forever begin
+				@(posedge vif.clk);
+				if (vif.rx_valid)
+						randcase
+							3 : vif.rx_ready <= 1;
+							1 : vif.rx_ready <= 0;
+						endcase
+				else 
+						randcase
+							1 : vif.rx_ready <= 1;
+							1 : vif.rx_ready <= 0;
+							1 : begin		//-- hold tready at least until tvalid is set
+										vif.rx_ready <= 0;
+										while (vif.rx_valid == 0)
+											@(posedge vif.clk);
+									end
+						endcase
+			end
+
+		join_any
+		disable fork; 	
+	end
 endtask : run_phase
 
 

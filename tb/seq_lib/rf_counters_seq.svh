@@ -41,10 +41,15 @@ task rf_counters_seq::body();
   `uvm_info("rf_counters_seq", print_reg,UVM_LOW)
 
   rf_rb.m_reg_rcvd_rsp.read(status, data, .parent(this));
-  print_reg = $sformatf("\n*******************************\n\tPOISONED PKTS RECEIVED COUNTER\n*******************************
+  print_reg = $sformatf("\n*******************************\n\tNON POISONED PKTS RECEIVED COUNTER\n*******************************
                          \t rcvd_rsp=%h\n**************************************************************", 
                          rf_rb.m_reg_rcvd_rsp.rcvd_rsp.get());
 
   `uvm_info("rf_counters_seq", print_reg,UVM_LOW)
+
+  rf_rb.m_reg_tx_link_retries.read(status, data, .parent(this));
+  rf_rb.m_reg_errors_on_rx.read(status, data, .parent(this));
+  rf_rb.m_reg_run_length_bit_flip.read(status, data, .parent(this));
+  rf_rb.m_reg_error_abort_not_cleared.read(status, data, .parent(this));
 
 endtask : body

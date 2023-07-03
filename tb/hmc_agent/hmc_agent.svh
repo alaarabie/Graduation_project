@@ -6,6 +6,7 @@ class hmc_agent#(NUM_LANES = 16) extends uvm_agent;
 
   uvm_analysis_port #(hmc_pkt_item) hmc_req_ap ;
   uvm_analysis_port #(hmc_pkt_item) hmc_rsp_ap ;  
+  uvm_analysis_port #(hmc_pkt_item) hmc_flow_ap ;
 
   hmc_agent_sequencer m_sqr ;
   hmc_agent_driver#(NUM_LANES) m_driver ;
@@ -30,6 +31,7 @@ class hmc_agent#(NUM_LANES = 16) extends uvm_agent;
     h_status = new("h_status",this);
     hmc_req_ap = new("hmc_req_ap",this);
     hmc_rsp_ap = new("hmc_rsp_ap",this);
+    hmc_flow_ap = new("hmc_flow_ap",this);
   endfunction : new
 
 
@@ -99,6 +101,7 @@ class hmc_agent#(NUM_LANES = 16) extends uvm_agent;
       m_driver.retry_buffer  = retry_buffer;
       m_driver.start_clear_retry_event = m_rsp_monitor.start_clear_retry_event;
 
+      m_driver.flow_packets_port.connect(hmc_flow_ap);
     end
 
     m_req_monitor.return_token_port.connect(req_transaction_mon.pkt_import);

@@ -12,6 +12,8 @@ class hmc_agent_base_driver#(NUM_LANES=16) extends uvm_driver#(hmc_pkt_item);
   // Take request packet from driver
   `uvm_analysis_imp_decl(_request)
    uvm_analysis_imp_request #(hmc_pkt_item, hmc_agent_base_driver#(.NUM_LANES(NUM_LANES))) request_import;
+ // not the best approach but it is the way to make coverage check flow packets
+ uvm_analysis_port #(hmc_pkt_item) flow_packets_port;
  
   // Initial States Declaration
    init_state_t next_state = RESET;
@@ -172,7 +174,7 @@ class hmc_agent_base_driver#(NUM_LANES=16) extends uvm_driver#(hmc_pkt_item);
 
 
   virtual function void write_request(input hmc_pkt_item pkt);
-    `uvm_info("HMC_AGENT_BASE_DRIVER_write_request()", $sformatf("request: %s",pkt.command.name()),UVM_MEDIUM)
+    `uvm_info("HMC_AGENT_BASE_DRIVER_write_request()", $sformatf("request: %s",pkt.command.name()),UVM_HIGH)
     request_queue.push_back(pkt);
  endfunction : write_request
 
@@ -468,7 +470,9 @@ task hmc_agent_base_driver::retry_send_packet(input hmc_pkt_item pkt);
    copy.crc = crc;
 
    drive_tx_packet(copy); // ready to go
-
+   if ((copy.command & 6'h38) == FLOW_TYPE) begin
+      flow_packets_port.write(pkt);
+   end
 endtask : retry_send_packet
 
 
@@ -522,14 +526,12 @@ task hmc_agent_base_driver::link_up();
    get_packets(); // get response packets from the sequence
    if (packet_queue.size() > 0 /*&& token_handler.tokens_available(packet_queue[0].length)*/ && (250-retry_buffer.get_buffer_used()) > packet_queue[0].length) begin
       packet = packet_queue.pop_front();  //-- send the first packet in the queue
-      `uvm_info("HMC_AGENT_BASE_DRIVER_link_up()",$sformatf("Sending: %s",packet.command.name()),UVM_MEDIUM)
       if (next_poisoned < hmc_agent_cfg.poisoned_probability) begin //normal or poisoned?
          send_poisoned(packet);
       end else begin //else of line497
          send_packet(packet);
       end //end of line499
       poisoned_propability_randomisation : assert (std::randomize(next_poisoned) with {next_poisoned > 0 && next_poisoned < 1000;});
-
    end else if ($time-last_packet_timestamp > hmc_agent_cfg.send_pret_time && frp_queue.size() > 0) begin //else of line495
       `uvm_info("HMC_AGENT_BASE_DRIVER_link_up()",$sformatf("sending pret, frp_queue size = %0d", frp_queue.size()), UVM_HIGH)
       send_pret();
@@ -582,7 +584,7 @@ function void hmc_agent_base_driver::get_response(input hmc_pkt_item request);
   bit [127:0] rand_flit;
   bit [127:0] payload_flits [$];
 
-  `uvm_info("HMC_AGENT_BASE_DRIVER_get_response()",$sformatf("Generating response for a %s @%0x",request.command.name(), request.address),UVM_MEDIUM)
+  `uvm_info("HMC_AGENT_BASE_DRIVER_get_response()",$sformatf("Generating response for a %s @%0x",request.command.name(), request.address),UVM_HIGH)
   response = hmc_pkt_item::type_id::create("response");
 
   //void'(this.randomize(error_response));
@@ -702,7 +704,7 @@ endtask : send_tret
 task hmc_agent_base_driver::start_retry_init();
    start_retry_timestamp = $time();
    local_retries_signalled = local_retries_signalled + 1;
-   `uvm_info("HMC_AGENT_BASE_DRIVER_start_retry_init()",$sformatf("sending start retry packets"), UVM_MEDIUM)
+   `uvm_info("HMC_AGENT_BASE_DRIVER_start_retry_init()",$sformatf("sending start retry packets"), UVM_HIGH)
    // send IRTRY FLITs
    for (int i = 0; i < hmc_agent_cfg.irtry_flit_count_to_send; i++) begin
       send_irtry_start();

@@ -33,6 +33,6 @@ task rf_status_init_seq::body();
                          rf_rb.m_reg_status_init.status_init_tx_init_state.get()
                         );
 
-  `uvm_info("rf_control_read_seq", print_reg,UVM_HIGH)
+  `uvm_info("rf_control_read_seq", print_reg,UVM_LOW)
 
 endtask : body

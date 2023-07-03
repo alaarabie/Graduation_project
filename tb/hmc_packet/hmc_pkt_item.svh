@@ -1,7 +1,3 @@
-// a macro to compare with the command field 
-// to find general command type from the 3 MSB
-`define TYPE_MASK 6'h38 // 6'b111_000
-
 class hmc_pkt_item extends  uvm_sequence_item;
   
   // Request Header fields

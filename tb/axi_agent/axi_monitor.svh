@@ -58,7 +58,7 @@ forever begin
 	end
 
 	// write response
-	if (vif.rx_valid == 1) 
+	if (vif.rx_valid == 1 && vif.rx_ready == 1) 
 	begin
 		valid_data #(.DWIDTH(DWIDTH), .NUM_DATA_BYTES(NUM_DATA_BYTES)) vld_data_rx;	
 		vld_data_rx = new();

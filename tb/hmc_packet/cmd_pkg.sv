@@ -2,6 +2,9 @@ package cmd_pkg;
 
   `include "uvm_macros.svh"
   import uvm_pkg::*;
+// a macro to compare with the command field 
+// to find general command type from the 3 MSB
+`define TYPE_MASK 6'h38 // 6'b111_000
 
 typedef enum bit [5:0] { // the 3 MSB are unique to each type
 FLOW_TYPE              = 6'h00, // 6'b000_xxx

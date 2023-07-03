@@ -93,10 +93,11 @@ function void env::connect_phase(uvm_phase phase);
   axi_agent_h.mon_response.connect(m_coverage.analysis_export);
   hmc_agent_h.hmc_req_ap.connect(m_coverage.analysis_export);
   hmc_agent_h.hmc_rsp_ap.connect(m_coverage.analysis_export);
+  hmc_agent_h.hmc_flow_ap.connect(m_coverage.analysis_export);
 
   //axi_agent_h.mon_request.connect(m_scoreboard.axi4_hmc_req);
   //axi_agent_h.mon_response.connect(m_scoreboard.axi4_hmc_rsp);
-  //hmc_agent_h.mon_req_ap.connect(m_scoreboard.hmc_req_port);
-  //hmc_agent_h.mon_res_ap.connect(m_scoreboard.hmc_rsp_port);
+  //hmc_agent_h.hmc_req_ap.connect(m_scoreboard.hmc_req_port);
+  //hmc_agent_h.hmc_rsp_ap.connect(m_scoreboard.hmc_rsp_port);
 
 endfunction : connect_phase

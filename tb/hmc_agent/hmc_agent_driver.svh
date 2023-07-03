@@ -8,6 +8,7 @@ class hmc_agent_driver#(NUM_LANES=16) extends hmc_agent_base_driver#(NUM_LANES);
       super.new(name,parent);
       hmc_frp_port = new("hmc_frp_port",this);
       request_import = new("request_import",this);
+      flow_packets_port = new("flow_packets_port",this);
    endfunction : new
 
 

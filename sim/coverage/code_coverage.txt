@@ -81,7 +81,7 @@ Coverage Report Summary Data by instance
     ----------------              ----      ----    ------  --------
     Branches                        80        78         2    97.50%
     Conditions                       6         2         4    33.33%
-    Expressions                     93        93         0   100.00%
+    Expressions                     93        90         3    96.77%
     Statements                      91        89         2    97.80%
 
 =================================================================================
@@ -144,7 +144,7 @@ Coverage Report Summary Data by instance
     ----------------              ----      ----    ------  --------
     Branches                        80        78         2    97.50%
     Conditions                       6         2         4    33.33%
-    Expressions                     93        90         3    96.77%
+    Expressions                     93        93         0   100.00%
     Statements                      91        89         2    97.80%
 
 =================================================================================
@@ -165,7 +165,7 @@ Coverage Report Summary Data by instance
     ----------------              ----      ----    ------  --------
     Branches                        80        78         2    97.50%
     Conditions                       6         2         4    33.33%
-    Expressions                     93        90         3    96.77%
+    Expressions                     93        92         1    98.92%
     Statements                      91        89         2    97.80%
 
 =================================================================================
@@ -296,7 +296,7 @@ Coverage Report Summary Data by instance
 =================================================================================
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Branches                        68        58        10    85.29%
+    Branches                        68        59         9    86.76%
     Conditions                       7         7         0   100.00%
     Statements                     126       104        22    82.53%
 
@@ -306,12 +306,12 @@ Coverage Report Summary Data by instance
 =================================================================================
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Branches                       201       162        39    80.59%
-    Conditions                      79        52        27    65.82%
+    Branches                       201       160        41    79.60%
+    Conditions                      79        48        31    60.75%
     Expressions                     25         3        22    12.00%
     FSM States                      11         8         3    72.72%
     FSM Transitions                 23         8        15    34.78%
-    Statements                     353       305        48    86.40%
+    Statements                     353       303        50    85.83%
 
 =================================================================================
 === Instance: /tb_top/dut/rx_link_I/lane_gen[7]/rx_lane_I/descrambler_I
@@ -498,7 +498,7 @@ Coverage Report Summary Data by instance
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
     Branches                         6         6         0   100.00%
-    Expressions                    568       550        18    96.83%
+    Expressions                    568       568         0   100.00%
     Statements                      43        43         0   100.00%
 
 =================================================================================
@@ -536,7 +536,7 @@ Coverage Report Summary Data by instance
 =================================================================================
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Expressions                   1325      1315        10    99.24%
+    Expressions                   1325      1325         0   100.00%
     Statements                      33        33         0   100.00%
 
 =================================================================================
@@ -554,7 +554,7 @@ Coverage Report Summary Data by instance
 =================================================================================
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Expressions                   1325      1315        10    99.24%
+    Expressions                   1325      1325         0   100.00%
     Statements                      33        33         0   100.00%
 
 =================================================================================
@@ -563,7 +563,7 @@ Coverage Report Summary Data by instance
 =================================================================================
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Branches                        87        77        10    88.50%
+    Branches                        87        78         9    89.65%
     Conditions                      11         8         3    72.72%
     Expressions                      4         0         4     0.00%
     Statements                     153       135        18    88.23%
@@ -663,10 +663,10 @@ Coverage Report Summary Data by instance
 =================================================================================
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Branches                        40        30        10    75.00%
+    Branches                        40        35         5    87.50%
     Conditions                      20        20         0   100.00%
-    Expressions                     30         5        25    16.66%
-    Statements                     131        92        39    70.22%
+    Expressions                     30        10        20    33.33%
+    Statements                     131       112        19    85.49%
 
 =================================================================================
 === Instance: /tb_top/dut/openhmc_sva_1
@@ -674,7 +674,7 @@ Coverage Report Summary Data by instance
 =================================================================================
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Assertions                       6         3         3    50.00%
+    Assertions                       9         4         5    44.44%
 
 =================================================================================
 === Instance: /tb_top/dut
@@ -715,9 +715,9 @@ Coverage Report Summary Data by instance
 =================================================================================
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Covergroups                      2        na        na    76.92%
+    Covergroups                      2        na        na    90.72%
         Coverpoints/Crosses          9        na        na        na
-            Covergroup Bins         50        30        20    60.00%
+            Covergroup Bins         50        44         6    88.00%
 
 =================================================================================
 === Instance: /seq_pkg
@@ -725,12 +725,12 @@ Coverage Report Summary Data by instance
 =================================================================================
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Assertions                       2         2         0   100.00%
+    Assertions                       3         3         0   100.00%
 
 
-TOTAL COVERGROUP COVERAGE: 76.92%  COVERGROUP TYPES: 2
+TOTAL COVERGROUP COVERAGE: 90.72%  COVERGROUP TYPES: 2
 
-TOTAL ASSERTION COVERAGE: 87.09%  ASSERTIONS: 31
+TOTAL ASSERTION COVERAGE: 82.85%  ASSERTIONS: 35
 
-Total Coverage By Instance (filtered view): 73.81%
+Total Coverage By Instance (filtered view): 74.87%
 
