@@ -6,38 +6,38 @@ Coverage Report by instance with details
 =================================================================================
 
 Assertion Coverage:
-    Assertions                       9         4         5    44.44%
+    Assertions                       9         9         0   100.00%
 --------------------------------------------------------------------------------------------------------------------------------
 Name                 File(Line)                   Failure      Pass     Vacuous    Disable    Attempt     Active Peak Active ATV
                                                   Count        Count    Count      Count      Count       Count  Count          
 --------------------------------------------------------------------------------------------------------------------------------
 /tb_top/dut/openhmc_sva_1/tx_valid_hold_until_ready_active
                      D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(100)
-                                                        0        163      10600        316      11079          0           6 off
+                                                        0        163      10685        316      11164          0           6 off
 /tb_top/dut/openhmc_sva_1/rx_valid_hold_until_ready_active
                      D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(103)
-                                                        0          0      10763        316      11079          0           0 off
+                                                        0         59      10789        316      11164          0           6 off
 /tb_top/dut/openhmc_sva_1/tx_user_hold_until_ready_active
                      D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(112)
-                                                        0        163      10600        316      11079          0           6 off
+                                                        0        163      10685        316      11164          0           6 off
 /tb_top/dut/openhmc_sva_1/rx_user_hold_until_ready_active
                      D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(121)
-                                                        0          0      10763        316      11079          0           0 off
+                                                        0         59      10789        316      11164          0           6 off
 /tb_top/dut/openhmc_sva_1/tx_data_hold_until_ready_active
                      D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(130)
-                                                        0        163      10600        316      11079          0           6 off
+                                                        0        163      10685        316      11164          0           6 off
 /tb_top/dut/openhmc_sva_1/rx_data_hold_until_ready_active
                      D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(139)
-                                                        0          0      10763        316      11079          0           0 off
+                                                        0         59      10789        316      11164          0           6 off
 /tb_top/dut/openhmc_sva_1/no_simultaneous_read_and_write
                      D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(145)
-                                                        0      10763          0        316      11079          0           4 off
+                                                        0      10848          0        316      11164          0           4 off
 /tb_top/dut/openhmc_sva_1/invalid_address_assert_if_wrong_write_operation
                      D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(148)
-                                                        0          0      10763        316      11079          0           0 off
+                                                        0         11      10837        316      11164          0           1 off
 /tb_top/dut/openhmc_sva_1/invalid_address_assert_if_wrong_read_operation
                      D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(153)
-                                                        0          0      10763        316      11079          0           0 off
+                                                        0          1      10847        316      11164          0           1 off
 
 =================================================================================
 === Instance: /cmd_pkg
@@ -52,10 +52,10 @@ Name                 File(Line)                   Failure      Pass     Vacuous 
 --------------------------------------------------------------------------------------------------------------------------------
 /cmd_pkg/hmc_pkt_item/post_randomize/#anonblk#171599735#375#4#/randomize_flit_successful
                      D:/Ali/College/Graduation_project/tb/hmc_packet//hmc_pkt_item.svh(376)
-                                                        0        684          0          0        684          0           0 off
+                                                        0        685          0          0        685          0           0 off
 /cmd_pkg/hmc_pkt_item/calculate_crc/packer_succeeded
                      D:/Ali/College/Graduation_project/tb/hmc_packet//hmc_pkt_item.svh(397)
-                                                        0       1436          0          0       1436          0           0 off
+                                                        0       1462          0          0       1462          0           0 off
 
 =================================================================================
 === Instance: /hmc_agent_pkg
@@ -70,7 +70,7 @@ Name                 File(Line)                   Failure      Pass     Vacuous 
 --------------------------------------------------------------------------------------------------------------------------------
 /hmc_agent_pkg/hmc_retry_buffer/add_packet/no_add_packet_when_retry_in_progress
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_retry_buffer.svh(74)
-                                                        0        116          0          0        116          0           0 off
+                                                        0        118          0          0        118          0           0 off
 /hmc_agent_pkg/hmc_retry_buffer/check_phase/no_retry_at_check
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_retry_buffer.svh(117)
                                                         0          4          0          0          4          0           0 off
@@ -82,25 +82,25 @@ Name                 File(Line)                   Failure      Pass     Vacuous 
                                                         0         44          0          0         44          0           0 off
 /hmc_agent_pkg/hmc_agent_base_driver/hmc_agent_base_driver__1/link_up/poisoned_propability_randomisation
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_base_driver.svh(534)
-                                                        0         72          0          0         72          0           0 off
+                                                        0         74          0          0         74          0           0 off
 /hmc_agent_pkg/hmc_agent_base_driver/hmc_agent_base_driver__1/send_irtry/pret_randomization
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_base_driver.svh(741)
-                                                        0       1320          0          0       1320          0           0 off
+                                                        0       1344          0          0       1344          0           0 off
 /hmc_agent_pkg/hmc_agent_base_driver/hmc_agent_base_driver__1/retry_send_packet/rrp_to_send_randomization_succeeds
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_base_driver.svh(401)
-                                                        0       1436          0          0       1436          0           0 off
+                                                        0       1462          0          0       1462          0           0 off
 /hmc_agent_pkg/hmc_agent_base_driver/hmc_agent_base_driver__1/retry_send_packet/error_type_seq_error_randomization
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_base_driver.svh(415)
-                                                        0       1436          0          0       1436          0           0 off
+                                                        0       1462          0          0       1462          0           0 off
 /hmc_agent_pkg/hmc_agent_base_driver/hmc_agent_base_driver__1/retry_send_packet/error_type_lng_error_randomization
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_base_driver.svh(430)
-                                                        0       1436          0          0       1436          0           0 off
+                                                        0       1462          0          0       1462          0           0 off
 /hmc_agent_pkg/hmc_agent_base_driver/hmc_agent_base_driver__1/retry_send_packet/error_type_crc_error_randomization
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_base_driver.svh(459)
-                                                        0       1436          0          0       1436          0           0 off
+                                                        0       1462          0          0       1462          0           0 off
 /hmc_agent_pkg/hmc_agent_base_driver/hmc_agent_base_driver__1/get_response/read/#anonblk#90256039#613#4#/randomize_flit_successful
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_base_driver.svh(614)
-                                                        0         94          0          0         94          0           0 off
+                                                        0        100          0          0        100          0           0 off
 /hmc_agent_pkg/hmc_agent_base_driver/hmc_agent_base_driver__1/set_init_continue/tb_respects_tINIT
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_base_driver.svh(802)
                                                         0          4          0          0          4          0           0 off
@@ -142,7 +142,7 @@ Name                 File(Line)                   Failure      Pass     Vacuous 
                                                         0        120          0          0        120          0           0 off
 /axi_pkg/axi_monitor/axi_monitor__1/collect_res_packet/flit_queue_lost
                      D:/Ali/College/Graduation_project/tb/axi_agent//axi_monitor.svh(221)
-                                                        0         72          0          0         72          0           0 off
+                                                        0         74          0          0         74          0           0 off
 
 =================================================================================
 === Instance: /seq_pkg
@@ -173,40 +173,40 @@ Name                 File(Line)                   Failure      Pass     Vacuous 
 --------------------------------------------------------------------------------------------------------------------------------
 /tb_top/dut/openhmc_sva_1/tx_valid_hold_until_ready_active
                      D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(100)
-                                                        0        163      10600        316      11079          0           6 off
+                                                        0        163      10685        316      11164          0           6 off
 /tb_top/dut/openhmc_sva_1/rx_valid_hold_until_ready_active
                      D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(103)
-                                                        0          0      10763        316      11079          0           0 off
+                                                        0         59      10789        316      11164          0           6 off
 /tb_top/dut/openhmc_sva_1/tx_user_hold_until_ready_active
                      D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(112)
-                                                        0        163      10600        316      11079          0           6 off
+                                                        0        163      10685        316      11164          0           6 off
 /tb_top/dut/openhmc_sva_1/rx_user_hold_until_ready_active
                      D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(121)
-                                                        0          0      10763        316      11079          0           0 off
+                                                        0         59      10789        316      11164          0           6 off
 /tb_top/dut/openhmc_sva_1/tx_data_hold_until_ready_active
                      D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(130)
-                                                        0        163      10600        316      11079          0           6 off
+                                                        0        163      10685        316      11164          0           6 off
 /tb_top/dut/openhmc_sva_1/rx_data_hold_until_ready_active
                      D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(139)
-                                                        0          0      10763        316      11079          0           0 off
+                                                        0         59      10789        316      11164          0           6 off
 /tb_top/dut/openhmc_sva_1/no_simultaneous_read_and_write
                      D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(145)
-                                                        0      10763          0        316      11079          0           4 off
+                                                        0      10848          0        316      11164          0           4 off
 /tb_top/dut/openhmc_sva_1/invalid_address_assert_if_wrong_write_operation
                      D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(148)
-                                                        0          0      10763        316      11079          0           0 off
+                                                        0         11      10837        316      11164          0           1 off
 /tb_top/dut/openhmc_sva_1/invalid_address_assert_if_wrong_read_operation
                      D:/Ali/College/Graduation_project/tb/openhmc_sva.sv(153)
-                                                        0          0      10763        316      11079          0           0 off
+                                                        0          1      10847        316      11164          0           1 off
 /cmd_pkg/hmc_pkt_item/post_randomize/#anonblk#171599735#375#4#/randomize_flit_successful
                      D:/Ali/College/Graduation_project/tb/hmc_packet//hmc_pkt_item.svh(376)
-                                                        0        684          0          0        684          0           0 off
+                                                        0        685          0          0        685          0           0 off
 /cmd_pkg/hmc_pkt_item/calculate_crc/packer_succeeded
                      D:/Ali/College/Graduation_project/tb/hmc_packet//hmc_pkt_item.svh(397)
-                                                        0       1436          0          0       1436          0           0 off
+                                                        0       1462          0          0       1462          0           0 off
 /hmc_agent_pkg/hmc_retry_buffer/add_packet/no_add_packet_when_retry_in_progress
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_retry_buffer.svh(74)
-                                                        0        116          0          0        116          0           0 off
+                                                        0        118          0          0        118          0           0 off
 /hmc_agent_pkg/hmc_retry_buffer/check_phase/no_retry_at_check
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_retry_buffer.svh(117)
                                                         0          4          0          0          4          0           0 off
@@ -218,25 +218,25 @@ Name                 File(Line)                   Failure      Pass     Vacuous 
                                                         0         44          0          0         44          0           0 off
 /hmc_agent_pkg/hmc_agent_base_driver/hmc_agent_base_driver__1/link_up/poisoned_propability_randomisation
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_base_driver.svh(534)
-                                                        0         72          0          0         72          0           0 off
+                                                        0         74          0          0         74          0           0 off
 /hmc_agent_pkg/hmc_agent_base_driver/hmc_agent_base_driver__1/send_irtry/pret_randomization
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_base_driver.svh(741)
-                                                        0       1320          0          0       1320          0           0 off
+                                                        0       1344          0          0       1344          0           0 off
 /hmc_agent_pkg/hmc_agent_base_driver/hmc_agent_base_driver__1/retry_send_packet/rrp_to_send_randomization_succeeds
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_base_driver.svh(401)
-                                                        0       1436          0          0       1436          0           0 off
+                                                        0       1462          0          0       1462          0           0 off
 /hmc_agent_pkg/hmc_agent_base_driver/hmc_agent_base_driver__1/retry_send_packet/error_type_seq_error_randomization
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_base_driver.svh(415)
-                                                        0       1436          0          0       1436          0           0 off
+                                                        0       1462          0          0       1462          0           0 off
 /hmc_agent_pkg/hmc_agent_base_driver/hmc_agent_base_driver__1/retry_send_packet/error_type_lng_error_randomization
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_base_driver.svh(430)
-                                                        0       1436          0          0       1436          0           0 off
+                                                        0       1462          0          0       1462          0           0 off
 /hmc_agent_pkg/hmc_agent_base_driver/hmc_agent_base_driver__1/retry_send_packet/error_type_crc_error_randomization
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_base_driver.svh(459)
-                                                        0       1436          0          0       1436          0           0 off
+                                                        0       1462          0          0       1462          0           0 off
 /hmc_agent_pkg/hmc_agent_base_driver/hmc_agent_base_driver__1/get_response/read/#anonblk#90256039#613#4#/randomize_flit_successful
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_base_driver.svh(614)
-                                                        0         94          0          0         94          0           0 off
+                                                        0        100          0          0        100          0           0 off
 /hmc_agent_pkg/hmc_agent_base_driver/hmc_agent_base_driver__1/set_init_continue/tb_respects_tINIT
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_base_driver.svh(802)
                                                         0          4          0          0          4          0           0 off
@@ -266,7 +266,7 @@ Name                 File(Line)                   Failure      Pass     Vacuous 
                                                         0        120          0          0        120          0           0 off
 /axi_pkg/axi_monitor/axi_monitor__1/collect_res_packet/flit_queue_lost
                      D:/Ali/College/Graduation_project/tb/axi_agent//axi_monitor.svh(221)
-                                                        0         72          0          0         72          0           0 off
+                                                        0         74          0          0         74          0           0 off
 /seq_pkg/axi_base_seq/starting/#anonblk#164063079#49#2#/#ublk#164063079#51/immed__52
                      D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(52)
                                                         0         30          0          0         30          0           0 off
@@ -277,5 +277,5 @@ Name                 File(Line)                   Failure      Pass     Vacuous 
                      D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(102)
                                                         0        120          0          0        120          0           0 off
 
-Total Coverage By Instance (filtered view): 82.85%
+Total Coverage By Instance (filtered view): 97.14%
 

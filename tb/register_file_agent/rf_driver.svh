@@ -31,7 +31,6 @@ task rf_driver::run_phase(uvm_phase phase);
 
   forever begin
       if(vif.res_n !== 1) begin
-        `uvm_info("RF_DRIVER","Assigning interface pins to zero",UVM_LOW)
         vif.rf_read_enable <= 0;
         vif.rf_write_enable <= 0;
         vif.rf_address <= 0;

@@ -519,7 +519,7 @@ task hmc_agent_monitor::collect_packets();
 		end
 
 		//-- check length miss-match "DLN[14:11]" "LNG[10:7]" //-- TODO: include CMD in length check
-		if (current_flit[14:11] != current_flit[10:7] || current_flit[10:7]==0) begin // Length mismatch
+		if (current_flit[14:11] != current_flit[10:7] || (current_flit[10:7]==0 && current_flit[5:0] != NULL)) begin // Length mismatch, length=0 is error except NULL command
 			`uvm_info("HMC_AGENT_MONITOR_collect_packets()",$sformatf("%s: current_packet_length mismatch %0x len=%0d, dln = %0d", requester_flag?"Requester":"Responder", current_flit, current_flit[10:7], current_flit[14:11]),UVM_NONE)
 			lng_error ++;
 			current_error = LENGTH_ERROR;
