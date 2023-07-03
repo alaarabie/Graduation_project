@@ -6,13 +6,13 @@ package rf_agent_pkg;
   
 
 
-`include "rf_item.sv"
-`include "rf_agent_cfg.sv"
-`include "rf_monitor.sv"
-`include "rf_driver.sv"
-`include "rf_reg2openhmc_adapter.sv"
-`include "rf_sequencer.sv"
-`include "rf_agent.sv"
+`include "rf_item.svh"
+`include "rf_agent_cfg.svh"
+`include "rf_monitor.svh"
+`include "rf_driver.svh"
+`include "rf_reg2openhmc_adapter.svh"
+`include "rf_sequencer.svh"
+`include "rf_agent.svh"
 
 
 endpackage : rf_agent_pkg

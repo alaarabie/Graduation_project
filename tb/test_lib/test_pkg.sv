@@ -10,11 +10,11 @@ package test_pkg ;
     import seq_pkg::* ;
     import tb_pkg::* ;
     
-    `include "vseq_base.sv"
-    `include "base_test.sv"
+    `include "vseq_base.svh"
+    `include "base_test.svh"
     
-  `include "final-test/hmc_final_test_vseq.sv"  
-  `include "final-test/rf_check_vseq.sv"  
-  `include "final-test/hmc_final_test.sv"
+  `include "simple-test/simple_test_vseq.svh"  
+  `include "simple-test/rf_check_vseq.svh"  
+  `include "simple-test/simple_test.svh"
 
 endpackage : test_pkg

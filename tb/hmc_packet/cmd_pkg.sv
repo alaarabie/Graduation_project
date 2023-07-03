@@ -66,6 +66,6 @@ MD_WR_RS = 6'h3B, // 6'b111_011
 ERROR_RS = 6'h3E  // 6'b111_110
 } cmd_encoding_e;
   
-`include "hmc_pkt_item.sv"
+`include "hmc_pkt_item.svh"
 
 endpackage : cmd_pkg

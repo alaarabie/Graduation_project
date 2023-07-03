@@ -141,11 +141,16 @@ rx_data_hold_until_ready_active :
 //------------------------------------------------------------------------------------------//
 //---------------------------- Register File Assertions ------------------------------------//
 //------------------------------------------------------------------------------------------//
-/*no_simultaneous_read_and_write :
-  `assert_clk ((rf_write_en && rf_read_en) == 0)
+no_simultaneous_read_and_write :
+  `assert_clk ( ((rf_write_en && rf_read_en) == 0) )
 
-correct_read_or_write_address :
-  `assert_clk (!rf_invalid_address)*/
+invalid_address_assert_if_wrong_write_operation :
+  `assert_clk ( (rf_write_en && (rf_address==4'h0 || rf_address==4'h1 || rf_address==4'h3 || rf_address==4'h4
+                  || rf_address==4'h5  || rf_address==4'h6  || rf_address==4'h7  || rf_address==4'h9  || rf_address==4'hA
+                  || rf_address==4'hB  || rf_address==4'hC) ) |=> rf_invalid_address )
+
+invalid_address_assert_if_wrong_read_operation :
+  `assert_clk ( (rf_read_en && rf_address==4'h8) |=> rf_invalid_address )
 
 
 endmodule : openhmc_sva

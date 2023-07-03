@@ -1,11 +1,9 @@
-class rf_monitor #(HMC_RF_WWIDTH = 64,
-                  HMC_RF_RWIDTH = 64,
-                  HMC_RF_AWIDTH = 4) extends uvm_monitor;
+class rf_monitor  extends uvm_monitor;
   
-  `uvm_component_param_utils(rf_monitor #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH))
+  `uvm_component_param_utils(rf_monitor )
 
-  virtual rf_if #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH) vif;
-  rf_agent_cfg #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH) cfg;
+  virtual rf_if  vif;
+  rf_agent_cfg  cfg;
   uvm_analysis_port #(rf_item) rf_ap;
 
   extern function new(string name, uvm_component parent);
@@ -22,7 +20,7 @@ endfunction : new
 
 function void rf_monitor::build_phase(uvm_phase phase);
   super.build_phase(phase);
-  if(!uvm_config_db #(rf_agent_cfg#(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH))::get(this, "","rf_agent_cfg_t", cfg))
+  if(!uvm_config_db #(rf_agent_cfg)::get(this, "","rf_agent_cfg_t", cfg))
     `uvm_fatal("RF_MONITOR_CONFIG_LOAD", "Failed to get rf_agent_cfg from uvm_config_db")
   vif = cfg.vif;
 
@@ -32,23 +30,25 @@ endfunction : build_phase
 
 task rf_monitor::run_phase(uvm_phase phase);
     rf_item m_item;
-    rf_item cloned_item;
     string item_str;
 
     m_item = rf_item::type_id::create("m_item");
 
     forever begin
 
-      wait(vif.res_n)
+      if(vif.res_n !== 1) begin
+        `uvm_info("RF_MONITOR","waiting for reset",UVM_HIGH)
+        @(posedge vif.res_n);
+      end
       
       @(posedge vif.clk);
 
-      if(vif.res_n & (vif.rf_read_enable | vif.rf_write_enable)) begin
+      if(vif.res_n & (vif.rf_read_enable || vif.rf_write_enable)) begin
 
         m_item.addr = vif.rf_address;
         m_item.write_flag = vif.rf_write_enable;
 
-        @(posedge vif.clk) 
+        @(posedge vif.clk); 
         //wait(vif.rf_access_complete);
 
         if(m_item.write_flag && vif.rf_access_complete)

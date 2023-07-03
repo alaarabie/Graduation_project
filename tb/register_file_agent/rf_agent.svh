@@ -1,13 +1,11 @@
-class rf_agent#(HMC_RF_WWIDTH = 64,
-                HMC_RF_RWIDTH = 64,
-                HMC_RF_AWIDTH = 4) extends  uvm_agent;
+class rf_agent extends  uvm_agent;
 
-  `uvm_component_param_utils(rf_agent #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH))
+  `uvm_component_param_utils(rf_agent )
   
-  rf_agent_cfg #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH) cfg;
+  rf_agent_cfg  cfg;
 
-  rf_driver  #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH) driver;
-  rf_monitor #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH) monitor;
+  rf_driver   driver;
+  rf_monitor  monitor;
   rf_sequencer   m_seqr;
 
   uvm_analysis_port #(rf_item) rf_ap;
@@ -28,16 +26,16 @@ endfunction : new
 function void rf_agent::build_phase(uvm_phase phase);
   super.build_phase(phase);
 
-  if(!uvm_config_db #(rf_agent_cfg#(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH))::get(this, "","rf_agent_cfg_t", cfg))
+  if(!uvm_config_db #(rf_agent_cfg)::get(this, "","rf_agent_cfg_t", cfg))
     `uvm_fatal("RF_AGENT_CONFIG_LOAD", "Failed to get rf_agent_cfg from uvm_config_db")
 
   if(cfg.active == UVM_ACTIVE) begin
-      driver    = rf_driver#(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH)::type_id::create("driver",this);
+      driver    = rf_driver::type_id::create("driver",this);
       driver.cfg = cfg;
       m_seqr = rf_sequencer::type_id::create("m_seqr", this);
   end
 
-  monitor = rf_monitor#(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH)::type_id::create("monitor",this);
+  monitor = rf_monitor::type_id::create("monitor",this);
   monitor.cfg = cfg;
 
   rf_ap = new("rf_ap",this);

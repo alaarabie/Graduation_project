@@ -16,10 +16,7 @@ module tb_top();
   logic res_n;
 
 //**************** INTERFACES INSTANTIATIONS **************//
-  rf_if #(.HMC_RF_WWIDTH(HMC_RF_WWIDTH),
-          .HMC_RF_RWIDTH(HMC_RF_RWIDTH),
-          .HMC_RF_AWIDTH(HMC_RF_AWIDTH))
-    RF (.clk(clk), .res_n(res_n));
+  rf_if rf_if (.clk(clk), .res_n(res_n));
 
   hmc_agent_if #(.NUM_LANES(NUM_LANES)) hmc_if ();
   hmc_agent_if #(.NUM_LANES(NUM_LANES)) hmc_int_if ();
@@ -117,9 +114,6 @@ always @(posedge clk) LxTXPS_synced <= LxTXPS;
                 .DWIDTH(DWIDTH),
                 .LOG_NUM_LANES(LOG_NUM_LANES),
                 .NUM_DATA_BYTES(NUM_DATA_BYTES),
-                .HMC_RF_WWIDTH(HMC_RF_WWIDTH),
-                .HMC_RF_RWIDTH(HMC_RF_RWIDTH),
-                .HMC_RF_AWIDTH(HMC_RF_AWIDTH),
                 .LOG_MAX_RX_TOKENS(LOG_MAX_RX_TOKENS),
                 .LOG_MAX_HMC_TOKENS(LOG_MAX_HMC_TOKENS),
                 .HMC_RX_AC_COUPLED(HMC_RX_AC_COUPLED),
@@ -162,13 +156,13 @@ always @(posedge clk) LxTXPS_synced <= LxTXPS;
          .LXTXPS(LxTXPS_pullup),
          .FERR_N(FERR_N_pullup),
          // register file
-         .rf_address(RF.rf_address),
-         .rf_read_data(RF.rf_read_data),
-         .rf_invalid_address(RF.rf_invalid_address),
-         .rf_access_complete(RF.rf_access_complete),
-         .rf_read_en(RF.rf_read_enable),
-         .rf_write_en(RF.rf_write_enable),
-         .rf_write_data(RF.rf_write_data)
+         .rf_address(rf_if.rf_address),
+         .rf_read_data(rf_if.rf_read_data),
+         .rf_invalid_address(rf_if.rf_invalid_address),
+         .rf_access_complete(rf_if.rf_access_complete),
+         .rf_read_en(rf_if.rf_read_enable),
+         .rf_write_en(rf_if.rf_write_enable),
+         .rf_write_data(rf_if.rf_write_data)
          );
 //*****************************************************//
 
@@ -178,9 +172,6 @@ always @(posedge clk) LxTXPS_synced <= LxTXPS;
                                        .DWIDTH(DWIDTH),
                                        .LOG_NUM_LANES(LOG_NUM_LANES),
                                        .NUM_DATA_BYTES(NUM_DATA_BYTES),
-                                       .HMC_RF_WWIDTH(HMC_RF_WWIDTH),
-                                       .HMC_RF_RWIDTH(HMC_RF_RWIDTH),
-                                       .HMC_RF_AWIDTH(HMC_RF_AWIDTH),
                                        .LOG_MAX_RX_TOKENS(LOG_MAX_RX_TOKENS),
                                        .LOG_MAX_HMC_TOKENS(LOG_MAX_HMC_TOKENS),
                                        .HMC_RX_AC_COUPLED(HMC_RX_AC_COUPLED),
@@ -199,7 +190,7 @@ always @(posedge clk) LxTXPS_synced <= LxTXPS;
 //****************************************************************//                       
 
 initial begin
-  uvm_config_db#(virtual rf_if #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH))::set(null, "uvm_test_top", "RF", RF);
+  uvm_config_db#(virtual rf_if)::set(null, "uvm_test_top", "rf_if", rf_if);
 
   uvm_config_db#(virtual hmc_agent_if #(NUM_LANES))::set(null, "uvm_test_top", "vif", hmc_if);
   uvm_config_db#(virtual hmc_agent_if #(NUM_LANES))::set(null, "uvm_test_top", "int_vif", hmc_int_if);

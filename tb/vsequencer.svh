@@ -1,0 +1,18 @@
+class vsequencer extends  uvm_sequencer;
+  
+  `uvm_component_utils(vsequencer)
+
+  rf_sequencer  m_rf_seqr;
+  hmc_agent_sequencer m_hmc_sqr;
+  axi_sequencer_t m_axi_sqr;
+  env_cfg cfg ;
+  
+
+
+  function new(string name, uvm_component parent);
+    super.new(name, parent);
+    if(!uvm_config_db #(env_cfg)::get(this, "","m_env_cfg", cfg))
+       `uvm_fatal("ENV_CONFIG_LOAD", "Failed to get env_cfg from uvm_config_db")
+  endfunction : new
+  
+endclass : vsequencer

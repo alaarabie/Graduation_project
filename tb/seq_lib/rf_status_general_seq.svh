@@ -41,6 +41,6 @@ task rf_status_general_seq::body();
                          rf_rb.m_reg_status_general.lane_polarity_reversed.get()
                         );
 
-  `uvm_info("rf_status_general_seq", print_reg,UVM_LOW)
+  `uvm_info("rf_status_general_seq", print_reg,UVM_HIGH)
 
 endtask : body

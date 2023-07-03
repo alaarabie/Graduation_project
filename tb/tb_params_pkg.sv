@@ -11,10 +11,6 @@ import hmc_agent_pkg::*;
   parameter LOG_NUM_LANES         = 3;                //Set 3 for half-width, 4 for full-width
   parameter NUM_LANES             = 2**LOG_NUM_LANES; //Leave untouched
   parameter NUM_DATA_BYTES        = FPW*16;           //Leave untouched
-  //Define width of the register file
-  parameter HMC_RF_WWIDTH         = 64;   //Leave untouched    
-  parameter HMC_RF_RWIDTH         = 64;   //Leave untouched
-  parameter HMC_RF_AWIDTH         = 4;    //Leave untouched
   //Configure the Functionality
   parameter LOG_MAX_RX_TOKENS     = 10;    //Set the depth of the RX input buffer. Must be >= LOG(rf_rx_buffer_rtc) in the RF. Dont't care if OPEN_RSP_MODE=1
   parameter LOG_MAX_HMC_TOKENS    = 10;   //Set the depth of the HMC input buffer. Must be >= LOG of the corresponding field in the HMC internal register
@@ -38,9 +34,6 @@ import hmc_agent_pkg::*;
 
   parameter FLIT_SIZE = 128;
 
-typedef rf_agent_cfg #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH) rf_agent_cfg_t;
-typedef rf_agent     #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH) rf_agent_t;
-
 typedef hmc_agent_config #(NUM_LANES) hmc_agent_config_t;
 typedef hmc_agent        #(NUM_LANES) hmc_agent_t;
 
@@ -48,7 +41,6 @@ typedef axi_config #(NUM_DATA_BYTES, DWIDTH) axi_config_t;
 typedef axi_agent  #(NUM_DATA_BYTES, DWIDTH) axi_agent_t;
 typedef axi_sequencer  #(NUM_DATA_BYTES, DWIDTH) axi_sequencer_t;
 
-typedef virtual rf_if #(HMC_RF_WWIDTH, HMC_RF_RWIDTH, HMC_RF_AWIDTH) rf_if_t;
 typedef virtual hmc_agent_if #(NUM_LANES) hmc_agent_if_t;
 typedef virtual axi_interface #(NUM_DATA_BYTES, DWIDTH) axi_interface_t;
 
