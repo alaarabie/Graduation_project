@@ -17,6 +17,7 @@ task rf_control_read_seq::body();
   super.body();
 
   rf_rb.m_reg_control.read(status, data, .parent(this));
+  rf_rb.m_reg_control.read(status, data, .parent(this));
 
     print_reg = $sformatf("\n*******************************\n\tCONTROL REGISTER\n*******************************
                          \t p_rst_n=%1b, 

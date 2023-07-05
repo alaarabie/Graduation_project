@@ -152,5 +152,8 @@ invalid_address_assert_if_wrong_write_operation :
 invalid_address_assert_if_wrong_read_operation :
   `assert_clk ( (rf_read_en && rf_address==4'h8) |=> rf_invalid_address )
 
+access_complete_one_cycle_after_operation :
+  `assert_clk ( (rf_write_en || rf_read_en) |=> rf_access_complete )
+
 
 endmodule : openhmc_sva

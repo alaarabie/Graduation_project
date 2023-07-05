@@ -4,15 +4,12 @@ import axi_pkg::*;
 import rf_agent_pkg::*;
 import hmc_agent_pkg::*;
 
-  parameter FPW                   = 4;        //Legal Values: 2,4,6,8
-  parameter LOG_FPW               = 2;        //Legal Values: 1 for FPW=2 ,2 for FPW=4 ,3 for FPW=6/8
-  parameter DWIDTH                = FPW*128;  //Leave untouched
+  parameter FPW                   = 4;    //Legal Values: 2,4,6,8
+  parameter LOG_FPW               = 2;    //Legal Values: 1 for FPW=2 ,2 for FPW=4 ,3 for FPW=6/8
   //Define HMC interface width
-  parameter LOG_NUM_LANES         = 3;                //Set 3 for half-width, 4 for full-width
-  parameter NUM_LANES             = 2**LOG_NUM_LANES; //Leave untouched
-  parameter NUM_DATA_BYTES        = FPW*16;           //Leave untouched
+  parameter LOG_NUM_LANES         = 4;    //Set 3 for half-width, 4 for full-width
   //Configure the Functionality
-  parameter LOG_MAX_RX_TOKENS     = 10;    //Set the depth of the RX input buffer. Must be >= LOG(rf_rx_buffer_rtc) in the RF. Dont't care if OPEN_RSP_MODE=1
+  parameter LOG_MAX_RX_TOKENS     = 10;   //Set the depth of the RX input buffer. Must be >= LOG(rf_rx_buffer_rtc) in the RF. Dont't care if OPEN_RSP_MODE=1
   parameter LOG_MAX_HMC_TOKENS    = 10;   //Set the depth of the HMC input buffer. Must be >= LOG of the corresponding field in the HMC internal register
   parameter HMC_RX_AC_COUPLED     = 1;    //Set to 0 to bypass the run length limiter, saves logic and 1 cycle delay
   parameter DETECT_LANE_POLARITY  = 1;    //Set to 0 if lane polarity is not applicable, saves logic
@@ -32,18 +29,15 @@ import hmc_agent_pkg::*;
   //Debug Params
   parameter DBG_RX_TOKEN_MON      = 1;    //Set to 0 to remove the RX Link token monitor, saves logic
 
-  parameter FLIT_SIZE = 128;
 
-typedef hmc_agent_config #(NUM_LANES) hmc_agent_config_t;
-typedef hmc_agent        #(NUM_LANES) hmc_agent_t;
+typedef hmc_agent_config #(.NUM_LANES(2**LOG_NUM_LANES)) hmc_agent_config_t;
+typedef hmc_agent        #(.NUM_LANES(2**LOG_NUM_LANES)) hmc_agent_t;
 
-typedef axi_config #(NUM_DATA_BYTES, DWIDTH) axi_config_t;
-typedef axi_agent  #(NUM_DATA_BYTES, DWIDTH) axi_agent_t;
-typedef axi_sequencer  #(NUM_DATA_BYTES, DWIDTH) axi_sequencer_t;
+typedef axi_config #(.NUM_DATA_BYTES(FPW*16), .DWIDTH(FPW*128)) axi_config_t;
+typedef axi_agent  #(.NUM_DATA_BYTES(FPW*16), .DWIDTH(FPW*128)) axi_agent_t;
+typedef axi_sequencer  #(.NUM_DATA_BYTES(FPW*16), .DWIDTH(FPW*128)) axi_sequencer_t;
 
-typedef virtual hmc_agent_if #(NUM_LANES) hmc_agent_if_t;
-typedef virtual axi_interface #(NUM_DATA_BYTES, DWIDTH) axi_interface_t;
-
-
+typedef virtual hmc_agent_if #(.NUM_LANES(2**LOG_NUM_LANES)) hmc_agent_if_t;
+typedef virtual axi_interface #(.NUM_DATA_BYTES(FPW*16), .DWIDTH(FPW*128)) axi_interface_t;
 
 endpackage

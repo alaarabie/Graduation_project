@@ -14,6 +14,11 @@ class initialization_seq extends  base_seq;
   task body();
     string print_reg;
     super.body();
+
+    phy_tx_ready = 0;
+    phy_rx_ready = 0;
+    link_up = 0;
+    timeout = 0;
     
     `uvm_info("INITIALiZATION_SEQ", $sformatf("HMC_Token Count is: %d", m_cfg.m_hmc_agent_cfg.hmc_tokens), UVM_NONE)
     `uvm_info("INITIALiZATION_SEQ", $sformatf("RX_Token Count is: %d", m_cfg.m_hmc_agent_cfg.rx_tokens), UVM_NONE)

@@ -109,6 +109,7 @@ class hmc_agent_base_driver#(NUM_LANES=16) extends uvm_driver#(hmc_pkt_item);
    bit init_continue;
    bit can_continue;
 
+
   function new (string name, uvm_component parent);
      	super.new(name,parent);
   endfunction : new
@@ -167,6 +168,7 @@ class hmc_agent_base_driver#(NUM_LANES=16) extends uvm_driver#(hmc_pkt_item);
        end
     end
     if (pkt.get_command_type() != FLOW_TYPE && !pkt.poisoned ) begin
+      `uvm_info("HMC_AGENT_BASE_DRIVER_write_hmc_frp()", $sformatf("hmc_frp: %s with FRP %0d & size %0d",pkt.command.name(), pkt.forward_retry_ptr, pkt.length),UVM_LOW)
        used_tokens_does_not_overflow : assert ( used_tokens < used_tokens + pkt.length);
        used_tokens = used_tokens + pkt.length;
     end
@@ -306,11 +308,13 @@ endfunction : step_scramblers
 
 
 //*******************************************************************************
-// initial_trets()
+// initial_trets() - send TRET FLITs (send tokens)
 //*******************************************************************************
 task hmc_agent_base_driver::initial_trets();
    hmc_pkt_item tret = hmc_pkt_item::type_id::create("tret");
-   // send TRET FLITs (send tokens)
+
+   tokens_to_send = hmc_agent_cfg.hmc_tokens; // number of tokens to send in TRET
+
    while(tokens_to_send > 0) begin
       init_tret_randomization : assert (tret.randomize() with {
                                        command == TRET;
@@ -319,6 +323,7 @@ task hmc_agent_base_driver::initial_trets();
                                        return_token_cnt <= tokens_to_send && return_token_cnt > 0;
                                        });
      send_packet(tret);
+     `uvm_info("HMC_AGENT_BASE_DRIVER_link_up()",$sformatf("sending tret, (<%0d)", tret.return_token_cnt), UVM_HIGH)
      tokens_to_send = tokens_to_send - tret.return_token_cnt; // next iteration
    end
    next_state = LINK_UP; // initialization and token return is done
@@ -468,7 +473,6 @@ task hmc_agent_base_driver::retry_send_packet(input hmc_pkt_item pkt);
       end
    end
    copy.crc = crc;
-
    drive_tx_packet(copy); // ready to go
    if ((copy.command & 6'h38) == FLOW_TYPE) begin
       flow_packets_port.write(pkt);
@@ -536,7 +540,7 @@ task hmc_agent_base_driver::link_up();
       `uvm_info("HMC_AGENT_BASE_DRIVER_link_up()",$sformatf("sending pret, frp_queue size = %0d", frp_queue.size()), UVM_HIGH)
       send_pret();
    end else if ($time-last_packet_timestamp > hmc_agent_cfg.send_tret_time && (used_tokens - sent_tokens) > 0 &&(250- retry_buffer.get_buffer_used()) >1) begin //else of line497
-      `uvm_info("HMC_AGENT_BASE_DRIVER_link_up()",$sformatf("sending tret, (<%0d)", used_tokens-sent_tokens), UVM_HIGH)
+      `uvm_info("HMC_AGENT_BASE_DRIVER_link_up()",$sformatf("sending tret, (<%0d)", used_tokens-sent_tokens), UVM_LOW)
       send_tret();
    end else begin //else of line499
       `uvm_info("HMC_AGENT_BASE_DRIVER_link_up()",$sformatf("drive empty filt"),UVM_HIGH)
@@ -636,8 +640,7 @@ function void hmc_agent_base_driver::get_response(input hmc_pkt_item request);
       packet_queue.push_back(response);
    end : mode_read
 
-  else if (request.get_command_type() == WRITE_TYPE || 
-           request.get_command_type() == MISC_WRITE_TYPE) 
+  else if ((request.get_command_type() == WRITE_TYPE || request.get_command_type() == MISC_WRITE_TYPE) && request.command != MD_WR) 
   begin : write
       // know the length
       response_length = 1; // there is already a constraint inside the packet
@@ -649,7 +652,16 @@ function void hmc_agent_base_driver::get_response(input hmc_pkt_item request);
       // no payload
       packet_queue.push_back(response);
   end : write
-
+  else if (request.command == MD_WR)
+   begin : mode_write
+      response_length = 1;
+      void'(response.randomize() with {command == MD_WR_RS;
+                                       address == request.address;
+                                       length  == response_length;
+                                       tag     == request.tag;
+                                      });
+      packet_queue.push_back(response);
+   end : mode_write
   else if (request.get_command_type() != POSTED_WRITE_TYPE &&
            request.get_command_type() != POSTED_MISC_WRITE_TYPE) 
   begin : wrong_commands

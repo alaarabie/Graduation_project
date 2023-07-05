@@ -1,0 +1,525 @@
+# ** Error: Acs sdne.
+# 
+#        Unable to replace existing ini file (D:/Ali/College/Graduation_project/sim/comp.mpf).  File can not be renamed.
+# ** Error: Acs sdne.
+# 
+#        Unable to replace existing ini file (D:/Ali/College/Graduation_project/sim/comp.mpf).  File can not be renamed.
+# End time: 23:35:22 on Jul 05,2023, Elapsed time: 0:00:50
+# Errors: 2, Warnings: 1
+# vsim top_opt -c -assertdebug -debugDB -fsmdebug -coverage "+UVM_TESTNAME=write_only_test" 
+# Start time: 23:35:23 on Jul 05,2023
+# Loading sv_std.std
+# Loading work.rf_if(fast)
+# Loading work.hmc_agent_if(fast)
+# Loading work.axi_interface(fast)
+# Loading mtiUvm.uvm_pkg(fast)
+# Loading work.cmd_pkg(fast)
+# Loading work.hmc_agent_pkg(fast)
+# Loading work.rf_agent_pkg(fast)
+# Loading work.axi_pkg(fast)
+# Loading work.tb_params_pkg(fast)
+# Loading work.rf_reg_block_pkg(fast)
+# Loading work.tb_pkg(fast)
+# Loading work.seq_pkg(fast)
+# Loading work.test_pkg(fast)
+# Loading mtiUvm.questa_uvm_pkg(fast)
+# Loading work.tb_top(fast)
+# Loading work.rf_if(fast__2)
+# Loading work.hmc_agent_if(fast__2)
+# Loading work.hmc_agent_if(fast__3)
+# Loading work.axi_interface(fast__2)
+# Loading work.serializer(fast)
+# Loading work.deserializer(fast)
+# Loading work.openhmc_top(fast)
+# Loading work.openhmc_sync_fifo_reg_based(fast)
+# Loading work.tx_link(fast)
+# Loading work.openhmc_ram(fast)
+# Loading work.tx_crc_combine(fast)
+# Loading work.crc_128_init(fast)
+# Loading work.crc_accu(fast)
+# Loading work.tx_scrambler(fast)
+# Loading work.tx_run_length_limiter(fast)
+# Loading work.rx_link(fast)
+# Loading work.rx_lane_logic(fast)
+# Loading work.rx_descrambler(fast)
+# Loading work.rx_crc_compare(fast)
+# Loading work.openhmc_sync_fifo(fast)
+# Loading work.openhmc_sync_fifo_reg_stage(fast)
+# Loading work.openhmc_ram(fast__1)
+# Loading work.openhmc_sync_fifo_reg_based(fast__1)
+# Loading work.openhmc_rf(fast)
+# Loading work.openhmc_counter48(fast)
+# Loading work.openhmc_sva(fast)
+# Loading C:/questasim64_2021.1/uvm-1.1d\win64\uvm_dpi.dll
+# ** Note: (vsim-8716) Reusing existing debug database vsim.dbg.
+# 1
+# ----------------------------------------------------------------
+# UVM-1.1d
+# (C) 2007-2013 Mentor Graphics Corporation
+# (C) 2007-2013 Cadence Design Systems, Inc.
+# (C) 2006-2013 Synopsys, Inc.
+# (C) 2011-2013 Cypress Semiconductor Corp.
+# ----------------------------------------------------------------
+# 
+#   ***********       IMPORTANT RELEASE NOTES         ************
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_NO_DEPRECATED undefined.
+#   See http://www.eda.org/svdb/view.php?id=3313 for more details.
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+#   See http://www.eda.org/svdb/view.php?id=3770 for more details.
+# 
+#       (Specify +UVM_NO_RELNOTES to turn off this notice)
+# 
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(277) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2.3
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(278) @ 0: reporter [Questa UVM]  questa_uvm::init(+struct)
+# UVM_INFO @ 0: reporter [RNTST] Running test write_only_test...
+# UVM_INFO D:/Ali/College/Graduation_project/tb//env.svh(69) @ 0: uvm_test_top.m_env [env_connect_phase] set up register block seqr
+# -------------------------------------------------------------------------------
+# Name                               Type                             Size  Value
+# -------------------------------------------------------------------------------
+# uvm_test_top                       write_only_test                  -     @487 
+#   m_env                            env                              -     @571 
+#     axi_agent_h                    uvm_agent                        -     @674 
+#       a_driver                     uvm_driver #(REQ,RSP)            -     @847 
+#         rsp_port                   uvm_analysis_port                -     @862 
+#         seq_item_port              uvm_seq_item_pull_port           -     @854 
+#       a_monitor                    uvm_monitor                      -     @979 
+#         request                    uvm_analysis_port                -     @1004
+#         response                   uvm_analysis_port                -     @1012
+#       a_sequencer                  uvm_sequencer                    -     @870 
+#         rsp_export                 uvm_analysis_export              -     @877 
+#         seq_item_export            uvm_seq_item_pull_imp            -     @971 
+#         arbitration_queue          array                            0     -    
+#         lock_queue                 array                            0     -    
+#         num_last_reqs              integral                         32    'd1  
+#         num_last_rsps              integral                         32    'd1  
+#       mon_request                  uvm_analysis_port                -     @986 
+#       mon_response                 uvm_analysis_port                -     @994 
+#     hmc_agent_h                    uvm_agent                        -     @622 
+#       h_status                     hmc_status                       -     @629 
+#         Requester_link_status      hmc_link_status                  -     @636 
+#         Responder_link_status      hmc_link_status                  -     @643 
+#       hmc_flow_ap                  uvm_analysis_port                -     @666 
+#       hmc_req_ap                   uvm_analysis_port                -     @650 
+#       hmc_rsp_ap                   uvm_analysis_port                -     @658 
+#       m_driver                     uvm_driver #(REQ,RSP)            -     @1323
+#         flow_packets_port          uvm_analysis_port                -     @1362
+#         hmc_frp_port               uvm_analysis_imp_hmc_frp         -     @1346
+#         request_import             uvm_analysis_imp_request         -     @1354
+#         rsp_port                   uvm_analysis_port                -     @1338
+#         seq_item_port              uvm_seq_item_pull_port           -     @1330
+#       m_req_monitor                uvm_monitor                      -     @1106
+#         frp_port                   uvm_analysis_port                -     @1129
+#         item_collected_port        uvm_analysis_port                -     @1113
+#         req_cdr                    uvm_component                    -     @1374
+#         return_token_port          uvm_analysis_port                -     @1121
+#         rrp_port                   uvm_analysis_port                -     @1137
+#       m_rsp_monitor                uvm_monitor                      -     @1145
+#         frp_port                   uvm_analysis_port                -     @1168
+#         item_collected_port        uvm_analysis_port                -     @1152
+#         return_token_port          uvm_analysis_port                -     @1160
+#         rrp_port                   uvm_analysis_port                -     @1176
+#         rsp_cdr                    uvm_component                    -     @1384
+#       m_sqr                        hmc_agent_sequencer              -     @1184
+#         rsp_export                 uvm_analysis_export              -     @1191
+#         seq_item_export            uvm_seq_item_pull_imp            -     @1285
+#         arbitration_queue          array                            0     -    
+#         lock_queue                 array                            0     -    
+#         num_last_reqs              integral                         32    'd1  
+#         num_last_rsps              integral                         32    'd1  
+#       req_inj                      uvm_component                    -     @1092
+#         req_cdr                    uvm_component                    -     @1400
+#       req_transaction_mon          hmc_transaction_mon              -     @1030
+#         pkt_import                 uvm_analysis_imp_hmc_pkt         -     @1037
+#         rrp_import                 uvm_analysis_imp_hmc_rrp         -     @1045
+#         transaction_finished_port  uvm_analysis_port                -     @1053
+#       retry_buffer                 hmc_retry_buffer                 -     @1308
+#         return_pointer_imp         uvm_analysis_imp_return_pointer  -     @1315
+#       rsp_inj                      uvm_component                    -     @1099
+#         rsp_cdr                    uvm_component                    -     @1411
+#       rsp_transaction_mon          hmc_transaction_mon              -     @1061
+#         pkt_import                 uvm_analysis_imp_hmc_pkt         -     @1068
+#         rrp_import                 uvm_analysis_imp_hmc_rrp         -     @1076
+#         transaction_finished_port  uvm_analysis_port                -     @1084
+#       token_handler                hmc_token_handler                -     @1293
+#         token_imp                  uvm_analysis_imp_tokens          -     @1300
+#     m_coverage                     coverage                         -     @830 
+#       analysis_imp                 uvm_analysis_imp                 -     @837 
+#     m_rf_agent                     uvm_agent                        -     @591 
+#       driver                       rf_driver                        -     @1421
+#         rsp_port                   uvm_analysis_port                -     @1436
+#         seq_item_port              uvm_seq_item_pull_port           -     @1428
+#       m_seqr                       rf_sequencer                     -     @1444
+#         rsp_export                 uvm_analysis_export              -     @1451
+#         seq_item_export            uvm_seq_item_pull_imp            -     @1545
+#         arbitration_queue          array                            0     -    
+#         lock_queue                 array                            0     -    
+#         num_last_reqs              integral                         32    'd1  
+#         num_last_rsps              integral                         32    'd1  
+#       monitor                      uvm_monitor                      -     @1553
+#         rf_ap                      uvm_analysis_port                -     @1575
+#       rf_ap                        uvm_analysis_port                -     @1560
+#     m_rf_openhmc2reg_predictor     uvm_reg_predictor #(rf_item)     -     @598 
+#       bus_in                       uvm_analysis_imp                 -     @605 
+#       reg_ap                       uvm_analysis_port                -     @613 
+#     m_scoreboard                   scoreboard                       -     @791 
+#       axi4_req_import              uvm_analysis_imp_axi4_req        -     @798 
+#       axi4_rsp_import              uvm_analysis_imp_axi4_rsp        -     @806 
+#       hmc_req_import               uvm_analysis_imp_hmc_req         -     @814 
+#       hmc_rsp_import               uvm_analysis_imp_hmc_rsp         -     @822 
+#     m_vseqr                        vsequencer                       -     @681 
+#       rsp_export                   uvm_analysis_export              -     @688 
+#       seq_item_export              uvm_seq_item_pull_imp            -     @782 
+#       arbitration_queue            array                            0     -    
+#       lock_queue                   array                            0     -    
+#       num_last_reqs                integral                         32    'd1  
+#       num_last_rsps                integral                         32    'd1  
+# -------------------------------------------------------------------------------
+# 
+#### Factory Configuration (*)
+# 
+#   No instance or type overrides are registered with this factory
+# 
+# All types registered with the factory: 113 total
+# (types without type names will not be printed)
+# 
+#   Type Name
+#   ---------
+#   axi_base_seq
+#   axi_posted_seq
+#   axi_read_seq
+#   axi_write_seq
+#   base_seq
+#   base_test
+#   coverage
+#   env
+#   env_cfg
+#   hmc_agent_sequencer
+#   hmc_link_status
+#   hmc_pkt_item
+#   hmc_pkt_item_request
+#   hmc_retry_buffer
+#   hmc_status
+#   hmc_tag_mon
+#   hmc_token_handler
+#   hmc_transaction_mon
+#   initialization_seq
+#   posted_only_test
+#   posted_only_test_vseq
+#   questa_uvm_recorder
+#   read_only_test
+#   read_only_test_vseq
+#   reg_control
+#   reg_counter_reset
+#   reg_error_abort_not_cleared
+#   reg_errors_on_rx
+#   reg_poisoned_packets
+#   reg_rcvd_rsp
+#   reg_run_length_bit_flip
+#   reg_sent_np
+#   reg_sent_p
+#   reg_sent_r
+#   reg_status_general
+#   reg_status_init
+#   reg_tx_link_retries
+#   rf_agent_cfg
+#   rf_check_vseq
+#   rf_control_read_seq
+#   rf_control_sleep_seq
+#   rf_counters_seq
+#   rf_driver
+#   rf_item
+#   rf_reg2openhmc_adapter
+#   rf_reg_block
+#   rf_sequencer
+#   rf_status_general_seq
+#   rf_status_init_seq
+#   rf_wrong_op_seq
+#   rf_wrong_op_vseq
+#   scoreboard
+#   simple_test
+#   simple_test_vseq
+#   vseq_base
+#   vsequencer
+#   write_only_test
+#   write_only_test_vseq
+# (*) Types with no associated type name will be printed as <unknown>
+# 
+####
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//base_test.svh(70) @ 0: uvm_test_top [BASE_TEST_end_of_elaboration_phase()] Printing hmc_config: -------------------------------------------------------------
+# Name                                   Type       Size  Value
+# -------------------------------------------------------------
+# m_hmc_cfg                              <unknown>  -     @495 
+#   width                                integral   32    'd16 
+#   scramblers_enabled                   integral   1     'd0  
+#   reverse_polarity                     integral   16    'd0  
+#   reverse_lanes                        integral   1     'd0  
+#   run_length_limit                     integral   32    'd85 
+#   TS1_Messages                         integral   32    'd4  
+#   irtry_flit_count_to_send             integral   32    'h18 
+#   irtry_flit_count_received_threshold  integral   32    'h10 
+#   hmc_tokens                           integral   32    'd163
+#   rx_tokens                            integral   32    'd117
+#   lane_errors_enabled                  integral   1     'd0  
+#   poisoned_probability                 integral   32    'd0  
+#   lng_error_probability                integral   32    'd0  
+#   seq_error_probability                integral   32    'd0  
+#   crc_error_probability                integral   32    'd0  
+#   bitflip_error_probability            integral   32    'd0  
+# -------------------------------------------------------------
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//write-only-test/write_only_test.svh(18) @ 0: uvm_test_top [WRITE_ONLY_TEST] Starting test
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//write-only-test/write_only_test.svh(20) @ 0: uvm_test_top [WRITE_ONLY_TEST] Executing write_only_test_vseq
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//write-only-test/write_only_test_vseq.svh(22) @ 0: uvm_test_top.m_env.m_vseqr@@m_write_only_test_vseq [write_only_test_vseq] Executing sequence
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(23) @ 0: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] HMC_Token Count is:         163
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(24) @ 0: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] RX_Token Count is:         117
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(63) @ 2518401: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] 
+# *******************************
+# 	CONTROL REGISTER
+# *******************************
+# 
+#                        	 p_rst_n=0, 
+# 
+#                        	 hmc_init_cont_set=0, 
+# 
+#                        	 set_hmc_sleep=0, 
+# 
+#                        	 warm_reset=0, 
+# 
+#                        	 scrambler_disable=1, 
+# 
+#                        	 run_length_enable=1, 
+# 
+#                        	 rx_token_count=75, 
+# 
+#                        	 irtry_received_threshold=10, 
+# 
+#                        	 irtry_to_send=18
+# **************************************************************
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(77) @ 3536001: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] Waiting for the PHY TX to get ready
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(77) @ 4540801: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] Waiting for the PHY TX to get ready
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(79) @ 4540801: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] Phy TX ready
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(673) @ 4547200: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 100000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(673) @ 4547200: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(673) @ 4548600: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(673) @ 5552000: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(673) @ 5784400: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(673) @ 6102500: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: TS1 	 vector: 111100
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(395) @ 6108900: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_flits()] Requester Link is not reversed
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(93) @ 6553601: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] Waiting for PHY RX to get ready
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_driver.svh(250) @ 6811800: uvm_test_top.m_env.hmc_agent_h.m_driver [HMC_AGENT_DRIVER_ts1()] Sending TS1 Sequences
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(673) @ 6815100: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: TS1 	 vector: 111100
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(395) @ 6821500: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_flits()] Responder Link is not reversed
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(93) @ 7558401: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] Waiting for PHY RX to get ready
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(95) @ 7558401: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] Phy RX is ready
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(673) @ 7803300: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS_2 	 vector: 111110
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(673) @ 7811900: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS_2 	 vector: 111110
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(673) @ 7827300: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: LINK_UP 	 vector: 111111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(673) @ 7835900: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: LINK_UP 	 vector: 111111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(108) @ 7846401: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] Link is UP !
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(531) @ 7908900: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_packets()] Requester: current_packet_length mismatch 1000000000000000000000001 len=0, dln = 0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(531) @ 8106300: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_packets()] Responder: current_packet_length mismatch 1 len=0, dln = 0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//write-only-test/write_only_test_vseq.svh(25) @ 9846401: uvm_test_top.m_env.m_vseqr@@m_write_only_test_vseq [write_only_test_vseq] Executing AXI sequence
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 9846401: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #0 command is: WR48 tag is: 1
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 9846401: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #1 command is: WR16 tag is: 2
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 9846401: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #2 command is: WR16 tag is: 3
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 9846401: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #3 command is: WR80 tag is: 4
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 9846401: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #4 command is: WR64 tag is: 5
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//write-only-test/write_only_test_vseq.svh(30) @ 10065600: uvm_test_top.m_env.m_vseqr@@m_write_only_test_vseq [write_only_test_vseq] Executing AXI sequence
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10065600: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #0 command is: WR16 tag is: 6
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10065600: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #1 command is: WR80 tag is: 7
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10065600: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #2 command is: WR64 tag is: 8
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10065600: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #3 command is: WR48 tag is: 9
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10065600: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #4 command is: WR64 tag is: 10
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//write-only-test/write_only_test_vseq.svh(30) @ 10286400: uvm_test_top.m_env.m_vseqr@@m_write_only_test_vseq [write_only_test_vseq] Executing AXI sequence
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10286400: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #0 command is: WR112 tag is: 11
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10286400: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #1 command is: WR32 tag is: 12
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10286400: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #2 command is: WR64 tag is: 13
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10286400: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #3 command is: WR48 tag is: 14
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10286400: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #4 command is: WR32 tag is: 15
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//write-only-test/write_only_test_vseq.svh(30) @ 10507200: uvm_test_top.m_env.m_vseqr@@m_write_only_test_vseq [write_only_test_vseq] Executing AXI sequence
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10507200: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #0 command is: WR80 tag is: 16
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10507200: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #1 command is: WR64 tag is: 17
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10507200: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #2 command is: WR80 tag is: 18
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10507200: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #3 command is: WR96 tag is: 19
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10507200: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #4 command is: WR64 tag is: 20
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//write-only-test/write_only_test_vseq.svh(30) @ 10734400: uvm_test_top.m_env.m_vseqr@@m_write_only_test_vseq [write_only_test_vseq] Executing AXI sequence
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10734400: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #0 command is: WR96 tag is: 21
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10734400: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #1 command is: WR128 tag is: 22
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10734400: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #2 command is: WR96 tag is: 23
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10734400: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #3 command is: WR128 tag is: 24
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10734400: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #4 command is: WR96 tag is: 25
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//write-only-test/write_only_test_vseq.svh(30) @ 10974400: uvm_test_top.m_env.m_vseqr@@m_write_only_test_vseq [write_only_test_vseq] Executing AXI sequence
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10974400: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #0 command is: P_SINGLE_ADD16 tag is: 0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10974400: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #1 command is: MD_WR tag is: 1
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10974400: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #2 command is: MD_WR tag is: 2
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10974400: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #3 command is: P_BWR tag is: 0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 10974400: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_write_seq] HMC Packet #4 command is: P_SINGLE_ADD16 tag is: 0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//write-only-test/write_only_test_vseq.svh(34) @ 10985600: uvm_test_top.m_env.m_vseqr@@m_write_only_test_vseq [write_only_test_vseq] Sequence complete
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//write-only-test/write_only_test.svh(22) @ 10985600: uvm_test_top [WRITE_ONLY_TEST] write_only_test_vseq complete
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//write-only-test/write_only_test.svh(24) @ 11185600: uvm_test_top [WRITE_ONLY_TEST] Executing rf_check_vseq
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//simple-test/rf_check_vseq.svh(34) @ 11185600: uvm_test_top.m_env.m_vseqr@@m_rf_check_vseq [rf_check_vseq] Executing sequence
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_status_general_seq.svh(45) @ 11196801: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_status_general_seq_h [rf_status_general_seq] 
+# *******************************
+# 	STATUS GENERAL REGISTER
+# *******************************
+# 
+#                          	 link_up=1, 
+# 
+#                          	 link_training=0, 
+# 
+#                          	 sleep_mode=0, 
+# 
+#                          	 FERR_N=1, 
+# 
+#                          	 lanes_reversed=0, 
+# 
+#                          	 phy_tx_ready=1, 
+# 
+#                          	 phy_rx_ready=1, 
+# 
+#                          	 hmc_tokens_remaining=15, 
+# 
+#                          	 rx_tokens_remaining=75, 
+# 
+#                          	 lane_polarity_reversed=0
+# **************************************************************
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_status_init_seq.svh(37) @ 11209601: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_status_init_seq_h [rf_control_read_seq] 
+# *******************************
+# 	STATUS INIT REGISTER
+# *******************************
+# 
+#                          	 lane_descramblers_locked=ff, 
+# 
+#                          	 descrambler_part_alligned=ff, 
+# 
+#                          	 descrambler_alligned=ff, 
+# 
+#                          	 all_descramblers_alligned=1, 
+# 
+#                          	 status_init_rx_init_state=7, 
+# 
+#                          	 status_init_tx_init_state=2
+# **************************************************************
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_read_seq.svh(43) @ 11222401: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_control_read_seq_h [rf_control_read_seq] 
+# *******************************
+# 	CONTROL REGISTER
+# *******************************
+# 
+#                          	 p_rst_n=1, 
+# 
+#                          	 hmc_init_cont_set=0, 
+# 
+#                          	 set_hmc_sleep=0, 
+# 
+#                          	 warm_reset=0, 
+# 
+#                          	 scrambler_disable=1, 
+# 
+#                          	 run_length_enable=1, 
+# 
+#                          	 rx_token_count=75, 
+# 
+#                          	 irtry_received_threshold=10, 
+# 
+#                          	 irtry_to_send=18
+# **************************************************************
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_counters_seq.svh(24) @ 11235201: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_counters_seq_h [rf_counters_seq] 
+# *******************************
+# 	POSTED WRITE REQ COUNTER
+# *******************************
+# 
+#                          	 sent_p=0000000000000000
+# **************************************************************
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_counters_seq.svh(31) @ 11248001: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_counters_seq_h [rf_counters_seq] 
+# *******************************
+# 	READ REQ COUNTER
+# *******************************
+# 
+#                          	 sent_r=0000000000000000
+# **************************************************************
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_counters_seq.svh(38) @ 11260801: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_counters_seq_h [rf_counters_seq] 
+# *******************************
+# 	NON POSTED REQ COUNTER
+# *******************************
+# 
+#                          	 sent_np=000000000000001b
+# **************************************************************
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_counters_seq.svh(45) @ 11273601: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_counters_seq_h [rf_counters_seq] 
+# *******************************
+# 	POISONED PKTS RECEIVED COUNTER
+# *******************************
+# 
+#                          	 poisoned_packets=0000000000000000
+# **************************************************************
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_counters_seq.svh(53) @ 11286401: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_counters_seq_h [rf_counters_seq] 
+# *******************************
+# 	NON POISONED PKTS RECEIVED COUNTER
+# *******************************
+# 
+#                          	 rcvd_rsp=000000000000001b
+# **************************************************************
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//simple-test/rf_check_vseq.svh(41) @ 11337601: uvm_test_top.m_env.m_vseqr@@m_rf_check_vseq [rf_check_vseq] Sequence complete
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//write-only-test/write_only_test.svh(26) @ 11337601: uvm_test_top [WRITE_ONLY_TEST] rf_check_vseq complete
+# UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//write-only-test/write_only_test.svh(29) @ 16337601: uvm_test_top [WRITE_ONLY_TEST] Ending test
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 16337601: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_link_status.svh(188) @ 16337601: uvm_test_top.m_env.hmc_agent_h.h_status.Requester_link_status [HMC_LINK_STATUS_report_phase()] Token_count 0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_link_status.svh(188) @ 16337601: uvm_test_top.m_env.hmc_agent_h.h_status.Responder_link_status [HMC_LINK_STATUS_report_phase()] Token_count 0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(111) @ 16337601: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] LNG error count  1
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(112) @ 16337601: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] CRC error count  0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(113) @ 16337601: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] SEQ error count  0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(114) @ 16337601: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] poisoned packets 0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(111) @ 16337601: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] LNG error count  1
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(112) @ 16337601: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] CRC error count  0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(113) @ 16337601: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] SEQ error count  0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(114) @ 16337601: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] poisoned packets 0
+# UVM_INFO D:/Ali/College/Graduation_project/tb//scoreboard.svh(340) @ 16337601: uvm_test_top.m_env.m_scoreboard [scoreboard] axi4_req_count 0
+# UVM_INFO D:/Ali/College/Graduation_project/tb//scoreboard.svh(341) @ 16337601: uvm_test_top.m_env.m_scoreboard [scoreboard] axi4_rsp_count 0
+# UVM_INFO D:/Ali/College/Graduation_project/tb//scoreboard.svh(342) @ 16337601: uvm_test_top.m_env.m_scoreboard [scoreboard] hmc_req_count 0
+# UVM_INFO D:/Ali/College/Graduation_project/tb//scoreboard.svh(343) @ 16337601: uvm_test_top.m_env.m_scoreboard [scoreboard] hmc_rsp_count 0
+# UVM_INFO D:/Ali/College/Graduation_project/tb//scoreboard.svh(344) @ 16337601: uvm_test_top.m_env.m_scoreboard [scoreboard] Error response count 0
+# 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :  101
+# UVM_WARNING :    0
+# UVM_ERROR :    0
+# UVM_FATAL :    0
+# ** Report counts by id
+# [BASE_TEST_end_of_elaboration_phase()]     1
+# [HMC_AGENT_DRIVER_ts1()]     1
+# [HMC_AGENT_MONITOR_collect_flits()]     2
+# [HMC_AGENT_MONITOR_collect_packets()]     2
+# [HMC_AGENT_MONITOR_link_states()]    11
+# [HMC_AGENT_MONITOR_report_phase()]     8
+# [HMC_LINK_STATUS_report_phase()]     2
+# [INITIALiZATION_SEQ]    10
+# [Questa UVM]     2
+# [RNTST]     1
+# [TEST_DONE]     1
+# [WRITE_ONLY_TEST]     6
+# [axi_write_seq]    30
+# [env_connect_phase]     1
+# [rf_check_vseq]     2
+# [rf_control_read_seq]     2
+# [rf_counters_seq]     5
+# [rf_status_general_seq]     1
+# [scoreboard]     5
+# [write_only_test_vseq]     8
+# ** Note: $finish    : C:/questasim64_2021.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
+#    Time: 16337601 ps  Iteration: 54  Instance: /tb_top
+# 1
+# Break in Task uvm_pkg/uvm_root::run_test at C:/questasim64_2021.1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430

@@ -9,7 +9,7 @@ module tb_top();
   import seq_pkg::* ;
   import test_pkg::* ;
 
-  parameter LANE_WIDTH = DWIDTH / NUM_LANES;
+  parameter LANE_WIDTH = (FPW*128) / (2**LOG_NUM_LANES);
 
   logic clk;
   logic clk_hmc_refclk;
@@ -18,12 +18,10 @@ module tb_top();
 //**************** INTERFACES INSTANTIATIONS **************//
   rf_if rf_if (.clk(clk), .res_n(res_n));
 
-  hmc_agent_if #(.NUM_LANES(NUM_LANES)) hmc_if ();
-  hmc_agent_if #(.NUM_LANES(NUM_LANES)) hmc_int_if ();
+  hmc_agent_if #(.NUM_LANES(2**LOG_NUM_LANES)) hmc_if ();
+  hmc_agent_if #(.NUM_LANES(2**LOG_NUM_LANES)) hmc_int_if ();
 
-  axi_interface #(.DWIDTH(DWIDTH),
-                 .NUM_DATA_BYTES(NUM_DATA_BYTES))
-  AXI_IF (.clk(clk), .res_n(res_n));
+  axi_interface #(.NUM_DATA_BYTES(FPW*16), .DWIDTH(FPW*128)) AXI_IF (.clk(clk), .res_n(res_n));
 
 //*******************************************************//
 
@@ -37,10 +35,10 @@ assign hmc_int_if.RXPS = hmc_if.RXPS;
 assign hmc_if.TXPS = hmc_int_if.TXPS;
 assign hmc_if.FERR_N = hmc_int_if.FERR_N;
 //----------------------------- Wiring openHMC controller
-wire [DWIDTH-1:0]       to_serializers;
-wire [DWIDTH-1:0]       from_deserializers;
-wire [NUM_LANES-1:0]    bit_slip;
-wire [NUM_LANES-1:0]    phy_lane_polarity;
+wire [FPW*128-1:0]       to_serializers;
+wire [FPW*128-1:0]       from_deserializers;
+wire [2**LOG_NUM_LANES-1:0]    bit_slip;
+wire [2**LOG_NUM_LANES-1:0]    phy_lane_polarity;
 bit                     phy_rx_ready;
 bit                     P_RST_N;
 // Wire the HMC interface in the openHMC
@@ -52,8 +50,8 @@ assign          LxTXPS_pullup = (LxTXPS === 1'bz) ? 1'b1 : LxTXPS;
 wire            FERR_N_pullup;
 assign          FERR_N_pullup = (FERR_N === 1'bz) ? 1'b1 : FERR_N;
 //----------------------------- Signal Routing from SerDes to HMC
-wire [NUM_LANES-1:0] serial_Rx;
-wire [NUM_LANES-1:0] serial_Txp;
+wire [2**LOG_NUM_LANES-1:0] serial_Rx;
+wire [2**LOG_NUM_LANES-1:0] serial_Txp;
 //------------------------------ Attach the HMC Link interface
  assign hmc_if.REFCLKP = clk_hmc_refclk;
  assign hmc_if.REFCLKN = ~clk_hmc_refclk;
@@ -63,7 +61,7 @@ wire [NUM_LANES-1:0] serial_Txp;
  assign LxTXPS = hmc_if.TXPS;
  assign hmc_if.RXPS = LxRXPS;
   
- assign hmc_if.RXP = NUM_LANES==8 ? {8'h0, serial_Txp[NUM_LANES-1:0]} : serial_Txp; // Controller Tx is Cube Rx
+ assign hmc_if.RXP = 2**LOG_NUM_LANES==8 ? {8'h0, serial_Txp[2**LOG_NUM_LANES-1:0]} : serial_Txp; // Controller Tx is Cube Rx
  assign hmc_if.RXN = ~hmc_if.RXP;//NUM_LANES==8 ? {8'h0, ~serial_Txp[NUM_LANES-1:0]} : ~serial_Txp; // Controller Tx is Cube Rx
  assign serial_Rx = hmc_if.TXP; // Controller Rx is Cube Tx
 
@@ -80,7 +78,7 @@ bit LxTXPS_synced;
 genvar lane;
 generate
   begin : serializers_gen
-      for (lane=0; lane<NUM_LANES; lane++) begin : behavioral_gen
+      for (lane=0; lane<(2**LOG_NUM_LANES); lane++) begin : behavioral_gen
           serializer #(
               .DWIDTH(LANE_WIDTH)
           ) serializer_I (
@@ -111,9 +109,7 @@ always @(posedge clk) LxTXPS_synced <= LxTXPS;
 //***************** DUT INSTANTIATION *****************//
   openhmc_top #(.FPW(FPW),
                 .LOG_FPW(LOG_FPW),
-                .DWIDTH(DWIDTH),
                 .LOG_NUM_LANES(LOG_NUM_LANES),
-                .NUM_DATA_BYTES(NUM_DATA_BYTES),
                 .LOG_MAX_RX_TOKENS(LOG_MAX_RX_TOKENS),
                 .LOG_MAX_HMC_TOKENS(LOG_MAX_HMC_TOKENS),
                 .HMC_RX_AC_COUPLED(HMC_RX_AC_COUPLED),
@@ -169,9 +165,7 @@ always @(posedge clk) LxTXPS_synced <= LxTXPS;
 //********************** ASSERTIONS MODULE ***********************//
  bind openhmc_top : dut openhmc_sva #(.FPW(FPW),
                                        .LOG_FPW(LOG_FPW),
-                                       .DWIDTH(DWIDTH),
                                        .LOG_NUM_LANES(LOG_NUM_LANES),
-                                       .NUM_DATA_BYTES(NUM_DATA_BYTES),
                                        .LOG_MAX_RX_TOKENS(LOG_MAX_RX_TOKENS),
                                        .LOG_MAX_HMC_TOKENS(LOG_MAX_HMC_TOKENS),
                                        .HMC_RX_AC_COUPLED(HMC_RX_AC_COUPLED),
@@ -192,10 +186,10 @@ always @(posedge clk) LxTXPS_synced <= LxTXPS;
 initial begin
   uvm_config_db#(virtual rf_if)::set(null, "uvm_test_top", "rf_if", rf_if);
 
-  uvm_config_db#(virtual hmc_agent_if #(NUM_LANES))::set(null, "uvm_test_top", "vif", hmc_if);
-  uvm_config_db#(virtual hmc_agent_if #(NUM_LANES))::set(null, "uvm_test_top", "int_vif", hmc_int_if);
+  uvm_config_db#(virtual hmc_agent_if #(.NUM_LANES(2**LOG_NUM_LANES)))::set(null, "uvm_test_top", "vif", hmc_if);
+  uvm_config_db#(virtual hmc_agent_if #(.NUM_LANES(2**LOG_NUM_LANES)))::set(null, "uvm_test_top", "int_vif", hmc_int_if);
   
-  uvm_config_db#(virtual axi_interface #(NUM_DATA_BYTES, DWIDTH))::set(null, "uvm_test_top", "AXI_IF", AXI_IF);
+  uvm_config_db#(virtual axi_interface #(.NUM_DATA_BYTES(FPW*16), .DWIDTH(FPW*128)))::set(null, "uvm_test_top", "AXI_IF", AXI_IF);
   run_test();
 end
 

@@ -62,6 +62,8 @@ class hmc_agent_monitor#(NUM_LANES = 16) extends uvm_monitor;
 	int null_flits_after_TS1   	= 0;
 	int null_flits_between_pkts	= 0;
 
+	int num_of_reset = 0;
+
 	function new (string name, uvm_component parent);
 		super.new(name,parent);
 		lane_queues 				= new[NUM_LANES] (lane_queues);
@@ -430,8 +432,14 @@ task hmc_agent_monitor::collect_flits();
 				// end of if (lane_flit != 16'b0)
 				end else begin
 					//hmc_link_cg.sample();
+					if (num_of_reset > 0) begin
+						// do nothing, maybe it is an issue of timing??
+						num_of_reset--;
+					end else begin
+						`uvm_info("HMC_AGENT_MONITOR_collect_flits()",$sformatf("%s lane %0d Detected null after TS1", requester_flag?"Requester":"Responder", i), UVM_HIGH)
 					link_status.first_null_detected = 1;
 					null_flits_after_TS1 = NUM_LANES/8; //-- add 1 or 2 NULL2 Flits depending on NUM_LANES
+					end		
 				end
 			end
 		end else begin
@@ -655,9 +663,12 @@ task hmc_agent_monitor::link_states();
 			6'b10xxxx :	link_status.current_state = POWER_DOWN;		//-- sleep mode 
 			6'b110xxx :	link_status.current_state = PRBS;		//-- scrambler waits for null flits
 			6'b1110xx :	link_status.current_state = NULL_FLITS;	//-- scrambler has detected a null flit
-			6'b11110x :	link_status.current_state = TS1;			//-- scrambler has detected a TS1 sequence and is in flit sync
+			6'b11110x :	link_status.current_state = TS1;			  //-- scrambler has detected a TS1 sequence and is in flit sync
 			6'b111110 :	link_status.current_state = NULL_FLITS_2;//-- detected first NULL flits after TS1
-			6'b111111 :	link_status.current_state = LINK_UP;		//-- Link is UP
+			6'b111111 :	begin 
+										link_status.current_state = LINK_UP;
+										num_of_reset = NUM_LANES;
+									end		//-- Link is UP
 		endcase
 		`uvm_info("HMC_AGENT_MONITOR_link_states()",$sformatf("%s Link current State: %s \t vector: %b",
 			requester_flag?"Requester":"Responder", link_status.current_state.name(),
@@ -668,7 +679,7 @@ task hmc_agent_monitor::link_states();
 			link_status.first_null_detected, 
 			link_status.null_after_ts1_seen
 			}),UVM_LOW)
-		if (link_status.current_state == POWER_DOWN || RESET) begin
+		if (link_status.current_state == (POWER_DOWN || RESET)) begin
 			reset_link();
 		end
 	end

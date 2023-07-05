@@ -158,10 +158,12 @@ task hmc_agent_driver::power_up();
    time wait_time;
 
    clear_lanes();
-   // vif.TXP = {NUM_LANES {1'bz}}; making sure they are cleared??
-   // vif.TXN = {NUM_LANES {1'bz}};
+    vif.TXP = {NUM_LANES {1'bz}}; //making sure they are cleared??
+    vif.TXN = {NUM_LANES {1'bz}};
    recover_from_power_down = 1;
-   @(posedge vif.RXPS)
+   if (vif.RXPS !== 1) begin
+      @(posedge vif.RXPS);
+   end
    //-- wait some time < t_pst
    power_up_time_success : assert (std::randomize(wait_time) with { wait_time>0 && wait_time <= hmc_agent_cfg.t_PST + 3*hmc_agent_cfg.t_SS;});
    #wait_time;

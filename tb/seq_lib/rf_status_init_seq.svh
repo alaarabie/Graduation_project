@@ -17,6 +17,7 @@ task rf_status_init_seq::body();
   super.body();
 
   rf_rb.m_reg_status_init.read(status, data, .parent(this));
+  rf_rb.m_reg_status_init.read(status, data, .parent(this));
 
   print_reg = $sformatf("\n*******************************\n\tSTATUS INIT REGISTER\n*******************************
                          \t lane_descramblers_locked=%0x, 

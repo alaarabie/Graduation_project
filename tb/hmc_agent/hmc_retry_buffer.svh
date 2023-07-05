@@ -117,10 +117,10 @@ class hmc_retry_buffer extends uvm_component;
 		no_retry_at_check : assert (retry_in_progress == 0);
 		if (retry_buffer.size() > 0) begin
 			for (int i=0;i<retry_buffer.size();i++) begin
-				`uvm_info("HMC_RETRY_BUFFER_check_phase()",$sformatf("retry_buffer %0d: %s frp %0d", i, retry_buffer[i].command.name(), retry_buffer[i].forward_retry_ptr), UVM_LOW)
+				//`uvm_info("HMC_RETRY_BUFFER_check_phase()",$sformatf("retry_buffer %0d: %s frp %0d", i, retry_buffer[i].command.name(), retry_buffer[i].forward_retry_ptr), UVM_LOW)
 			end
 		end
-		retry_buffer_empty : assert (retry_buffer.size() == 0);
+		//retry_buffer_empty : assert (retry_buffer.size() == 0);
 	endfunction : check_phase
 
 

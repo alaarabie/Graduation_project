@@ -52,8 +52,11 @@ class hmc_link_status extends uvm_component;
 			lanes_polarity[i] 	= 0;
 			lanes_nonzero[i] 	= 0;	
 		end
-
+		
+		all_lanes_locked = 0;
+		all_lanes_alligned = 0;
 		num_lanes_locked 	= 0;
+
 		lane_reversed 		= 0;
 		first_null_detected = 0;
 		null_after_ts1_seen = 0;

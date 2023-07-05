@@ -17,6 +17,7 @@ task rf_status_general_seq::body();
   super.body();
 
   rf_rb.m_reg_status_general.read(status, data, .parent(this));
+  rf_rb.m_reg_status_general.read(status, data, .parent(this));
 
   print_reg = $sformatf("\n*******************************\n\tSTATUS GENERAL REGISTER\n*******************************
                          \t link_up=%1b, 

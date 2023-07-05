@@ -1,6 +1,6 @@
 class hmc_agent_config#(NUM_LANES = 16) extends uvm_object;
 
-  `uvm_object_param_utils(hmc_agent_config #(NUM_LANES))
+  
 
    virtual hmc_agent_if #(NUM_LANES) vif;
    virtual hmc_agent_if #(NUM_LANES) int_vif;
@@ -46,6 +46,24 @@ class hmc_agent_config#(NUM_LANES = 16) extends uvm_object;
   int tRESP1 = 1us; // 1us or 1.2ms with DFE
   int tRESP2 = 1us; // 1us
  
+  `uvm_object_param_utils_begin(hmc_agent_config #(NUM_LANES))
+    `uvm_field_int(width, UVM_DEFAULT | UVM_DEC)
+    `uvm_field_int(scramblers_enabled, UVM_DEFAULT | UVM_DEC)
+    `uvm_field_int(reverse_polarity, UVM_DEFAULT | UVM_DEC)
+    `uvm_field_int(reverse_lanes, UVM_DEFAULT | UVM_DEC)
+    `uvm_field_int(run_length_limit, UVM_DEFAULT | UVM_DEC)
+    `uvm_field_int(TS1_Messages, UVM_DEFAULT | UVM_DEC)
+    `uvm_field_int(irtry_flit_count_to_send, UVM_DEFAULT | UVM_HEX)
+    `uvm_field_int(irtry_flit_count_received_threshold, UVM_DEFAULT | UVM_HEX)
+    `uvm_field_int(hmc_tokens, UVM_DEFAULT | UVM_DEC)
+    `uvm_field_int(rx_tokens, UVM_DEFAULT | UVM_DEC)
+    `uvm_field_int(lane_errors_enabled, UVM_DEFAULT | UVM_DEC)
+    `uvm_field_int(poisoned_probability, UVM_DEFAULT | UVM_DEC)
+    `uvm_field_int(lng_error_probability, UVM_DEFAULT | UVM_DEC)
+    `uvm_field_int(seq_error_probability, UVM_DEFAULT | UVM_DEC)
+    `uvm_field_int(crc_error_probability, UVM_DEFAULT | UVM_DEC)
+    `uvm_field_int(bitflip_error_probability, UVM_DEFAULT | UVM_DEC)
+  `uvm_object_utils_end
 
   function new(string name = "");
     super.new(name);

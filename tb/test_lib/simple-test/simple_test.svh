@@ -22,15 +22,15 @@ class simple_test extends  base_test;
       `uvm_info("SIMPLE_TEST","Executing simple_test_vseq", UVM_MEDIUM)      
       m_simple_test_vseq.start(m_env.m_vseqr) ;        
       `uvm_info("SIMPLE_TEST", "simple_test_vseq complete", UVM_MEDIUM)
-      #200ns
+      #1us
       `uvm_info("SIMPLE_TEST","Executing rf_check_vseq", UVM_MEDIUM)
       m_rf_check_vseq.start(m_env.m_vseqr);
       `uvm_info("SIMPLE_TEST", "rf_check_vseq complete", UVM_MEDIUM)
-      #200ns
+      #500ns
       `uvm_info("SIMPLE_TEST","Executing rf_wrong_op_vseq", UVM_MEDIUM)
       m_rf_wrong_op_vseq.start(m_env.m_vseqr);
       `uvm_info("SIMPLE_TEST", "rf_wrong_op_vseq complete", UVM_MEDIUM)
-      #5000ns
+      #1us
 
       `uvm_info("SIMPLE_TEST","Ending test", UVM_MEDIUM)
     
