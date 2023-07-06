@@ -12,6 +12,8 @@ class vseq_base extends  uvm_sequence #(uvm_sequence_item);
   hmc_agent_sequencer m_hmc_sqr ;
   axi_sequencer_t m_axi_sqr;
 
+  virtual system_if sys_if;
+
   function new(string name = "");
     super.new(name);
   endfunction : new
@@ -27,10 +29,12 @@ class vseq_base extends  uvm_sequence #(uvm_sequence_item);
     m_rf_seqr = p_sequencer.m_rf_seqr;
     m_hmc_sqr=p_sequencer.m_hmc_sqr ;
     m_axi_sqr=p_sequencer.m_axi_sqr ;
+
   endtask : body
 
   function void seq_set_cfg(base_seq seq_);
     seq_.m_cfg = m_cfg;
+    seq_.sys_if = sys_if;
   endfunction
 
 

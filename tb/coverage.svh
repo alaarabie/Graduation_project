@@ -22,6 +22,12 @@ class coverage extends uvm_subscriber#(hmc_pkt_item);
   covergroup length_cg;
    Packet_Length: coverpoint length{bins length[]={[1:9] };}
   endgroup
+    covergroup cross_cg;
+	 Read_Response : coverpoint command {bins Response_Commands[]={RD_RS};}
+   Packet_Length: coverpoint length{bins length[]={[1:9] };}
+   length_Response_Commands:cross Read_Response,Packet_Length;
+  endgroup
+   
    
   //***********************************************************//
   //********************** FUNCTIONS **************************//
@@ -30,6 +36,7 @@ class coverage extends uvm_subscriber#(hmc_pkt_item);
     super.new(name, parent);
     command_cg = new();
     length_cg = new();
+    cross_cg = new();
   endfunction : new
 
   function void write(hmc_pkt_item t);
@@ -38,6 +45,8 @@ class coverage extends uvm_subscriber#(hmc_pkt_item);
     
     command_cg.sample();
     length_cg.sample();
+    cross_cg.sample();
+
   endfunction : write
   
 endclass : coverage

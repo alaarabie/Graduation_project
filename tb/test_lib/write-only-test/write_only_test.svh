@@ -14,6 +14,8 @@ class write_only_test extends  base_test;
     set_seqs(m_rf_check_vseq);
      
     phase.raise_objection(this);
+
+    super.run_phase(phase); 
     
       `uvm_info("WRITE_ONLY_TEST","Starting test", UVM_MEDIUM)
 

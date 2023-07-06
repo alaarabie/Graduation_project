@@ -6,6 +6,8 @@ class base_seq extends  uvm_sequence #(uvm_sequence_item);
 
   env_cfg m_cfg;
 
+  virtual system_if sys_if;
+
   // Properties used by the various register access methods:
   rand uvm_reg_data_t data;  // For passing data
   uvm_status_e status;       // Returning access status

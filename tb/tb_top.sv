@@ -13,15 +13,16 @@ module tb_top();
 
   logic clk;
   logic clk_hmc_refclk;
-  logic res_n;
 
 //**************** INTERFACES INSTANTIATIONS **************//
-  rf_if rf_if (.clk(clk), .res_n(res_n));
+system_if system_if (.clk(clk));
+
+  rf_if rf_if (.clk(clk), .res_n(system_if.res_n));
 
   hmc_agent_if #(.NUM_LANES(2**LOG_NUM_LANES)) hmc_if ();
   hmc_agent_if #(.NUM_LANES(2**LOG_NUM_LANES)) hmc_int_if ();
 
-  axi_interface #(.NUM_DATA_BYTES(FPW*16), .DWIDTH(FPW*128)) AXI_IF (.clk(clk), .res_n(res_n));
+  axi_interface #(.NUM_DATA_BYTES(FPW*16), .DWIDTH(FPW*128)) AXI_IF (.clk(clk), .res_n(system_if.res_n));
 
 //*******************************************************//
 
@@ -83,7 +84,7 @@ generate
               .DWIDTH(LANE_WIDTH)
           ) serializer_I (
               .clk(clk),
-              .res_n(res_n),
+              .res_n(system_if.res_n),
               .fast_clk(clk_10G),
               .data_in(to_serializers[lane*LANE_WIDTH+LANE_WIDTH-1:lane*LANE_WIDTH]),
               .data_out(serial_Txp[lane])
@@ -92,7 +93,7 @@ generate
               .DWIDTH(LANE_WIDTH)
           ) deserializer_I (
               .clk(clk),
-              .res_n(LxTXPS_synced && res_n),
+              .res_n(LxTXPS_synced && system_if.res_n),
               .fast_clk(clk_10G),
               .bit_slip(bit_slip[lane]),
               .lane_polarity(phy_lane_polarity[lane]),
@@ -126,8 +127,8 @@ always @(posedge clk) LxTXPS_synced <= LxTXPS;
                 .DBG_RX_TOKEN_MON(DBG_RX_TOKEN_MON))
 
     dut (.clk_hmc(clk),
-         .res_n_hmc(res_n),
-         .res_n_user(res_n),
+         .res_n_hmc(system_if.res_n),
+         .res_n_user(system_if.res_n),
          .clk_user(clk),
          //axi interface
          .s_axis_tx_TVALID(AXI_IF.t_valid),
@@ -143,8 +144,8 @@ always @(posedge clk) LxTXPS_synced <= LxTXPS;
          .phy_data_rx_phy2link(from_deserializers),
          .phy_bit_slip(bit_slip), //Must be connected if DETECT_LANE_POLARITY==1 AND CTRL_LANE_POLARITY=0
          .phy_lane_polarity(phy_lane_polarity), //All 0 if CTRL_LANE_POLARITY=1
-         .phy_tx_ready(res_n), //Optional information to RF
-         .phy_rx_ready(phy_rx_ready && LxTXPS), //Release RX descrambler reset when PHY ready
+         .phy_tx_ready(system_if.res_n), //Optional information to RF
+         .phy_rx_ready((phy_rx_ready===1) && LxTXPS), //Release RX descrambler reset when PHY ready
          .phy_init_cont_set(), //Can be used to release transceiver reset if used
          // hmc
          .P_RST_N(P_RST_N),
@@ -188,6 +189,8 @@ initial begin
 
   uvm_config_db#(virtual hmc_agent_if #(.NUM_LANES(2**LOG_NUM_LANES)))::set(null, "uvm_test_top", "vif", hmc_if);
   uvm_config_db#(virtual hmc_agent_if #(.NUM_LANES(2**LOG_NUM_LANES)))::set(null, "uvm_test_top", "int_vif", hmc_int_if);
+
+  uvm_config_db#(virtual system_if)::set(null, "uvm_test_top", "system_if", system_if);
   
   uvm_config_db#(virtual axi_interface #(.NUM_DATA_BYTES(FPW*16), .DWIDTH(FPW*128)))::set(null, "uvm_test_top", "AXI_IF", AXI_IF);
   run_test();
@@ -197,9 +200,6 @@ end
   initial begin
     clk    <= 1'b1;
     clk_hmc_refclk  <= 1'b1;
-    res_n     <= 1'b0;
-    #500ns;
-    @(posedge clk) res_n <= 1'b1;
   end
   always begin
     case(FPW)

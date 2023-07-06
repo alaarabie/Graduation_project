@@ -28,4 +28,7 @@ package test_pkg ;
   `include "posted-only-test/posted_only_test_vseq.svh"
   `include "posted-only-test/posted_only_test.svh"  
 
+  `include "reset-test/reset_test_vseq.svh"
+  `include "reset-test/reset_test.svh"
+
 endpackage : test_pkg

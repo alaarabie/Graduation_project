@@ -247,7 +247,7 @@ task hmc_agent_driver::ts1();
    `uvm_info("HMC_AGENT_DRIVER_ts1()", "Driver entered TS1 state", UVM_HIGH)
    // Save the timestamp
    ts1_timestamp = $time;
-   `uvm_info("HMC_AGENT_DRIVER_ts1()", $sformatf("Sending TS1 Sequences"),UVM_MEDIUM)
+   `uvm_info("HMC_AGENT_DRIVER_ts1()", $sformatf("Sending TS1 Sequences"),UVM_HIGH)
    //wait for Requester to send NULL FLITs
    while (!(remote_status.current_state>TS1))
       send_ts1(256); // 16 fits per sequence number, 16 sequence numbers

@@ -14,8 +14,11 @@ class simple_test extends  base_test;
     set_seqs(m_simple_test_vseq);
     set_seqs(m_rf_check_vseq);
     set_seqs(m_rf_wrong_op_vseq);
-     
+
     phase.raise_objection(this);
+
+    super.run_phase(phase); 
+    
     
       `uvm_info("SIMPLE_TEST","Starting test", UVM_MEDIUM)
 

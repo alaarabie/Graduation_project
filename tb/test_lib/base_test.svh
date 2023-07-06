@@ -1,6 +1,8 @@
 class base_test extends  uvm_test;
   
   `uvm_component_utils(base_test)
+
+  virtual system_if sys_if;
   
   axi_config_t m_axi_cfg;
   virtual axi_interface_t m_axi_if;
@@ -40,6 +42,9 @@ class base_test extends  uvm_test;
     if(!uvm_config_db #(virtual rf_if)::get(this, "","rf_if", m_rf_cfg.vif))
     `uvm_fatal("TEST", "Failed to get rf_if")
 
+    if(!uvm_config_db #(virtual system_if)::get(this, "","system_if", sys_if))
+    `uvm_fatal("TEST", "Failed to get system_if")
+
     m_hmc_cfg.active=UVM_ACTIVE ;
 
     m_rf_cfg.active=UVM_ACTIVE ;
@@ -56,9 +61,17 @@ class base_test extends  uvm_test;
     m_env = env::type_id::create("m_env",this);
   endfunction : build_phase
 
+  task run_phase(uvm_phase phase);
+    sys_if.res_n  <= 1'b0;
+    #500ns;
+    @(posedge sys_if.clk) 
+    sys_if.res_n <= 1'b1;    
+  endtask : run_phase
+
 
   function void set_seqs(vseq_base seq);
     seq.m_cfg = m_env_cfg;
+    seq.sys_if = sys_if;
   endfunction
 
   // Print Testbench structure and factory contents

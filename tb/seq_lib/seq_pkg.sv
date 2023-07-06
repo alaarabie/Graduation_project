@@ -24,6 +24,8 @@ package seq_pkg ;
     `include "axi_posted_seq.svh" 
     `include "axi_write_seq.svh" 
 
+    `include "reset_seq.svh" 
+
 
    
 

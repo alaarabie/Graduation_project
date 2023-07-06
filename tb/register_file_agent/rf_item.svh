@@ -6,6 +6,8 @@ class rf_item extends  uvm_sequence_item;
   rand logic  [63:0]  data;
   rand logic          write_flag;
 
+  rand logic res_n;
+
   // Constraints
   constraint addr_limit_c {
     addr inside { [4'h0 : 4'hC] };
