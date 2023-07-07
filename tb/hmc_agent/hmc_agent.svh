@@ -17,13 +17,6 @@ class hmc_agent#(NUM_LANES = 16) extends uvm_agent;
   hmc_status              h_status;
   hmc_token_handler       token_handler;
   hmc_retry_buffer        retry_buffer;
-  hmc_tag_mon             tag_mon;
-
-  hmc_transaction_mon     req_transaction_mon;
-  hmc_transaction_mon     rsp_transaction_mon;
-
-  hmc_error_injector #(.NUM_LANES(NUM_LANES)) req_inj;
-  hmc_error_injector #(.NUM_LANES(NUM_LANES)) rsp_inj;
 
 
   function new (string name, uvm_component parent);
@@ -40,40 +33,15 @@ class hmc_agent#(NUM_LANES = 16) extends uvm_agent;
   	if(!uvm_config_db#(hmc_agent_config#(NUM_LANES))::get(this,"","hmc_agent_config_t",m_cfg))
   		`uvm_fatal("HMC_Agent","Failed to get config object")
 
-    if (m_cfg.enable_tag_checking == UVM_ACTIVE) begin
-      tag_mon = hmc_tag_mon::type_id::create("tag_mon",this);
-    end
-    // configuring the internal field of transaction monitor
-    set_config_int("req_transaction_mon", "enable_tag_checking", m_cfg.enable_tag_checking);
-    set_config_int("rsp_transaction_mon", "enable_tag_checking", m_cfg.enable_tag_checking);
-    req_transaction_mon = hmc_transaction_mon::type_id::create("req_transaction_mon", this);
-    rsp_transaction_mon = hmc_transaction_mon::type_id::create("rsp_transaction_mon", this);
-    if (m_cfg.enable_tag_checking == UVM_ACTIVE) begin
-      rsp_transaction_mon.tag_mon = tag_mon;
-      req_transaction_mon.tag_mon = tag_mon;
-    end
-
-    req_inj = hmc_error_injector#(.NUM_LANES(NUM_LANES))::type_id::create("req_inj", this);
-    req_inj.hmc_agent_cfg   = m_cfg;
-    req_inj.requester_flag  = 1;
-    req_inj.link_status     = h_status.Requester_link_status;
-
-    rsp_inj = hmc_error_injector#(.NUM_LANES(NUM_LANES))::type_id::create("rsp_inj", this);
-    rsp_inj.hmc_agent_cfg   = m_cfg;
-    rsp_inj.requester_flag  = 0;
-    rsp_inj.link_status     = h_status.Responder_link_status;
-
   	m_req_monitor = hmc_agent_monitor#(NUM_LANES)::type_id::create("m_req_monitor",this);
     m_req_monitor.hmc_agent_cfg   = m_cfg;
     m_req_monitor.requester_flag  = 1;
     m_req_monitor.status          = h_status;
-    m_req_monitor.transaction_mon = rsp_transaction_mon;
 
     m_rsp_monitor = hmc_agent_monitor#(NUM_LANES)::type_id::create("m_rsp_monitor",this);
     m_rsp_monitor.hmc_agent_cfg   = m_cfg;
     m_rsp_monitor.status          = h_status;
     m_rsp_monitor.requester_flag  = 0;   
-    m_rsp_monitor.transaction_mon = req_transaction_mon;    
 
     if(m_cfg.active == UVM_ACTIVE) begin
       m_sqr = hmc_agent_sequencer::type_id::create("m_sqr", this);
@@ -104,14 +72,9 @@ class hmc_agent#(NUM_LANES = 16) extends uvm_agent;
       m_driver.flow_packets_port.connect(hmc_flow_ap);
     end
 
-    m_req_monitor.return_token_port.connect(req_transaction_mon.pkt_import);
-    m_rsp_monitor.return_token_port.connect(rsp_transaction_mon.pkt_import);
-
-    m_req_monitor.rrp_port.connect(rsp_transaction_mon.rrp_import);
-    m_rsp_monitor.rrp_port.connect(req_transaction_mon.rrp_import);
-
   	m_req_monitor.item_collected_port.connect(hmc_req_ap);
-    m_rsp_monitor.item_collected_port.connect(hmc_rsp_ap);   
+    m_rsp_monitor.item_collected_port.connect(hmc_rsp_ap); 
+
   endfunction : connect_phase
 
 endclass : hmc_agent

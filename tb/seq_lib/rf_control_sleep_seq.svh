@@ -19,16 +19,9 @@ task rf_control_sleep_seq::body();
 
   rf_rb.m_reg_control.read(status, data, .parent(this));
   rf_rb.m_reg_control.read(status, data, .parent(this));
-  print_reg = $sformatf("\n*******************************\n\tCONTROL REGISTER (before sleep)\n*******************************
-                       \t p_rst_n=%1b, 
-                       \t hmc_init_cont_set=%1b, 
-                       \t set_hmc_sleep=%1b, 
-                       \t warm_reset=%1b, 
-                       \t scrambler_disable=%1b, 
-                       \t run_length_enable=%1b, 
-                       \t rx_token_count=%0x, 
-                       \t irtry_received_threshold=%0x, 
-                       \t irtry_to_send=%0x\n**************************************************************\n", 
+  print_reg = $sformatf("\n%s\n\tCONTROL REGISTER (before sleep)\n%s\n\t p_rst_n=%1b, \n\t hmc_init_cont_set=%1b, \n\t set_hmc_sleep=%1b, \n\t warm_reset=%1b, \n\t scrambler_disable=%1b, \n\t run_length_enable=%1b, \n\t rx_token_count=%0x, \n\t irtry_received_threshold=%0x, \n\t irtry_to_send=%0x\n%s\n", 
+                       "*******************************",
+                       "*******************************",
                        rf_rb.m_reg_control.p_rst_n.get(),
                        rf_rb.m_reg_control.hmc_init_cont_set.get(),
                        rf_rb.m_reg_control.set_hmc_sleep.get(),
@@ -37,7 +30,8 @@ task rf_control_sleep_seq::body();
                        rf_rb.m_reg_control.run_length_enable.get(),
                        rf_rb.m_reg_control.rx_token_count.get(),
                        rf_rb.m_reg_control.irtry_received_threshold.get(),
-                       rf_rb.m_reg_control.irtry_to_send.get()
+                       rf_rb.m_reg_control.irtry_to_send.get(),
+                       "**************************************************************"
                       );
     `uvm_info("SLEEP_SEQ",print_reg,UVM_LOW)
 
@@ -46,16 +40,9 @@ task rf_control_sleep_seq::body();
 
   rf_rb.m_reg_control.read(status, data, .parent(this));
   rf_rb.m_reg_control.read(status, data, .parent(this));
-  print_reg = $sformatf("\n*******************************\n\tCONTROL REGISTER (after sleep)\n*******************************
-                       \t p_rst_n=%1b, 
-                       \t hmc_init_cont_set=%1b, 
-                       \t set_hmc_sleep=%1b, 
-                       \t warm_reset=%1b, 
-                       \t scrambler_disable=%1b, 
-                       \t run_length_enable=%1b, 
-                       \t rx_token_count=%0x, 
-                       \t irtry_received_threshold=%0x, 
-                       \t irtry_to_send=%0x\n**************************************************************\n", 
+  print_reg = $sformatf("\n%s\n\tCONTROL REGISTER (after sleep)\n%s\n\t p_rst_n=%1b, \n\t hmc_init_cont_set=%1b, \n\t set_hmc_sleep=%1b, \n\t warm_reset=%1b, \n\t scrambler_disable=%1b, \n\t run_length_enable=%1b, \n\t rx_token_count=%0x, \n\t irtry_received_threshold=%0x, \n\t irtry_to_send=%0x\n%s\n", 
+                       "*******************************",
+                       "*******************************",
                        rf_rb.m_reg_control.p_rst_n.get(),
                        rf_rb.m_reg_control.hmc_init_cont_set.get(),
                        rf_rb.m_reg_control.set_hmc_sleep.get(),
@@ -64,7 +51,8 @@ task rf_control_sleep_seq::body();
                        rf_rb.m_reg_control.run_length_enable.get(),
                        rf_rb.m_reg_control.rx_token_count.get(),
                        rf_rb.m_reg_control.irtry_received_threshold.get(),
-                       rf_rb.m_reg_control.irtry_to_send.get()
+                       rf_rb.m_reg_control.irtry_to_send.get(),
+                       "**************************************************************"
                       );
     `uvm_info("SLEEP_SEQ",print_reg,UVM_LOW)
 
@@ -109,16 +97,9 @@ task rf_control_sleep_seq::body();
     rf_rb.m_reg_control.update(status);
     rf_rb.m_reg_control.read(status, data, .parent(this));
     rf_rb.m_reg_control.read(status, data, .parent(this));
-    print_reg = $sformatf("\n*******************************\n\tCONTROL REGISTER (disable sleep)\n*******************************
-                       \t p_rst_n=%1b, 
-                       \t hmc_init_cont_set=%1b, 
-                       \t set_hmc_sleep=%1b, 
-                       \t warm_reset=%1b, 
-                       \t scrambler_disable=%1b, 
-                       \t run_length_enable=%1b, 
-                       \t rx_token_count=%0x, 
-                       \t irtry_received_threshold=%0x, 
-                       \t irtry_to_send=%0x\n**************************************************************\n", 
+    print_reg = $sformatf("\n%s\n\tCONTROL REGISTER (disable sleep)\n%s\n\t p_rst_n=%1b, \n\t hmc_init_cont_set=%1b, \n\t set_hmc_sleep=%1b, \n\t warm_reset=%1b, \n\t scrambler_disable=%1b, \n\t run_length_enable=%1b, \n\t rx_token_count=%0x, \n\t irtry_received_threshold=%0x, \n\t irtry_to_send=%0x\n%s\n", 
+                       "*******************************",
+                       "*******************************",
                        rf_rb.m_reg_control.p_rst_n.get(),
                        rf_rb.m_reg_control.hmc_init_cont_set.get(),
                        rf_rb.m_reg_control.set_hmc_sleep.get(),
@@ -127,7 +108,8 @@ task rf_control_sleep_seq::body();
                        rf_rb.m_reg_control.run_length_enable.get(),
                        rf_rb.m_reg_control.rx_token_count.get(),
                        rf_rb.m_reg_control.irtry_received_threshold.get(),
-                       rf_rb.m_reg_control.irtry_to_send.get()
+                       rf_rb.m_reg_control.irtry_to_send.get(),
+                       "**************************************************************"
                       );
     `uvm_info("SLEEP_SEQ",print_reg,UVM_LOW)
     `uvm_info("SLEEP_SEQ",$sformatf("Waiting for Link is Up"),UVM_LOW)

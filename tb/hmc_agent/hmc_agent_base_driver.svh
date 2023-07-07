@@ -118,7 +118,7 @@ class hmc_agent_base_driver#(NUM_LANES=16) extends uvm_driver#(hmc_pkt_item);
   function void build_phase(uvm_phase phase);
      	if(!uvm_config_db #(hmc_agent_config#(NUM_LANES))::get(this, "","hmc_agent_config_t", hmc_agent_cfg))
      		`uvm_fatal("HMC_AGENT_BASE_DRIVER","Failed to get hmc_agent_cfg")
-        vif = hmc_agent_cfg.int_vif ;
+        vif = hmc_agent_cfg.vif ;
   endfunction : build_phase
 
   virtual task run_phase(uvm_phase phase);
@@ -177,7 +177,9 @@ class hmc_agent_base_driver#(NUM_LANES=16) extends uvm_driver#(hmc_pkt_item);
 
   virtual function void write_request(input hmc_pkt_item pkt);
     `uvm_info("HMC_AGENT_BASE_DRIVER_write_request()", $sformatf("request: %s",pkt.command.name()),UVM_HIGH)
-    request_queue.push_back(pkt);
+    if (pkt.get_command_type() != FLOW_TYPE ) begin
+       request_queue.push_back(pkt);
+    end
  endfunction : write_request
 
 

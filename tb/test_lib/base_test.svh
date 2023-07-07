@@ -35,8 +35,6 @@ class base_test extends  uvm_test;
 
     if(!uvm_config_db #(hmc_agent_if_t)::get(this, "","vif",  m_hmc_cfg.vif))
     `uvm_fatal("TEST", "Failed to get hmc_if")
-    if(!uvm_config_db #(hmc_agent_if_t)::get(this, "","int_vif",  m_hmc_cfg.int_vif))
-    `uvm_fatal("TEST", "Failed to get int_vif")
     if(!uvm_config_db #(axi_interface_t)::get(this, "","AXI_IF",  m_axi_cfg.vif))
     `uvm_fatal("TEST", "Failed to get axi_if")
     if(!uvm_config_db #(virtual rf_if)::get(this, "","rf_if", m_rf_cfg.vif))

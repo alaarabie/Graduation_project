@@ -65,6 +65,9 @@ run -all
 coverage attribute -name TESTNAME -value write_only_test
 coverage save coverage/write_only_test.ucdb
 
+#********************************** 4. RESET TESTS ***********************************#
+do scripts/reset_tests.do
+
 #***************************************************#
 # Close the Transcript file
 #***************************************************#
@@ -82,7 +85,8 @@ vcover merge  coverage/openhmc.ucdb \
               coverage/simple_test.ucdb \
               coverage/read_only_test.ucdb \
               coverage/posted_only_test.ucdb \
-              coverage/write_only_test.ucdb 
+              coverage/write_only_test.ucdb \
+              coverage/reset_tests.ucdb
               
               
               

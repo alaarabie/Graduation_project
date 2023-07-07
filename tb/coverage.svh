@@ -24,7 +24,7 @@ class coverage extends uvm_subscriber#(hmc_pkt_item);
   endgroup
     covergroup cross_cg;
 	 Read_Response : coverpoint command {bins Response_Commands[]={RD_RS};}
-   Packet_Length: coverpoint length{bins length[]={[1:9] };}
+   Packet_Length: coverpoint length{bins length[]={[2:9] };}
    length_Response_Commands:cross Read_Response,Packet_Length;
   endgroup
    

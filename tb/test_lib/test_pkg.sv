@@ -28,7 +28,13 @@ package test_pkg ;
   `include "posted-only-test/posted_only_test_vseq.svh"
   `include "posted-only-test/posted_only_test.svh"  
 
-  `include "reset-test/reset_test_vseq.svh"
-  `include "reset-test/reset_test.svh"
+  `include "reset-tests/reset1_test_vseq.svh"
+  `include "reset-tests/reset1_test.svh"
+  `include "reset-tests/reset2_test_vseq.svh"
+  `include "reset-tests/reset2_test.svh"
+  `include "reset-tests/reset3_test_vseq.svh"
+  `include "reset-tests/reset3_test.svh"
+  `include "reset-tests/reset4_test_vseq.svh"
+  `include "reset-tests/reset4_test.svh"
 
 endpackage : test_pkg

@@ -1,11 +1,24 @@
-class initialization_seq extends  base_seq;
+class reset2_seq extends  base_seq;
 
-  bit phy_tx_ready  = 1'b0;
-  bit phy_rx_ready  = 1'b0;
-  bit link_up     = 1'b0;
-  int timeout     = 0;
+  typedef enum bit [2:0] {
+    HMC_DOWN           = 3'b000, 
+    HMC_WAIT_FOR_NULL  = 3'b001, 
+    HMC_NULL           = 3'b010,
+    HMC_TS1_PART_ALIGN = 3'b011,
+    HMC_TS1_FIND_REF   = 3'b100, //cover this
+    HMC_TS1_ALIGN      = 3'b101,
+    HMC_NULL_NEXT      = 3'b110,
+    HMC_UP             = 3'b111  //cover this
+  } status_init_rx_e;
 
-  `uvm_object_utils(initialization_seq)
+  typedef enum bit [1:0] {
+    INIT_TX_NULL_1 = 2'b00,
+    INIT_TX_TS1    = 2'b01,
+    INIT_TX_NULL_2 = 2'b10,
+    INIT_DONE      = 2'b11
+  } status_init_tx_e;
+
+  `uvm_object_utils(reset2_seq)
 
   function new(string name = "");
     super.new(name);
@@ -15,15 +28,54 @@ class initialization_seq extends  base_seq;
     string print_reg;
     super.body();
 
-    phy_tx_ready = 0;
-    phy_rx_ready = 0;
-    link_up = 0;
-    timeout = 0;
-    
-    `uvm_info("INITIALiZATION_SEQ", $sformatf("HMC_Token Count is: %d", m_cfg.m_hmc_agent_cfg.hmc_tokens), UVM_NONE)
-    `uvm_info("INITIALiZATION_SEQ", $sformatf("RX_Token Count is: %d", m_cfg.m_hmc_agent_cfg.rx_tokens), UVM_NONE)
+    setup_control();
 
+    while(rf_rb.m_reg_status_init.status_init_rx_init_state.get() != HMC_UP) begin
+      rf_rb.m_reg_status_init.read(status, data, .parent(this));
+      print_reg = $sformatf("\n%s\n\tSTATUS INIT REGISTER\n%s\n\t status_init_rx_init_state=%3b,\n\t status_init_tx_init_state=%2b\n%s\n", 
+                           "*******************************","*******************************",
+                           rf_rb.m_reg_status_init.status_init_rx_init_state.get(),rf_rb.m_reg_status_init.status_init_tx_init_state.get()
+                           ,"**************************************************************");
+      `uvm_info("RESET_SEQ", print_reg,UVM_LOW)
+      if (rf_rb.m_reg_status_init.status_init_rx_init_state.get() == HMC_UP) begin
+        activate_reset();
+      end
+    end
+
+    setup_control();
+
+    while(rf_rb.m_reg_status_init.status_init_rx_init_state.get() != HMC_TS1_FIND_REF) begin
+      rf_rb.m_reg_status_init.read(status, data, .parent(this));
+      print_reg = $sformatf("\n%s\n\tSTATUS INIT REGISTER\n%s\n\t status_init_rx_init_state=%3b,\n\t status_init_tx_init_state=%2b\n%s\n", 
+                           "*******************************","*******************************",
+                           rf_rb.m_reg_status_init.status_init_rx_init_state.get(),rf_rb.m_reg_status_init.status_init_tx_init_state.get()
+                           ,"**************************************************************");
+      `uvm_info("RESET_SEQ", print_reg,UVM_LOW)
+      if (rf_rb.m_reg_status_init.status_init_rx_init_state.get() == HMC_TS1_FIND_REF) begin
+        activate_reset();
+      end
+    end
+    
+  endtask : body
+
+  task activate_reset();
+    `uvm_info("RESET_SEQ", "ENTER RESET MODE", UVM_MEDIUM)
+      sys_if.res_n  <= 1'b0;
+      #500ns;
+      @(posedge sys_if.clk) 
+      sys_if.res_n <= 1'b1;
+    `uvm_info("RESET_SEQ", "EXIT RESET MODE", UVM_MEDIUM)
+  endtask : activate_reset
+
+  task setup_control();
+    bit phy_tx_ready  = 1'b0;
+    bit phy_rx_ready  = 1'b0;
+    bit link_up     = 1'b0;
+    int timeout     = 0;
+    string print_reg;
+    
     // setting up the configuration of the OpenHMC
+    rf_rb.m_reg_control.read(status, data, .parent(this));
     rf_rb.m_reg_control.read(status, data, .parent(this));
 
     rf_rb.m_reg_control.hmc_init_cont_set.set(0);
@@ -54,54 +106,36 @@ class initialization_seq extends  base_seq;
                        rf_rb.m_reg_control.irtry_to_send.get(),
                        "**************************************************************"
                       );
-    `uvm_info("INITIALiZATION_SEQ",print_reg,UVM_LOW)
-
+    `uvm_info("RESET_SEQ",print_reg,UVM_LOW)
     //Dummy Read to status init
     rf_rb.m_reg_status_init.read(status, data, .parent(this));
-
+    rf_rb.m_reg_status_init.read(status, data, .parent(this));
     //Dummy counter reset
     rf_rb.m_reg_counter_reset.counter_reset.set(1);
     rf_rb.m_reg_counter_reset.update(status);  //write
-
     //-- Wait until the PHY is out of reset
     while (phy_tx_ready == 1'b0) begin
       #1us;
       rf_rb.m_reg_status_general.read(status, data, .parent(this));
       phy_tx_ready = rf_rb.m_reg_status_general.phy_tx_ready.get();
-      `uvm_info("INITIALiZATION_SEQ", "Waiting for the PHY TX to get ready", UVM_NONE)
+      `uvm_info("RESET_SEQ", "Waiting for the PHY TX to get ready", UVM_NONE)
     end
-    `uvm_info("INITIALiZATION_SEQ", "Phy TX ready", UVM_NONE)
-
+    `uvm_info("RESET_SEQ", "Phy TX ready", UVM_NONE)
     //------------------------------------------------------- Set Reset and Init Continue
     rf_rb.m_reg_control.p_rst_n.set(1);
     rf_rb.m_reg_control.update(status);  //write
     #1us;
     rf_rb.m_reg_control.hmc_init_cont_set.set(1);
     rf_rb.m_reg_control.update(status);  //write
-
     //------------------------------------------------------- Wait for the PHY to get ready
     while (phy_rx_ready == 1'b0) begin
       #1us;
       rf_rb.m_reg_status_general.read(status, data, .parent(this));
       phy_rx_ready = rf_rb.m_reg_status_general.phy_rx_ready.get();
-      `uvm_info("INITIALiZATION_SEQ", "Waiting for PHY RX to get ready", UVM_NONE)
+      `uvm_info("RESET_SEQ", "Waiting for PHY RX to get ready", UVM_NONE)
     end
-    `uvm_info("INITIALiZATION_SEQ", "Phy RX is ready", UVM_NONE)
-
-    //-- Poll on link_up to make sure that it comes up.
-    while (link_up == 1'b0) begin
-      if (timeout == 8000) //-- Try Resetting it.
-        begin
-          `uvm_fatal("INITIALiZATION_SEQ", "The link didn't come up...")
-        end
-      #4ns;
-      rf_rb.m_reg_status_general.read(status, data, .parent(this));
-      link_up = rf_rb.m_reg_status_general.link_up.get();
-      timeout = timeout + 1;
-    end
-    `uvm_info("INITIALiZATION_SEQ", "Link is UP !", UVM_NONE)
-
-  endtask : body
+    `uvm_info("RESET_SEQ", "Phy RX is ready", UVM_NONE)
+  endtask : setup_control
 
 
-endclass : initialization_seq
+endclass : reset2_seq

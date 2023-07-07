@@ -478,7 +478,7 @@ Coverage Report Summary Data by instance
     Conditions                      79        50        29    63.29%
     Expressions                     41         3        38     7.31%
     FSM States                      11        10         1    90.90%
-    FSM Transitions                 23        12        11    52.17%
+    FSM Transitions                 23        14         9    60.86%
     Statements                     343       299        44    87.17%
 
 =================================================================================
@@ -944,7 +944,7 @@ Coverage Report Summary Data by instance
     Conditions                      37        14        23    37.83%
     Expressions                   3121      1068      2053    34.21%
     FSM States                       8         8         0   100.00%
-    FSM Transitions                 14         8         6    57.14%
+    FSM Transitions                 14        14         0   100.00%
     Statements                    1433      1393        40    97.20%
 
 =================================================================================
@@ -1035,7 +1035,7 @@ Coverage Report Summary Data by instance
 =================================================================================
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Assertions                      24        24         0   100.00%
+    Assertions                      24        23         1    95.83%
 
 =================================================================================
 === Instance: /axi_pkg
@@ -1051,9 +1051,9 @@ Coverage Report Summary Data by instance
 =================================================================================
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Covergroups                      2        na        na    92.50%
-        Coverpoints/Crosses          9        na        na        na
-            Covergroup Bins         50        45         5    90.00%
+    Covergroups                      3        na        na    93.76%
+        Coverpoints/Crosses         12        na        na        na
+            Covergroup Bins         69        63         6    91.30%
 
 =================================================================================
 === Instance: /seq_pkg
@@ -1064,9 +1064,9 @@ Coverage Report Summary Data by instance
     Assertions                       4         4         0   100.00%
 
 
-TOTAL COVERGROUP COVERAGE: 92.50%  COVERGROUP TYPES: 2
+TOTAL COVERGROUP COVERAGE: 93.76%  COVERGROUP TYPES: 3
 
-TOTAL ASSERTION COVERAGE: 100.00%  ASSERTIONS: 42
+TOTAL ASSERTION COVERAGE: 97.61%  ASSERTIONS: 42
 
-Total Coverage By Instance (filtered view): 80.81%
+Total Coverage By Instance (filtered view): 83.37%
 

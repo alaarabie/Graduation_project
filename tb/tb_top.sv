@@ -20,21 +20,12 @@ system_if system_if (.clk(clk));
   rf_if rf_if (.clk(clk), .res_n(system_if.res_n));
 
   hmc_agent_if #(.NUM_LANES(2**LOG_NUM_LANES)) hmc_if ();
-  hmc_agent_if #(.NUM_LANES(2**LOG_NUM_LANES)) hmc_int_if ();
 
   axi_interface #(.NUM_DATA_BYTES(FPW*16), .DWIDTH(FPW*128)) AXI_IF (.clk(clk), .res_n(system_if.res_n));
 
 //*******************************************************//
 
 //*************** Handling HMC interface ***************//
-assign hmc_int_if.REFCLK_BOOT = hmc_if.REFCLK_BOOT;
-assign hmc_int_if.REFCLKN = hmc_if.REFCLKN;
-assign hmc_int_if.REFCLKP = hmc_if.REFCLKP;
-assign hmc_int_if.P_RST_N = hmc_if.P_RST_N;
-assign hmc_int_if.RXPS = hmc_if.RXPS;
-
-assign hmc_if.TXPS = hmc_int_if.TXPS;
-assign hmc_if.FERR_N = hmc_int_if.FERR_N;
 //----------------------------- Wiring openHMC controller
 wire [FPW*128-1:0]       to_serializers;
 wire [FPW*128-1:0]       from_deserializers;
@@ -188,7 +179,6 @@ initial begin
   uvm_config_db#(virtual rf_if)::set(null, "uvm_test_top", "rf_if", rf_if);
 
   uvm_config_db#(virtual hmc_agent_if #(.NUM_LANES(2**LOG_NUM_LANES)))::set(null, "uvm_test_top", "vif", hmc_if);
-  uvm_config_db#(virtual hmc_agent_if #(.NUM_LANES(2**LOG_NUM_LANES)))::set(null, "uvm_test_top", "int_vif", hmc_int_if);
 
   uvm_config_db#(virtual system_if)::set(null, "uvm_test_top", "system_if", system_if);
   

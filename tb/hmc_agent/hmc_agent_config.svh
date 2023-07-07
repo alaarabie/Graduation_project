@@ -3,7 +3,6 @@ class hmc_agent_config#(NUM_LANES = 16) extends uvm_object;
   
 
    virtual hmc_agent_if #(NUM_LANES) vif;
-   virtual hmc_agent_if #(NUM_LANES) int_vif;
    
    uvm_active_passive_enum active = UVM_ACTIVE;
    uvm_active_passive_enum enable_tag_checking = UVM_PASSIVE;

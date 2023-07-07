@@ -12,7 +12,6 @@ class hmc_agent_monitor#(NUM_LANES = 16) extends uvm_monitor;
 	hmc_status			status;
 	hmc_link_status link_status;
 	hmc_link_status remote_link_status;
-	hmc_transaction_mon 			  transaction_mon;
 	hmc_cdr #(NUM_LANES) 				cdr;
 
 	// Analysis Ports
@@ -79,26 +78,18 @@ class hmc_agent_monitor#(NUM_LANES = 16) extends uvm_monitor;
 			`uvm_fatal("HMC_AGENT_MONITOR_build_phase()","Failed to get CONFIG") ;
 		start_clear_retry_event = new("start_retry_event");
 		if (requester_flag) begin
-			vif = hmc_agent_cfg.int_vif;
 			link_status = status.Requester_link_status;
 			remote_link_status = status.Responder_link_status;
 			cdr = hmc_cdr#(.NUM_LANES(NUM_LANES))::type_id::create("req_cdr", this);
-			cdr.vif = hmc_agent_cfg.int_vif;
 			cdr.link_type = REQUESTER;
-			//link_status.set_relaxed_token_handling(0);
-			//remote_link_status.set_relaxed_token_handling(0);
 		end else begin
-			vif = hmc_agent_cfg.vif;
 			link_status = status.Responder_link_status;
 			remote_link_status = status.Requester_link_status;
 			cdr = hmc_cdr#(.NUM_LANES(NUM_LANES))::type_id::create("rsp_cdr", this);
-			cdr.vif = hmc_agent_cfg.vif;
 			cdr.link_type = RESPONDER;
-			//link_status.set_relaxed_token_handling(0);
-			//remote_link_status.set_relaxed_token_handling(0);
 		end
-		//if (!link_config.responder.active) begin //TODO : check this later
-		//status.Responder_link_status.set_relaxed_token_handling(1); 
+		cdr.vif = hmc_agent_cfg.vif;
+		vif     = hmc_agent_cfg.vif;
 	endfunction : build_phase
 
 	task run_phase(uvm_phase phase);
@@ -527,7 +518,7 @@ task hmc_agent_monitor::collect_packets();
 		end
 
 		//-- check length miss-match "DLN[14:11]" "LNG[10:7]" //-- TODO: include CMD in length check
-		if (current_flit[14:11] != current_flit[10:7] || (current_flit[10:7]==0 && current_flit[5:0] != NULL)) begin // Length mismatch, length=0 is error except NULL command
+		if (current_flit[14:11] != current_flit[10:7] || current_flit[10:7]==0) begin // Length mismatch, length=0 is error except NULL command
 			`uvm_info("HMC_AGENT_MONITOR_collect_packets()",$sformatf("%s: current_packet_length mismatch %0x len=%0d, dln = %0d", requester_flag?"Requester":"Responder", current_flit, current_flit[10:7], current_flit[14:11]),UVM_NONE)
 			lng_error ++;
 			current_error = LENGTH_ERROR;
@@ -659,7 +650,10 @@ task hmc_agent_monitor::link_states();
 					,link_status.first_null_detected
 					,link_status.null_after_ts1_seen}
 					)
-			6'b0xxxxx :	link_status.current_state = RESET;
+			6'b0xxxxx :	begin
+										link_status.current_state = RESET;
+										num_of_reset = NUM_LANES;
+									end	
 			6'b10xxxx :	link_status.current_state = POWER_DOWN;		//-- sleep mode 
 			6'b110xxx :	link_status.current_state = PRBS;		//-- scrambler waits for null flits
 			6'b1110xx :	link_status.current_state = NULL_FLITS;	//-- scrambler has detected a null flit
@@ -679,7 +673,7 @@ task hmc_agent_monitor::link_states();
 			link_status.first_null_detected, 
 			link_status.null_after_ts1_seen
 			}),UVM_LOW)
-		if (link_status.current_state == (POWER_DOWN || RESET)) begin
+		if (link_status.current_state == POWER_DOWN || link_status.current_state == RESET) begin
 			reset_link();
 		end
 	end
@@ -732,8 +726,7 @@ endfunction : check_lane_queues_not_empty
 // idle_check()
 //*******************************************************************************
 function bit hmc_agent_monitor::idle_check();
-	return transaction_mon.idle_check()
-		&& (link_status.token_count == requester_flag?hmc_agent_cfg.rx_tokens:hmc_agent_cfg.hmc_tokens);
+	return (link_status.token_count == requester_flag?hmc_agent_cfg.rx_tokens:hmc_agent_cfg.hmc_tokens);
 endfunction : idle_check
 
 

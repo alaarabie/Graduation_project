@@ -41,11 +41,16 @@ class hmc_link_status extends uvm_component;
 	endfunction : new
 
 	function void reset();//--TODO power down reset?
+
+		// status bits
+		first_null_detected = 0;
+		null_after_ts1_seen = 0;
+		// Lane status signals
 		lanes_locked	= new[num_lanes];
 		lanes_aligned	= new[num_lanes];
 		lanes_polarity	= {16{1'b0}};
 		lanes_nonzero	= new[num_lanes];
-		
+		lane_reversed 		= 0;
 		for (int i=0; i < num_lanes; i++) begin
 			lanes_locked[i]		= 0;
 			lanes_aligned[i]	= 0;
@@ -53,18 +58,18 @@ class hmc_link_status extends uvm_component;
 			lanes_nonzero[i] 	= 0;	
 		end
 		
-		all_lanes_locked = 0;
-		all_lanes_alligned = 0;
-		num_lanes_locked 	= 0;
+		all_lanes_locked = 1'b0;
+		all_lanes_alligned = 1'b0;
 
-		lane_reversed 		= 0;
-		first_null_detected = 0;
-		null_after_ts1_seen = 0;
+		num_lanes_locked 	= 0;
+	
 		error_abort_mode 	= 0;
 		irtry_StartRetry_packet_count 		= 0;
 		irtry_ClearErrorAbort_packet_count 	= 0;
+
 		first_tret_received = 0;
 		last_sequence_number= 0;
+		last_successfull_frp = 0;
 		
 		void'(get_all_lanes_locked());
 		void'(get_all_lanes_aligned());

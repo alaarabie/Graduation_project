@@ -24,9 +24,10 @@ package seq_pkg ;
     `include "axi_posted_seq.svh" 
     `include "axi_write_seq.svh" 
 
-    `include "reset_seq.svh" 
-
-
+    `include "reset-sequences/reset1_seq.svh" 
+    `include "reset-sequences/reset2_seq.svh" 
+    `include "reset-sequences/reset3_seq.svh" 
+    `include "reset-sequences/reset4_seq.svh" 
    
 
 endpackage : seq_pkg

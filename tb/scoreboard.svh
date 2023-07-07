@@ -336,12 +336,12 @@ class scoreboard  extends uvm_scoreboard;
 //*******************************************************************************
 // report_phase()
 //*******************************************************************************
-	function void report_phase(uvm_phase phase);
+	/*function void report_phase(uvm_phase phase);
 		`uvm_info(get_type_name(),$sformatf("axi4_req_count %0d", axi4_req_packet_count), UVM_LOW)
 		`uvm_info(get_type_name(),$sformatf("axi4_rsp_count %0d", axi4_rsp_packet_count), UVM_LOW)
 		`uvm_info(get_type_name(),$sformatf("hmc_req_count %0d",  hmc_req_packet_count),  UVM_LOW)
 		`uvm_info(get_type_name(),$sformatf("hmc_rsp_count %0d",  hmc_rsp_packet_count),  UVM_LOW)
 		`uvm_info(get_type_name(),$sformatf("Error response count %0d", axi4_error_response_count ),  UVM_LOW)
-	endfunction : report_phase
+	endfunction : report_phase*/
 
 endclass : scoreboard
