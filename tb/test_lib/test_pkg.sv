@@ -28,6 +28,9 @@ package test_pkg ;
   `include "posted-only-test/posted_only_test_vseq.svh"
   `include "posted-only-test/posted_only_test.svh"  
 
+  `include "hmc-retry-test/hmc_retry_test_vseq.svh"
+  `include "hmc-retry-test/hmc_retry_test.svh"
+
   `include "reset-tests/reset1_test_vseq.svh"
   `include "reset-tests/reset1_test.svh"
   `include "reset-tests/reset2_test_vseq.svh"
