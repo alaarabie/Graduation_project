@@ -1051,9 +1051,9 @@ Coverage Report Summary Data by instance
 =================================================================================
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Covergroups                      3        na        na    93.76%
+    Covergroups                      3        na        na    95.00%
         Coverpoints/Crosses         12        na        na        na
-            Covergroup Bins         69        63         6    91.30%
+            Covergroup Bins         67        62         5    92.53%
 
 =================================================================================
 === Instance: /seq_pkg
@@ -1064,9 +1064,9 @@ Coverage Report Summary Data by instance
     Assertions                       4         4         0   100.00%
 
 
-TOTAL COVERGROUP COVERAGE: 93.76%  COVERGROUP TYPES: 3
+TOTAL COVERGROUP COVERAGE: 95.00%  COVERGROUP TYPES: 3
 
 TOTAL ASSERTION COVERAGE: 97.61%  ASSERTIONS: 42
 
-Total Coverage By Instance (filtered view): 83.37%
+Total Coverage By Instance (filtered view): 83.53%
 

@@ -1,3 +1,7 @@
+//---------------------------------------------------------------//
+//  this file isn't fully debugged and produce errors in some scenarios
+//  in addition, some of its code doesn't operate as intended
+//---------------------------------------------------------------//
 class hmc_agent_monitor#(NUM_LANES = 16) extends uvm_monitor;
 
 	`uvm_component_param_utils(hmc_agent_monitor #(NUM_LANES))

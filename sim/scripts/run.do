@@ -7,7 +7,7 @@ vlib work
 #***************************************************#
 # Start a new Transcript File
 #***************************************************#
-#transcript file log/RUN_LOG.log
+transcript file log/RUN_LOG.log
 # better make one for each test
 
 #***************************************************#

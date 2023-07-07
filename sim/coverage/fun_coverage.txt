@@ -6,9 +6,9 @@ Coverage Report by instance with details
 =================================================================================
 
 Covergroup Coverage:
-    Covergroups                      3        na        na    93.76%
+    Covergroups                      3        na        na    95.00%
         Coverpoints/Crosses         12        na        na        na
-            Covergroup Bins         69        63         6    91.30%
+            Covergroup Bins         67        62         5    92.53%
 ----------------------------------------------------------------------------------------------------------
 Covergroup                                             Metric       Goal       Bins    Status               
                                                                                                          
@@ -109,20 +109,19 @@ Covergroup                                             Metric       Goal       B
         bin length[7]                                      13          1          -    Covered              
         bin length[8]                                      10          1          -    Covered              
         bin length[9]                                       7          1          -    Covered              
- TYPE /tb_pkg/coverage/cross_cg                        96.29%        100          -    Uncovered            
-    covered/total bins:                                    18         19          -                      
-    missing/total bins:                                     1         19          -                      
-    % Hit:                                             94.73%        100          -                      
+ TYPE /tb_pkg/coverage/cross_cg                       100.00%        100          -    Covered              
+    covered/total bins:                                    17         17          -                      
+    missing/total bins:                                     0         17          -                      
+    % Hit:                                            100.00%        100          -                      
     Coverpoint Read_Response                          100.00%        100          -    Covered              
         covered/total bins:                                 1          1          -                      
         missing/total bins:                                 0          1          -                      
         % Hit:                                        100.00%        100          -                      
         bin Response_Commands[RD_RS]                       25          1          -    Covered              
     Coverpoint Packet_Length                          100.00%        100          -    Covered              
-        covered/total bins:                                 9          9          -                      
-        missing/total bins:                                 0          9          -                      
+        covered/total bins:                                 8          8          -                      
+        missing/total bins:                                 0          8          -                      
         % Hit:                                        100.00%        100          -                      
-        bin length[1]                                    3372          1          -    Covered              
         bin length[2]                                      30          1          -    Covered              
         bin length[3]                                      12          1          -    Covered              
         bin length[4]                                      14          1          -    Covered              
@@ -131,10 +130,10 @@ Covergroup                                             Metric       Goal       B
         bin length[7]                                      13          1          -    Covered              
         bin length[8]                                      10          1          -    Covered              
         bin length[9]                                       7          1          -    Covered              
-    Cross length_Response_Commands                     88.88%        100          -    Uncovered            
-        covered/total bins:                                 8          9          -                      
-        missing/total bins:                                 1          9          -                      
-        % Hit:                                         88.88%        100          -                      
+    Cross length_Response_Commands                    100.00%        100          -    Covered              
+        covered/total bins:                                 8          8          -                      
+        missing/total bins:                                 0          8          -                      
+        % Hit:                                        100.00%        100          -                      
         Auto, Default and User Defined Bins:
             bin <Response_Commands[RD_RS],length[9]> 
                                                             1          1          -    Covered              
@@ -152,7 +151,6 @@ Covergroup                                             Metric       Goal       B
                                                             5          1          -    Covered              
             bin <Response_Commands[RD_RS],length[2]> 
                                                             3          1          -    Covered              
-            bin <*,length[1]>                               0          1          1    ZERO                 
 
 COVERGROUP COVERAGE:
 ----------------------------------------------------------------------------------------------------------
@@ -255,20 +253,19 @@ Covergroup                                             Metric       Goal       B
         bin length[7]                                      13          1          -    Covered              
         bin length[8]                                      10          1          -    Covered              
         bin length[9]                                       7          1          -    Covered              
- TYPE /tb_pkg/coverage/cross_cg                        96.29%        100          -    Uncovered            
-    covered/total bins:                                    18         19          -                      
-    missing/total bins:                                     1         19          -                      
-    % Hit:                                             94.73%        100          -                      
+ TYPE /tb_pkg/coverage/cross_cg                       100.00%        100          -    Covered              
+    covered/total bins:                                    17         17          -                      
+    missing/total bins:                                     0         17          -                      
+    % Hit:                                            100.00%        100          -                      
     Coverpoint Read_Response                          100.00%        100          -    Covered              
         covered/total bins:                                 1          1          -                      
         missing/total bins:                                 0          1          -                      
         % Hit:                                        100.00%        100          -                      
         bin Response_Commands[RD_RS]                       25          1          -    Covered              
     Coverpoint Packet_Length                          100.00%        100          -    Covered              
-        covered/total bins:                                 9          9          -                      
-        missing/total bins:                                 0          9          -                      
+        covered/total bins:                                 8          8          -                      
+        missing/total bins:                                 0          8          -                      
         % Hit:                                        100.00%        100          -                      
-        bin length[1]                                    3372          1          -    Covered              
         bin length[2]                                      30          1          -    Covered              
         bin length[3]                                      12          1          -    Covered              
         bin length[4]                                      14          1          -    Covered              
@@ -277,10 +274,10 @@ Covergroup                                             Metric       Goal       B
         bin length[7]                                      13          1          -    Covered              
         bin length[8]                                      10          1          -    Covered              
         bin length[9]                                       7          1          -    Covered              
-    Cross length_Response_Commands                     88.88%        100          -    Uncovered            
-        covered/total bins:                                 8          9          -                      
-        missing/total bins:                                 1          9          -                      
-        % Hit:                                         88.88%        100          -                      
+    Cross length_Response_Commands                    100.00%        100          -    Covered              
+        covered/total bins:                                 8          8          -                      
+        missing/total bins:                                 0          8          -                      
+        % Hit:                                        100.00%        100          -                      
         Auto, Default and User Defined Bins:
             bin <Response_Commands[RD_RS],length[9]> 
                                                             1          1          -    Covered              
@@ -298,9 +295,8 @@ Covergroup                                             Metric       Goal       B
                                                             5          1          -    Covered              
             bin <Response_Commands[RD_RS],length[2]> 
                                                             3          1          -    Covered              
-            bin <*,length[1]>                               0          1          1    ZERO                 
 
-TOTAL COVERGROUP COVERAGE: 93.76%  COVERGROUP TYPES: 3
+TOTAL COVERGROUP COVERAGE: 95.00%  COVERGROUP TYPES: 3
 
-Total Coverage By Instance (filtered view): 93.76%
+Total Coverage By Instance (filtered view): 95.00%
 

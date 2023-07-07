@@ -62,17 +62,9 @@ task rf_control_sleep_seq::body();
         rf_rb.m_reg_status_general.read(status, data, .parent(this));
         rf_rb.m_reg_status_general.read(status, data, .parent(this));
         if (rf_rb.m_reg_status_general.sleep_mode.get()) begin
-          print_reg = $sformatf("\n*******************************\n\tSTATUS GENERAL REGISTER (during sleep)\n*******************************
-                         \t link_up=%1b, 
-                         \t link_training=%1b, 
-                         \t sleep_mode=%1b, 
-                         \t FERR_N=%1b, 
-                         \t lanes_reversed=%1b, 
-                         \t phy_tx_ready=%1b, 
-                         \t phy_rx_ready=%1b, 
-                         \t hmc_tokens_remaining=%0x, 
-                         \t rx_tokens_remaining=%0x, 
-                         \t lane_polarity_reversed=%0x\n**************************************************************\n", 
+          print_reg = $sformatf("\n%s\n\tSTATUS GENERAL REGISTER (during sleep)\n%s\n\t link_up=%1b, \n\t link_training=%1b, \n\t sleep_mode=%1b, \n\t FERR_N=%1b, \n\t lanes_reversed=%1b, \n\t phy_tx_ready=%1b, \n\t phy_rx_ready=%1b, \n\t hmc_tokens_remaining=%0x, \n\t rx_tokens_remaining=%0x, \n\t lane_polarity_reversed=%0x\n%s\n", 
+                         "*******************************",
+                         "*******************************",
                          rf_rb.m_reg_status_general.link_up.get(),
                          rf_rb.m_reg_status_general.link_training.get(),
                          rf_rb.m_reg_status_general.sleep_mode.get(),
@@ -82,7 +74,8 @@ task rf_control_sleep_seq::body();
                          rf_rb.m_reg_status_general.phy_rx_ready.get(),
                          rf_rb.m_reg_status_general.hmc_tokens_remaining.get(),
                          rf_rb.m_reg_status_general.rx_tokens_remaining.get(),
-                         rf_rb.m_reg_status_general.lane_polarity_reversed.get()
+                         rf_rb.m_reg_status_general.lane_polarity_reversed.get(),
+                         "**************************************************************"
                         );
           `uvm_info("SLEEP_SEQ", print_reg,UVM_LOW)
         end
