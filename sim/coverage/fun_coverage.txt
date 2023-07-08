@@ -6,79 +6,79 @@ Coverage Report by instance with details
 =================================================================================
 
 Covergroup Coverage:
-    Covergroups                      3        na        na    95.00%
+    Covergroups                      3        na        na    98.12%
         Coverpoints/Crosses         12        na        na        na
-            Covergroup Bins         67        62         5    92.53%
+            Covergroup Bins         67        65         2    97.01%
 ----------------------------------------------------------------------------------------------------------
 Covergroup                                             Metric       Goal       Bins    Status               
                                                                                                          
 ----------------------------------------------------------------------------------------------------------
- TYPE /tb_pkg/coverage/command_cg                      85.00%        100          -    Uncovered            
-    covered/total bins:                                    36         41          -                      
-    missing/total bins:                                     5         41          -                      
-    % Hit:                                             87.80%        100          -                      
+ TYPE /tb_pkg/coverage/command_cg                      94.37%        100          -    Uncovered            
+    covered/total bins:                                    39         41          -                      
+    missing/total bins:                                     2         41          -                      
+    % Hit:                                             95.12%        100          -                      
     Coverpoint Flow                                    75.00%        100          -    Uncovered            
         covered/total bins:                                 3          4          -                      
         missing/total bins:                                 1          4          -                      
         % Hit:                                         75.00%        100          -                      
-        bin flow[NULL]                                   1884          1          -    Covered              
+        bin flow[NULL]                                   2758          1          -    Covered              
         bin flow[PRET]                                      0          1          -    ZERO                 
-        bin flow[TRET]                                    120          1          -    Covered              
-        bin flow[IRTRY]                                  1296          1          -    Covered              
+        bin flow[TRET]                                    203          1          -    Covered              
+        bin flow[IRTRY]                                  1536          1          -    Covered              
     Coverpoint Write_Requests                         100.00%        100          -    Covered              
         covered/total bins:                                 8          8          -                      
         missing/total bins:                                 0          8          -                      
         % Hit:                                        100.00%        100          -                      
-        bin Write_Requests[WR16]                            6          1          -    Covered              
-        bin Write_Requests[WR32]                            2          1          -    Covered              
-        bin Write_Requests[WR48]                            4          1          -    Covered              
-        bin Write_Requests[WR64]                            8          1          -    Covered              
-        bin Write_Requests[WR80]                            6          1          -    Covered              
-        bin Write_Requests[WR96]                            5          1          -    Covered              
+        bin Write_Requests[WR16]                            9          1          -    Covered              
+        bin Write_Requests[WR32]                            6          1          -    Covered              
+        bin Write_Requests[WR48]                            6          1          -    Covered              
+        bin Write_Requests[WR64]                            9          1          -    Covered              
+        bin Write_Requests[WR80]                            9          1          -    Covered              
+        bin Write_Requests[WR96]                            8          1          -    Covered              
         bin Write_Requests[WR112]                           1          1          -    Covered              
-        bin Write_Requests[WR128]                           2          1          -    Covered              
-    Coverpoint Misc_Write_Requests                     25.00%        100          -    Uncovered            
-        covered/total bins:                                 1          4          -                      
-        missing/total bins:                                 3          4          -                      
-        % Hit:                                         25.00%        100          -                      
-        bin Misc_Write_Requests[MD_WR]                      3          1          -    Covered              
-        bin Misc_Write_Requests[BWR]                        0          1          -    ZERO                 
-        bin Misc_Write_Requests[DUAL_2ADD8]                 0          1          -    ZERO                 
-        bin Misc_Write_Requests[SINGLE_ADD16]               0          1          -    ZERO                 
+        bin Write_Requests[WR128]                           5          1          -    Covered              
+    Coverpoint Misc_Write_Requests                    100.00%        100          -    Covered              
+        covered/total bins:                                 4          4          -                      
+        missing/total bins:                                 0          4          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin Misc_Write_Requests[MD_WR]                      5          1          -    Covered              
+        bin Misc_Write_Requests[BWR]                        4          1          -    Covered              
+        bin Misc_Write_Requests[DUAL_2ADD8]                 2          1          -    Covered              
+        bin Misc_Write_Requests[SINGLE_ADD16]               2          1          -    Covered              
     Coverpoint Posted_Write_Requests                  100.00%        100          -    Covered              
         covered/total bins:                                 8          8          -                      
         missing/total bins:                                 0          8          -                      
         % Hit:                                        100.00%        100          -                      
-        bin Posted_Write_Requests[P_WR16]                   4          1          -    Covered              
+        bin Posted_Write_Requests[P_WR16]                   6          1          -    Covered              
         bin Posted_Write_Requests[P_WR32]                   5          1          -    Covered              
-        bin Posted_Write_Requests[P_WR48]                   5          1          -    Covered              
-        bin Posted_Write_Requests[P_WR64]                   8          1          -    Covered              
-        bin Posted_Write_Requests[P_WR80]                   6          1          -    Covered              
-        bin Posted_Write_Requests[P_WR96]                   6          1          -    Covered              
+        bin Posted_Write_Requests[P_WR48]                   6          1          -    Covered              
+        bin Posted_Write_Requests[P_WR64]                  10          1          -    Covered              
+        bin Posted_Write_Requests[P_WR80]                   8          1          -    Covered              
+        bin Posted_Write_Requests[P_WR96]                   7          1          -    Covered              
         bin Posted_Write_Requests[P_WR112]                  6          1          -    Covered              
-        bin Posted_Write_Requests[P_WR128]                  4          1          -    Covered              
+        bin Posted_Write_Requests[P_WR128]                  5          1          -    Covered              
     Coverpoint Posted_Misc_Write_Requests             100.00%        100          -    Covered              
         covered/total bins:                                 3          3          -                      
         missing/total bins:                                 0          3          -                      
         % Hit:                                        100.00%        100          -                      
-        bin Posted_Misc_Write_Requests[P_BWR]               1          1          -    Covered              
+        bin Posted_Misc_Write_Requests[P_BWR]               3          1          -    Covered              
         bin Posted_Misc_Write_Requests[P_DUAL_2ADD8] 
-                                                            1          1          -    Covered              
-        bin Posted_Misc_Write_Requests[P_SINGLE_ADD16] 
                                                             2          1          -    Covered              
+        bin Posted_Misc_Write_Requests[P_SINGLE_ADD16] 
+                                                            3          1          -    Covered              
     Coverpoint Mode_Read_Request                      100.00%        100          -    Covered              
         covered/total bins:                                 1          1          -                      
         missing/total bins:                                 0          1          -                      
         % Hit:                                        100.00%        100          -                      
-        bin Mode_Read_Request[MD_RD]                       10          1          -    Covered              
+        bin Mode_Read_Request[MD_RD]                       11          1          -    Covered              
     Coverpoint Read_Requests                          100.00%        100          -    Covered              
         covered/total bins:                                 8          8          -                      
         missing/total bins:                                 0          8          -                      
         % Hit:                                        100.00%        100          -                      
-        bin Read_Requests[RD16]                             3          1          -    Covered              
+        bin Read_Requests[RD16]                             4          1          -    Covered              
         bin Read_Requests[RD32]                             5          1          -    Covered              
         bin Read_Requests[RD48]                             5          1          -    Covered              
-        bin Read_Requests[RD64]                             4          1          -    Covered              
+        bin Read_Requests[RD64]                             5          1          -    Covered              
         bin Read_Requests[RD80]                             2          1          -    Covered              
         bin Read_Requests[RD96]                             2          1          -    Covered              
         bin Read_Requests[RD112]                            3          1          -    Covered              
@@ -87,10 +87,10 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 4          5          -                      
         missing/total bins:                                 1          5          -                      
         % Hit:                                         80.00%        100          -                      
-        bin Response_Commands[RD_RS]                       25          1          -    Covered              
-        bin Response_Commands[WR_RS]                       34          1          -    Covered              
-        bin Response_Commands[MD_RD_RS]                    10          1          -    Covered              
-        bin Response_Commands[MD_WR_RS]                     3          1          -    Covered              
+        bin Response_Commands[RD_RS]                       27          1          -    Covered              
+        bin Response_Commands[WR_RS]                       42          1          -    Covered              
+        bin Response_Commands[MD_RD_RS]                    11          1          -    Covered              
+        bin Response_Commands[MD_WR_RS]                     5          1          -    Covered              
         bin Response_Commands[ERROR_RS]                     0          1          -    ZERO                 
  TYPE /tb_pkg/coverage/length_cg                      100.00%        100          -    Covered              
     covered/total bins:                                     9          9          -                      
@@ -100,15 +100,15 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 9          9          -                      
         missing/total bins:                                 0          9          -                      
         % Hit:                                        100.00%        100          -                      
-        bin length[1]                                    3372          1          -    Covered              
-        bin length[2]                                      30          1          -    Covered              
-        bin length[3]                                      12          1          -    Covered              
-        bin length[4]                                      14          1          -    Covered              
-        bin length[5]                                      20          1          -    Covered              
-        bin length[6]                                      14          1          -    Covered              
-        bin length[7]                                      13          1          -    Covered              
+        bin length[1]                                    4582          1          -    Covered              
+        bin length[2]                                      51          1          -    Covered              
+        bin length[3]                                      16          1          -    Covered              
+        bin length[4]                                      17          1          -    Covered              
+        bin length[5]                                      24          1          -    Covered              
+        bin length[6]                                      19          1          -    Covered              
+        bin length[7]                                      17          1          -    Covered              
         bin length[8]                                      10          1          -    Covered              
-        bin length[9]                                       7          1          -    Covered              
+        bin length[9]                                      11          1          -    Covered              
  TYPE /tb_pkg/coverage/cross_cg                       100.00%        100          -    Covered              
     covered/total bins:                                    17         17          -                      
     missing/total bins:                                     0         17          -                      
@@ -117,19 +117,19 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 1          1          -                      
         missing/total bins:                                 0          1          -                      
         % Hit:                                        100.00%        100          -                      
-        bin Response_Commands[RD_RS]                       25          1          -    Covered              
+        bin Response_Commands[RD_RS]                       27          1          -    Covered              
     Coverpoint Packet_Length                          100.00%        100          -    Covered              
         covered/total bins:                                 8          8          -                      
         missing/total bins:                                 0          8          -                      
         % Hit:                                        100.00%        100          -                      
-        bin length[2]                                      30          1          -    Covered              
-        bin length[3]                                      12          1          -    Covered              
-        bin length[4]                                      14          1          -    Covered              
-        bin length[5]                                      20          1          -    Covered              
-        bin length[6]                                      14          1          -    Covered              
-        bin length[7]                                      13          1          -    Covered              
+        bin length[2]                                      51          1          -    Covered              
+        bin length[3]                                      16          1          -    Covered              
+        bin length[4]                                      17          1          -    Covered              
+        bin length[5]                                      24          1          -    Covered              
+        bin length[6]                                      19          1          -    Covered              
+        bin length[7]                                      17          1          -    Covered              
         bin length[8]                                      10          1          -    Covered              
-        bin length[9]                                       7          1          -    Covered              
+        bin length[9]                                      11          1          -    Covered              
     Cross length_Response_Commands                    100.00%        100          -    Covered              
         covered/total bins:                                 8          8          -                      
         missing/total bins:                                 0          8          -                      
@@ -146,83 +146,83 @@ Covergroup                                             Metric       Goal       B
             bin <Response_Commands[RD_RS],length[7]> 
                                                             2          1          -    Covered              
             bin <Response_Commands[RD_RS],length[5]> 
-                                                            4          1          -    Covered              
+                                                            5          1          -    Covered              
             bin <Response_Commands[RD_RS],length[4]> 
                                                             5          1          -    Covered              
             bin <Response_Commands[RD_RS],length[2]> 
-                                                            3          1          -    Covered              
+                                                            4          1          -    Covered              
 
 COVERGROUP COVERAGE:
 ----------------------------------------------------------------------------------------------------------
 Covergroup                                             Metric       Goal       Bins    Status               
                                                                                                          
 ----------------------------------------------------------------------------------------------------------
- TYPE /tb_pkg/coverage/command_cg                      85.00%        100          -    Uncovered            
-    covered/total bins:                                    36         41          -                      
-    missing/total bins:                                     5         41          -                      
-    % Hit:                                             87.80%        100          -                      
+ TYPE /tb_pkg/coverage/command_cg                      94.37%        100          -    Uncovered            
+    covered/total bins:                                    39         41          -                      
+    missing/total bins:                                     2         41          -                      
+    % Hit:                                             95.12%        100          -                      
     Coverpoint Flow                                    75.00%        100          -    Uncovered            
         covered/total bins:                                 3          4          -                      
         missing/total bins:                                 1          4          -                      
         % Hit:                                         75.00%        100          -                      
-        bin flow[NULL]                                   1884          1          -    Covered              
+        bin flow[NULL]                                   2758          1          -    Covered              
         bin flow[PRET]                                      0          1          -    ZERO                 
-        bin flow[TRET]                                    120          1          -    Covered              
-        bin flow[IRTRY]                                  1296          1          -    Covered              
+        bin flow[TRET]                                    203          1          -    Covered              
+        bin flow[IRTRY]                                  1536          1          -    Covered              
     Coverpoint Write_Requests                         100.00%        100          -    Covered              
         covered/total bins:                                 8          8          -                      
         missing/total bins:                                 0          8          -                      
         % Hit:                                        100.00%        100          -                      
-        bin Write_Requests[WR16]                            6          1          -    Covered              
-        bin Write_Requests[WR32]                            2          1          -    Covered              
-        bin Write_Requests[WR48]                            4          1          -    Covered              
-        bin Write_Requests[WR64]                            8          1          -    Covered              
-        bin Write_Requests[WR80]                            6          1          -    Covered              
-        bin Write_Requests[WR96]                            5          1          -    Covered              
+        bin Write_Requests[WR16]                            9          1          -    Covered              
+        bin Write_Requests[WR32]                            6          1          -    Covered              
+        bin Write_Requests[WR48]                            6          1          -    Covered              
+        bin Write_Requests[WR64]                            9          1          -    Covered              
+        bin Write_Requests[WR80]                            9          1          -    Covered              
+        bin Write_Requests[WR96]                            8          1          -    Covered              
         bin Write_Requests[WR112]                           1          1          -    Covered              
-        bin Write_Requests[WR128]                           2          1          -    Covered              
-    Coverpoint Misc_Write_Requests                     25.00%        100          -    Uncovered            
-        covered/total bins:                                 1          4          -                      
-        missing/total bins:                                 3          4          -                      
-        % Hit:                                         25.00%        100          -                      
-        bin Misc_Write_Requests[MD_WR]                      3          1          -    Covered              
-        bin Misc_Write_Requests[BWR]                        0          1          -    ZERO                 
-        bin Misc_Write_Requests[DUAL_2ADD8]                 0          1          -    ZERO                 
-        bin Misc_Write_Requests[SINGLE_ADD16]               0          1          -    ZERO                 
+        bin Write_Requests[WR128]                           5          1          -    Covered              
+    Coverpoint Misc_Write_Requests                    100.00%        100          -    Covered              
+        covered/total bins:                                 4          4          -                      
+        missing/total bins:                                 0          4          -                      
+        % Hit:                                        100.00%        100          -                      
+        bin Misc_Write_Requests[MD_WR]                      5          1          -    Covered              
+        bin Misc_Write_Requests[BWR]                        4          1          -    Covered              
+        bin Misc_Write_Requests[DUAL_2ADD8]                 2          1          -    Covered              
+        bin Misc_Write_Requests[SINGLE_ADD16]               2          1          -    Covered              
     Coverpoint Posted_Write_Requests                  100.00%        100          -    Covered              
         covered/total bins:                                 8          8          -                      
         missing/total bins:                                 0          8          -                      
         % Hit:                                        100.00%        100          -                      
-        bin Posted_Write_Requests[P_WR16]                   4          1          -    Covered              
+        bin Posted_Write_Requests[P_WR16]                   6          1          -    Covered              
         bin Posted_Write_Requests[P_WR32]                   5          1          -    Covered              
-        bin Posted_Write_Requests[P_WR48]                   5          1          -    Covered              
-        bin Posted_Write_Requests[P_WR64]                   8          1          -    Covered              
-        bin Posted_Write_Requests[P_WR80]                   6          1          -    Covered              
-        bin Posted_Write_Requests[P_WR96]                   6          1          -    Covered              
+        bin Posted_Write_Requests[P_WR48]                   6          1          -    Covered              
+        bin Posted_Write_Requests[P_WR64]                  10          1          -    Covered              
+        bin Posted_Write_Requests[P_WR80]                   8          1          -    Covered              
+        bin Posted_Write_Requests[P_WR96]                   7          1          -    Covered              
         bin Posted_Write_Requests[P_WR112]                  6          1          -    Covered              
-        bin Posted_Write_Requests[P_WR128]                  4          1          -    Covered              
+        bin Posted_Write_Requests[P_WR128]                  5          1          -    Covered              
     Coverpoint Posted_Misc_Write_Requests             100.00%        100          -    Covered              
         covered/total bins:                                 3          3          -                      
         missing/total bins:                                 0          3          -                      
         % Hit:                                        100.00%        100          -                      
-        bin Posted_Misc_Write_Requests[P_BWR]               1          1          -    Covered              
+        bin Posted_Misc_Write_Requests[P_BWR]               3          1          -    Covered              
         bin Posted_Misc_Write_Requests[P_DUAL_2ADD8] 
-                                                            1          1          -    Covered              
-        bin Posted_Misc_Write_Requests[P_SINGLE_ADD16] 
                                                             2          1          -    Covered              
+        bin Posted_Misc_Write_Requests[P_SINGLE_ADD16] 
+                                                            3          1          -    Covered              
     Coverpoint Mode_Read_Request                      100.00%        100          -    Covered              
         covered/total bins:                                 1          1          -                      
         missing/total bins:                                 0          1          -                      
         % Hit:                                        100.00%        100          -                      
-        bin Mode_Read_Request[MD_RD]                       10          1          -    Covered              
+        bin Mode_Read_Request[MD_RD]                       11          1          -    Covered              
     Coverpoint Read_Requests                          100.00%        100          -    Covered              
         covered/total bins:                                 8          8          -                      
         missing/total bins:                                 0          8          -                      
         % Hit:                                        100.00%        100          -                      
-        bin Read_Requests[RD16]                             3          1          -    Covered              
+        bin Read_Requests[RD16]                             4          1          -    Covered              
         bin Read_Requests[RD32]                             5          1          -    Covered              
         bin Read_Requests[RD48]                             5          1          -    Covered              
-        bin Read_Requests[RD64]                             4          1          -    Covered              
+        bin Read_Requests[RD64]                             5          1          -    Covered              
         bin Read_Requests[RD80]                             2          1          -    Covered              
         bin Read_Requests[RD96]                             2          1          -    Covered              
         bin Read_Requests[RD112]                            3          1          -    Covered              
@@ -231,10 +231,10 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 4          5          -                      
         missing/total bins:                                 1          5          -                      
         % Hit:                                         80.00%        100          -                      
-        bin Response_Commands[RD_RS]                       25          1          -    Covered              
-        bin Response_Commands[WR_RS]                       34          1          -    Covered              
-        bin Response_Commands[MD_RD_RS]                    10          1          -    Covered              
-        bin Response_Commands[MD_WR_RS]                     3          1          -    Covered              
+        bin Response_Commands[RD_RS]                       27          1          -    Covered              
+        bin Response_Commands[WR_RS]                       42          1          -    Covered              
+        bin Response_Commands[MD_RD_RS]                    11          1          -    Covered              
+        bin Response_Commands[MD_WR_RS]                     5          1          -    Covered              
         bin Response_Commands[ERROR_RS]                     0          1          -    ZERO                 
  TYPE /tb_pkg/coverage/length_cg                      100.00%        100          -    Covered              
     covered/total bins:                                     9          9          -                      
@@ -244,15 +244,15 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 9          9          -                      
         missing/total bins:                                 0          9          -                      
         % Hit:                                        100.00%        100          -                      
-        bin length[1]                                    3372          1          -    Covered              
-        bin length[2]                                      30          1          -    Covered              
-        bin length[3]                                      12          1          -    Covered              
-        bin length[4]                                      14          1          -    Covered              
-        bin length[5]                                      20          1          -    Covered              
-        bin length[6]                                      14          1          -    Covered              
-        bin length[7]                                      13          1          -    Covered              
+        bin length[1]                                    4582          1          -    Covered              
+        bin length[2]                                      51          1          -    Covered              
+        bin length[3]                                      16          1          -    Covered              
+        bin length[4]                                      17          1          -    Covered              
+        bin length[5]                                      24          1          -    Covered              
+        bin length[6]                                      19          1          -    Covered              
+        bin length[7]                                      17          1          -    Covered              
         bin length[8]                                      10          1          -    Covered              
-        bin length[9]                                       7          1          -    Covered              
+        bin length[9]                                      11          1          -    Covered              
  TYPE /tb_pkg/coverage/cross_cg                       100.00%        100          -    Covered              
     covered/total bins:                                    17         17          -                      
     missing/total bins:                                     0         17          -                      
@@ -261,19 +261,19 @@ Covergroup                                             Metric       Goal       B
         covered/total bins:                                 1          1          -                      
         missing/total bins:                                 0          1          -                      
         % Hit:                                        100.00%        100          -                      
-        bin Response_Commands[RD_RS]                       25          1          -    Covered              
+        bin Response_Commands[RD_RS]                       27          1          -    Covered              
     Coverpoint Packet_Length                          100.00%        100          -    Covered              
         covered/total bins:                                 8          8          -                      
         missing/total bins:                                 0          8          -                      
         % Hit:                                        100.00%        100          -                      
-        bin length[2]                                      30          1          -    Covered              
-        bin length[3]                                      12          1          -    Covered              
-        bin length[4]                                      14          1          -    Covered              
-        bin length[5]                                      20          1          -    Covered              
-        bin length[6]                                      14          1          -    Covered              
-        bin length[7]                                      13          1          -    Covered              
+        bin length[2]                                      51          1          -    Covered              
+        bin length[3]                                      16          1          -    Covered              
+        bin length[4]                                      17          1          -    Covered              
+        bin length[5]                                      24          1          -    Covered              
+        bin length[6]                                      19          1          -    Covered              
+        bin length[7]                                      17          1          -    Covered              
         bin length[8]                                      10          1          -    Covered              
-        bin length[9]                                       7          1          -    Covered              
+        bin length[9]                                      11          1          -    Covered              
     Cross length_Response_Commands                    100.00%        100          -    Covered              
         covered/total bins:                                 8          8          -                      
         missing/total bins:                                 0          8          -                      
@@ -290,13 +290,13 @@ Covergroup                                             Metric       Goal       B
             bin <Response_Commands[RD_RS],length[7]> 
                                                             2          1          -    Covered              
             bin <Response_Commands[RD_RS],length[5]> 
-                                                            4          1          -    Covered              
+                                                            5          1          -    Covered              
             bin <Response_Commands[RD_RS],length[4]> 
                                                             5          1          -    Covered              
             bin <Response_Commands[RD_RS],length[2]> 
-                                                            3          1          -    Covered              
+                                                            4          1          -    Covered              
 
-TOTAL COVERGROUP COVERAGE: 95.00%  COVERGROUP TYPES: 3
+TOTAL COVERGROUP COVERAGE: 98.12%  COVERGROUP TYPES: 3
 
-Total Coverage By Instance (filtered view): 95.00%
+Total Coverage By Instance (filtered view): 98.12%
 
