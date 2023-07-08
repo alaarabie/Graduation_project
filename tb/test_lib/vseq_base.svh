@@ -37,5 +37,14 @@ class vseq_base extends  uvm_sequence #(uvm_sequence_item);
     seq_.sys_if = sys_if;
   endfunction
 
+  task activate_reset(string parent);
+    `uvm_info(parent, "ENTER RESET MODE", UVM_MEDIUM)
+      sys_if.res_n  <= 1'b0;
+      #500ns;
+      @(posedge sys_if.clk) 
+      sys_if.res_n <= 1'b1;
+    `uvm_info(parent, "EXIT RESET MODE", UVM_MEDIUM)
+  endtask : activate_reset
+
 
 endclass : vseq_base

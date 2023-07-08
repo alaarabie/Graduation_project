@@ -28,6 +28,7 @@ package seq_pkg ;
     `include "reset-sequences/reset2_seq.svh" 
     `include "reset-sequences/reset3_seq.svh" 
     `include "reset-sequences/reset4_seq.svh" 
+    `include "reset-sequences/reset5_seq.svh" 
    
 
 endpackage : seq_pkg

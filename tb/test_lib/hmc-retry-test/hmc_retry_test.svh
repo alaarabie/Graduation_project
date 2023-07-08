@@ -25,6 +25,7 @@ class hmc_retry_test extends  base_test;
     set_seqs(m_rf_check_vseq);
      
     phase.raise_objection(this);
+    super.run_phase(phase);
     
       `uvm_info("HMC_RETRY_TEST","Starting test", UVM_MEDIUM)
 

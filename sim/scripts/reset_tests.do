@@ -35,6 +35,15 @@ run -all
 coverage attribute -name TESTNAME -value reset4_test
 coverage save coverage/reset4_test.ucdb
 
+transcript file log/reset5_test.log
+vsim top_opt -c -assertdebug -debugDB -fsmdebug -coverage +UVM_TESTNAME=reset5_test
+set NoQuitOnFinish 1
+onbreak {resume}
+log /* -r
+run -all
+coverage attribute -name TESTNAME -value reset5_test
+coverage save coverage/reset5_test.ucdb
+
 #***************************************************#
 # Close the Transcript file
 #***************************************************#
@@ -47,4 +56,5 @@ vcover merge  coverage/reset_tests.ucdb \
               coverage/reset1_test.ucdb \
               coverage/reset2_test.ucdb \
               coverage/reset3_test.ucdb \
-              coverage/reset4_test.ucdb 
+              coverage/reset4_test.ucdb \
+              coverage/reset5_test.ucdb

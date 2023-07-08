@@ -39,5 +39,7 @@ package test_pkg ;
   `include "reset-tests/reset3_test.svh"
   `include "reset-tests/reset4_test_vseq.svh"
   `include "reset-tests/reset4_test.svh"
+  `include "reset-tests/reset5_test_vseq.svh"
+  `include "reset-tests/reset5_test.svh"
 
 endpackage : test_pkg
