@@ -78,17 +78,8 @@ class reset5_seq extends  base_seq;
     sleep_time_rand_succeeds : assert (std::randomize(sleep_time) with {sleep_time >= 2us && sleep_time < 22us;}); //-- should be 1ms in real system
     #(sleep_time);
     // instead of exiting sleep, activate reset
-    activate_reset();
+    activate_reset("RESET5_SEQ");
   endtask : body
-
-  task activate_reset();
-    `uvm_info("RESET_SEQ", "ENTER RESET MODE", UVM_MEDIUM)
-      sys_if.res_n  <= 1'b0;
-      #500ns;
-      @(posedge sys_if.clk) 
-      sys_if.res_n <= 1'b1;
-    `uvm_info("RESET_SEQ", "EXIT RESET MODE", UVM_MEDIUM)
-  endtask : activate_reset
 
 
 endclass : reset5_seq

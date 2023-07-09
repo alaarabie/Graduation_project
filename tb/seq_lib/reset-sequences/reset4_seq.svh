@@ -37,8 +37,8 @@ class reset4_seq extends  base_seq;
                            "*******************************","*******************************",
                            rf_rb.m_reg_status_init.status_init_rx_init_state.get(),rf_rb.m_reg_status_init.status_init_tx_init_state.get()
                            ,"**************************************************************");
-        `uvm_info("RESET_SEQ", print_reg,UVM_LOW)
-        activate_reset();
+        `uvm_info("RESET4_SEQ", print_reg,UVM_LOW)
+        activate_reset("RESET4_SEQ");
       end
     end
     
@@ -51,8 +51,8 @@ class reset4_seq extends  base_seq;
                            "*******************************","*******************************",
                            rf_rb.m_reg_status_init.status_init_rx_init_state.get(),rf_rb.m_reg_status_init.status_init_tx_init_state.get()
                            ,"**************************************************************");
-        `uvm_info("RESET_SEQ", print_reg,UVM_LOW)
-        activate_reset();
+        `uvm_info("RESET4_SEQ", print_reg,UVM_LOW)
+        activate_reset("RESET4_SEQ");
       end
     end
 
@@ -65,21 +65,13 @@ class reset4_seq extends  base_seq;
                            "*******************************","*******************************",
                            rf_rb.m_reg_status_init.status_init_rx_init_state.get(),rf_rb.m_reg_status_init.status_init_tx_init_state.get()
                            ,"**************************************************************");
-        `uvm_info("RESET_SEQ", print_reg,UVM_LOW)
-        activate_reset();
+        `uvm_info("RESET4_SEQ", print_reg,UVM_LOW)
+        activate_reset("RESET4_SEQ");
       end
     end
     
   endtask : body
 
-  task activate_reset();
-    `uvm_info("RESET_SEQ", "ENTER RESET MODE", UVM_MEDIUM)
-      sys_if.res_n  <= 1'b0;
-      #500ns;
-      @(posedge sys_if.clk) 
-      sys_if.res_n <= 1'b1;
-    `uvm_info("RESET_SEQ", "EXIT RESET MODE", UVM_MEDIUM)
-  endtask : activate_reset
 
   task setup_control();
     bit phy_tx_ready  = 1'b0;
@@ -120,7 +112,7 @@ class reset4_seq extends  base_seq;
                        rf_rb.m_reg_control.irtry_to_send.get(),
                        "**************************************************************"
                       );
-    `uvm_info("RESET_SEQ",print_reg,UVM_LOW)
+    `uvm_info("RESET4_SEQ",print_reg,UVM_LOW)
     //Dummy Read to status init
     rf_rb.m_reg_status_init.read(status, data, .parent(this));
     rf_rb.m_reg_status_init.read(status, data, .parent(this));
@@ -132,9 +124,9 @@ class reset4_seq extends  base_seq;
       #1us;
       rf_rb.m_reg_status_general.read(status, data, .parent(this));
       phy_tx_ready = rf_rb.m_reg_status_general.phy_tx_ready.get();
-      `uvm_info("RESET_SEQ", "Waiting for the PHY TX to get ready", UVM_NONE)
+      `uvm_info("RESET4_SEQ", "Waiting for the PHY TX to get ready", UVM_NONE)
     end
-    `uvm_info("RESET_SEQ", "Phy TX ready", UVM_NONE)
+    `uvm_info("RESET4_SEQ", "Phy TX ready", UVM_NONE)
     //------------------------------------------------------- Set Reset and Init Continue
     rf_rb.m_reg_control.p_rst_n.set(1);
     rf_rb.m_reg_control.update(status);  //write
@@ -146,9 +138,9 @@ class reset4_seq extends  base_seq;
       #1us;
       rf_rb.m_reg_status_general.read(status, data, .parent(this));
       phy_rx_ready = rf_rb.m_reg_status_general.phy_rx_ready.get();
-      `uvm_info("RESET_SEQ", "Waiting for PHY RX to get ready", UVM_NONE)
+      `uvm_info("RESET4_SEQ", "Waiting for PHY RX to get ready", UVM_NONE)
     end
-    `uvm_info("RESET_SEQ", "Phy RX is ready", UVM_NONE)
+    `uvm_info("RESET4_SEQ", "Phy RX is ready", UVM_NONE)
   endtask : setup_control
 
   task half_setup();
@@ -187,7 +179,7 @@ class reset4_seq extends  base_seq;
                        rf_rb.m_reg_control.irtry_to_send.get(),
                        "**************************************************************"
                       );
-    `uvm_info("RESET_SEQ",print_reg,UVM_LOW)
+    `uvm_info("RESET4_SEQ",print_reg,UVM_LOW)
 
     //-- Wait until the PHY is out of reset
     rf_rb.m_reg_status_general.read(status, data, .parent(this));
@@ -195,9 +187,9 @@ class reset4_seq extends  base_seq;
       #1us;
       rf_rb.m_reg_status_general.read(status, data, .parent(this));
       phy_tx_ready = rf_rb.m_reg_status_general.phy_tx_ready.get();
-      `uvm_info("RESET_SEQ", "Waiting for the PHY TX to get ready", UVM_NONE)
+      `uvm_info("RESET4_SEQ", "Waiting for the PHY TX to get ready", UVM_NONE)
     end
-    `uvm_info("RESET_SEQ", "Phy TX ready", UVM_NONE)
+    `uvm_info("RESET4_SEQ", "Phy TX ready", UVM_NONE)
     //------------------------------------------------------- Set Reset and Init Continue
     rf_rb.m_reg_control.p_rst_n.set(1);
     rf_rb.m_reg_control.update(status);  //write

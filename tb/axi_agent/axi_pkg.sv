@@ -1,5 +1,3 @@
-//`include "axi_interface.sv"
-
 package axi_pkg;
 `include "uvm_macros.svh"
 import uvm_pkg::*;
