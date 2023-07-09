@@ -1,3 +1,6 @@
+//---------------------------------------------------------------//
+// This file isn't complete or tested
+//---------------------------------------------------------------//
 class hmc_retry_buffer extends uvm_component;
 
 	`uvm_component_utils(hmc_retry_buffer)

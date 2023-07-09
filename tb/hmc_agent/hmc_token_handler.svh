@@ -1,3 +1,6 @@
+//---------------------------------------------------------------//
+// This file isn't complete or tested
+//---------------------------------------------------------------//
 class hmc_token_handler extends uvm_component;
 	
   `uvm_component_utils(hmc_token_handler)

@@ -85,6 +85,24 @@ class initialization_seq extends  base_seq;
       rf_rb.m_reg_status_general.read(status, data, .parent(this));
       phy_rx_ready = rf_rb.m_reg_status_general.phy_rx_ready.get();
       `uvm_info("INITIALiZATION_SEQ", "Waiting for PHY RX to get ready", UVM_NONE)
+      if(phy_rx_ready == 1'b1) begin
+        print_reg = $sformatf("\n%s\n\tSTATUS GENERAL REGISTER\n%s\n\t link_up=%1b, \n\t link_training=%1b, \n\t sleep_mode=%1b, \n\t FERR_N=%1b, \n\t lanes_reversed=%1b, \n\t phy_tx_ready=%1b, \n\t phy_rx_ready=%1b, \n\t hmc_tokens_remaining=%0x, \n\t rx_tokens_remaining=%0x, \n\t lane_polarity_reversed=%0x\n%s\n", 
+                         "*******************************",
+                         "*******************************",
+                         rf_rb.m_reg_status_general.link_up.get(),
+                         rf_rb.m_reg_status_general.link_training.get(),
+                         rf_rb.m_reg_status_general.sleep_mode.get(),
+                         rf_rb.m_reg_status_general.FERR_N.get(),
+                         rf_rb.m_reg_status_general.lanes_reversed.get(),
+                         rf_rb.m_reg_status_general.phy_tx_ready.get(),
+                         rf_rb.m_reg_status_general.phy_rx_ready.get(),
+                         rf_rb.m_reg_status_general.hmc_tokens_remaining.get(),
+                         rf_rb.m_reg_status_general.rx_tokens_remaining.get(),
+                         rf_rb.m_reg_status_general.lane_polarity_reversed.get(),
+                         "**************************************************************"
+                        );
+        `uvm_info("INITIALiZATION_SEQ", print_reg,UVM_LOW)
+      end
     end
     `uvm_info("INITIALiZATION_SEQ", "Phy RX is ready", UVM_NONE)
 
@@ -98,6 +116,24 @@ class initialization_seq extends  base_seq;
       rf_rb.m_reg_status_general.read(status, data, .parent(this));
       link_up = rf_rb.m_reg_status_general.link_up.get();
       timeout = timeout + 1;
+      if(link_up == 1'b1) begin
+        print_reg = $sformatf("\n%s\n\tSTATUS GENERAL REGISTER\n%s\n\t link_up=%1b, \n\t link_training=%1b, \n\t sleep_mode=%1b, \n\t FERR_N=%1b, \n\t lanes_reversed=%1b, \n\t phy_tx_ready=%1b, \n\t phy_rx_ready=%1b, \n\t hmc_tokens_remaining=%0x, \n\t rx_tokens_remaining=%0x, \n\t lane_polarity_reversed=%0x\n%s\n", 
+                           "*******************************",
+                           "*******************************",
+                           rf_rb.m_reg_status_general.link_up.get(),
+                           rf_rb.m_reg_status_general.link_training.get(),
+                           rf_rb.m_reg_status_general.sleep_mode.get(),
+                           rf_rb.m_reg_status_general.FERR_N.get(),
+                           rf_rb.m_reg_status_general.lanes_reversed.get(),
+                           rf_rb.m_reg_status_general.phy_tx_ready.get(),
+                           rf_rb.m_reg_status_general.phy_rx_ready.get(),
+                           rf_rb.m_reg_status_general.hmc_tokens_remaining.get(),
+                           rf_rb.m_reg_status_general.rx_tokens_remaining.get(),
+                           rf_rb.m_reg_status_general.lane_polarity_reversed.get(),
+                           "**************************************************************"
+                          );
+        `uvm_info("INITIALiZATION_SEQ", print_reg,UVM_LOW)
+      end
     end
     `uvm_info("INITIALiZATION_SEQ", "Link is UP !", UVM_NONE)
 
