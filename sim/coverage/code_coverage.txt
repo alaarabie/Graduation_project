@@ -1035,7 +1035,7 @@ Coverage Report Summary Data by instance
 =================================================================================
     Enabled Coverage              Bins      Hits    Misses  Coverage
     ----------------              ----      ----    ------  --------
-    Assertions                      26        23         3    88.46%
+    Assertions                      22        22         0   100.00%
 
 =================================================================================
 === Instance: /axi_pkg
@@ -1066,7 +1066,7 @@ Coverage Report Summary Data by instance
 
 TOTAL COVERGROUP COVERAGE: 98.12%  COVERGROUP TYPES: 3
 
-TOTAL ASSERTION COVERAGE: 93.33%  ASSERTIONS: 45
+TOTAL ASSERTION COVERAGE: 100.00%  ASSERTIONS: 41
 
-Total Coverage By Instance (filtered view): 86.31%
+Total Coverage By Instance (filtered view): 87.14%
 

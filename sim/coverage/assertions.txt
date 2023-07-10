@@ -66,16 +66,16 @@ Name                 File(Line)                   Failure      Pass     Vacuous 
 =================================================================================
 
 Assertion Coverage:
-    Assertions                      26        23         3    88.46%
+    Assertions                      22        22         0   100.00%
 --------------------------------------------------------------------------------------------------------------------------------
 Name                 File(Line)                   Failure      Pass     Vacuous    Disable    Attempt     Active Peak Active ATV
                                                   Count        Count    Count      Count      Count       Count  Count          
 --------------------------------------------------------------------------------------------------------------------------------
 /hmc_agent_pkg/hmc_retry_buffer/add_packet/no_add_packet_when_retry_in_progress
-                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_retry_buffer.svh(74)
+                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_retry_buffer.svh(77)
                                                         0        306          0          0        306          0           0 off
 /hmc_agent_pkg/hmc_retry_buffer/check_phase/no_retry_at_check
-                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_retry_buffer.svh(117)
+                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_retry_buffer.svh(120)
                                                         0         10          0          0         10          0           0 off
 /hmc_agent_pkg/hmc_agent_base_driver/hmc_agent_base_driver__1/initial_trets/init_tret_randomization
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_base_driver.svh(321)
@@ -129,26 +129,14 @@ Name                 File(Line)                   Failure      Pass     Vacuous 
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_driver.svh(265)
                                                         0         22          0          0         22          0           0 off
 /hmc_agent_pkg/hmc_agent_monitor/hmc_agent_monitor__1/monitor_power_pins/CHK_IDLE_BEFORE_REQUESTER_POWERDOWN
-                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(332)
+                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(336)
                                                         0          7          0          0          7          0           0 off
 /hmc_agent_pkg/hmc_agent_monitor/hmc_agent_monitor__1/monitor_power_pins/CHK_IDLE_BEFORE_RESPONDER_POWERDOWN
-                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(341)
+                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(345)
                                                         0          7          0          0          7          0           0 off
 /hmc_agent_pkg/hmc_agent_monitor/hmc_agent_monitor__1/descramble/Requester_locks_before_Responder
-                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(199)
+                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(203)
                                                         0        864          0          0        864          0           0 off
-/hmc_agent_pkg/hmc_agent_monitor/hmc_agent_monitor__1/collect_flits/#anonblk#90256039#367#2#/CHK_TS1_ID
-                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(412)
-                                                        0     364350          0          0     364350          0           0 off
-/hmc_agent_pkg/hmc_agent_monitor/hmc_agent_monitor__1/collect_flits/#anonblk#90256039#367#2#/CHK_UPPER_TS1
-                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(421)
-                                                       15     416388          0          0     416403          0           0 off
-/hmc_agent_pkg/hmc_agent_monitor/hmc_agent_monitor__1/collect_flits/#anonblk#90256039#371#2#/CHK_TS1_ID
-                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(416)
-                                                       10     199584          0          0     199594          0           0 off
-/hmc_agent_pkg/hmc_agent_monitor/hmc_agent_monitor__1/collect_flits/#anonblk#90256039#371#2#/CHK_UPPER_TS1
-                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(425)
-                                                       10     228096          0          0     228106          0           0 off
 
 =================================================================================
 === Instance: /axi_pkg
@@ -238,10 +226,10 @@ Name                 File(Line)                   Failure      Pass     Vacuous 
                      D:/Ali/College/Graduation_project/tb/hmc_packet//hmc_pkt_item.svh(397)
                                                         0       1842          0          0       1842          0           0 off
 /hmc_agent_pkg/hmc_retry_buffer/add_packet/no_add_packet_when_retry_in_progress
-                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_retry_buffer.svh(74)
+                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_retry_buffer.svh(77)
                                                         0        306          0          0        306          0           0 off
 /hmc_agent_pkg/hmc_retry_buffer/check_phase/no_retry_at_check
-                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_retry_buffer.svh(117)
+                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_retry_buffer.svh(120)
                                                         0         10          0          0         10          0           0 off
 /hmc_agent_pkg/hmc_agent_base_driver/hmc_agent_base_driver__1/initial_trets/init_tret_randomization
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_base_driver.svh(321)
@@ -295,26 +283,14 @@ Name                 File(Line)                   Failure      Pass     Vacuous 
                      D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_driver.svh(265)
                                                         0         22          0          0         22          0           0 off
 /hmc_agent_pkg/hmc_agent_monitor/hmc_agent_monitor__1/monitor_power_pins/CHK_IDLE_BEFORE_REQUESTER_POWERDOWN
-                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(332)
+                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(336)
                                                         0          7          0          0          7          0           0 off
 /hmc_agent_pkg/hmc_agent_monitor/hmc_agent_monitor__1/monitor_power_pins/CHK_IDLE_BEFORE_RESPONDER_POWERDOWN
-                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(341)
+                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(345)
                                                         0          7          0          0          7          0           0 off
 /hmc_agent_pkg/hmc_agent_monitor/hmc_agent_monitor__1/descramble/Requester_locks_before_Responder
-                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(199)
+                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(203)
                                                         0        864          0          0        864          0           0 off
-/hmc_agent_pkg/hmc_agent_monitor/hmc_agent_monitor__1/collect_flits/#anonblk#90256039#367#2#/CHK_TS1_ID
-                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(412)
-                                                        0     364350          0          0     364350          0           0 off
-/hmc_agent_pkg/hmc_agent_monitor/hmc_agent_monitor__1/collect_flits/#anonblk#90256039#367#2#/CHK_UPPER_TS1
-                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(421)
-                                                       15     416388          0          0     416403          0           0 off
-/hmc_agent_pkg/hmc_agent_monitor/hmc_agent_monitor__1/collect_flits/#anonblk#90256039#371#2#/CHK_TS1_ID
-                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(416)
-                                                       10     199584          0          0     199594          0           0 off
-/hmc_agent_pkg/hmc_agent_monitor/hmc_agent_monitor__1/collect_flits/#anonblk#90256039#371#2#/CHK_UPPER_TS1
-                     D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(425)
-                                                       10     228096          0          0     228106          0           0 off
 /axi_pkg/axi_monitor/axi_monitor__1/collect_req_packet/flit_queue_lost
                      D:/Ali/College/Graduation_project/tb/axi_agent//axi_monitor.svh(133)
                                                         0        165          0          0        165          0           0 off
@@ -337,5 +313,5 @@ Name                 File(Line)                   Failure      Pass     Vacuous 
                      D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset5_seq.svh(78)
                                                         0          1          0          0          1          0           0 off
 
-Total Coverage By Instance (filtered view): 93.33%
+Total Coverage By Instance (filtered view): 100.00%
 
