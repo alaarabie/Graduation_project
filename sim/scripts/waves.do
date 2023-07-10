@@ -35,3 +35,12 @@ add wave -group RF -color Magenta /tb_top/dut/rf_address \
                     /tb_top/dut/rf_read_en \
                     /tb_top/dut/rf_write_en \
                     /tb_top/dut/rf_write_data
+                    
+# hmc_if
+add wave -group HMC_IF -color Pink /tb_top/dut/RXP \
+                    /tb_top/dut/RXN \
+                    /tb_top/dut/TXP \
+                    /tb_top/dut/TXN \
+                    /tb_top/dut/RXPS \
+                    /tb_top/dut/TXPS \
+                    /tb_top/dut/P_RST_N

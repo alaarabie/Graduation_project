@@ -1,13 +1,5 @@
-# ** Error: Acs sdne.
-# 
-#        Unable to replace existing ini file (D:/Ali/College/Graduation_project/sim/comp.mpf).  File can not be renamed.
-# ** Error: Acs sdne.
-# 
-#        Unable to replace existing ini file (D:/Ali/College/Graduation_project/sim/comp.mpf).  File can not be renamed.
-# End time: 12:21:05 on Jul 07,2023, Elapsed time: 0:07:39
-# Errors: 2, Warnings: 1
 # vsim top_opt -c -assertdebug -debugDB -fsmdebug -coverage "+UVM_TESTNAME=simple_test" 
-# Start time: 12:21:05 on Jul 07,2023
+# Start time: 11:30:35 on Jul 10,2023
 # Loading sv_std.std
 # Loading work.system_if(fast)
 # Loading work.rf_if(fast)
@@ -172,7 +164,7 @@
 # 
 #   No instance or type overrides are registered with this factory
 # 
-# All types registered with the factory: 122 total
+# All types registered with the factory: 127 total
 # (types without type names will not be printed)
 # 
 #   Type Name
@@ -191,6 +183,8 @@
 #   hmc_pkt_item
 #   hmc_pkt_item_request
 #   hmc_retry_buffer
+#   hmc_retry_test
+#   hmc_retry_test_vseq
 #   hmc_status
 #   hmc_token_handler
 #   initialization_seq
@@ -224,6 +218,9 @@
 #   reset4_seq
 #   reset4_test
 #   reset4_test_vseq
+#   reset5_seq
+#   reset5_test
+#   reset5_test_vseq
 #   rf_agent_cfg
 #   rf_check_vseq
 #   rf_control_read_seq
@@ -294,25 +291,57 @@
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(71) @ 3536001: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] Waiting for the PHY TX to get ready
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(71) @ 4540801: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] Waiting for the PHY TX to get ready
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(73) @ 4540801: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] Phy TX ready
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 4547200: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 4547200: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 100000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 4548650: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS 	 vector: 111000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 5552000: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 5784450: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS 	 vector: 111000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 6102450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: TS1 	 vector: 111100
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(386) @ 6108850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_flits()] Requester Link is not reversed
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 4547200: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 4547200: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 100000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 4548650: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 5552000: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 5784450: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 6102450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: TS1 	 vector: 111100
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(390) @ 6108850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_flits()] Requester Link is not reversed
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(87) @ 6553601: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] Waiting for PHY RX to get ready
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 6814950: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: TS1 	 vector: 111100
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(386) @ 6821350: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_flits()] Responder Link is not reversed
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 6814950: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: TS1 	 vector: 111100
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(390) @ 6821350: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_flits()] Responder Link is not reversed
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(87) @ 7558401: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] Waiting for PHY RX to get ready
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(89) @ 7558401: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] Phy RX is ready
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 7700850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS_2 	 vector: 111110
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 7709350: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS_2 	 vector: 111110
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 7724850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: LINK_UP 	 vector: 111111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 7733350: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: LINK_UP 	 vector: 111111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(102) @ 7740801: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] Link is UP !
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(522) @ 7806450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_packets()] Requester: current_packet_length mismatch 1000000000000000000000001 len=0, dln = 0
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(522) @ 8003750: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_packets()] Responder: current_packet_length mismatch 1 len=0, dln = 0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(104) @ 7558401: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] 
+# *******************************
+# 	STATUS GENERAL REGISTER
+# *******************************
+# 	 link_up=0, 
+# 	 link_training=1, 
+# 	 sleep_mode=0, 
+# 	 FERR_N=1, 
+# 	 lanes_reversed=0, 
+# 	 phy_tx_ready=1, 
+# 	 phy_rx_ready=1, 
+# 	 hmc_tokens_remaining=0, 
+# 	 rx_tokens_remaining=75, 
+# 	 lane_polarity_reversed=0
+# **************************************************************
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(107) @ 7558401: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] Phy RX is ready
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 7700850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS_2 	 vector: 111110
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 7709350: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS_2 	 vector: 111110
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 7724850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: LINK_UP 	 vector: 111111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 7733350: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: LINK_UP 	 vector: 111111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(135) @ 7740801: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] 
+# *******************************
+# 	STATUS GENERAL REGISTER
+# *******************************
+# 	 link_up=1, 
+# 	 link_training=0, 
+# 	 sleep_mode=0, 
+# 	 FERR_N=1, 
+# 	 lanes_reversed=0, 
+# 	 phy_tx_ready=1, 
+# 	 phy_rx_ready=1, 
+# 	 hmc_tokens_remaining=0, 
+# 	 rx_tokens_remaining=75, 
+# 	 lane_polarity_reversed=0
+# **************************************************************
+# 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//initialization_seq.svh(138) @ 7740801: uvm_test_top.m_env.m_rf_agent.m_seqr@@init [INITIALiZATION_SEQ] Link is UP !
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(526) @ 7806450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_packets()] Requester: current_packet_length mismatch 1000000000000000000000001 len=0, dln = 0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(526) @ 8003750: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_packets()] Responder: current_packet_length mismatch 1 len=0, dln = 0
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//simple-test/simple_test_vseq.svh(30) @ 9740801: uvm_test_top.m_env.m_vseqr@@m_simple_test_vseq [simple_test_vseq] Executing AXI sequence
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 9740801: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_base_seq] HMC Packet #0 command is: WR64 tag is: 1
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 9740801: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_base_seq] HMC Packet #1 command is: P_WR48 tag is: 0
@@ -336,7 +365,7 @@
 # 	 irtry_to_send=18
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 14784000: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: POWER_DOWN 	 vector: 101111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 14784000: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: POWER_DOWN 	 vector: 101111
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(57) @ 14790401: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
 # *******************************
 # 	CONTROL REGISTER (after sleep)
@@ -353,37 +382,27 @@
 # **************************************************************
 # 
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(60) @ 15790401: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Checking Sleep mode in status register
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 16057370: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 101111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(87) @ 16070401: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 16057370: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 101111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(80) @ 16070401: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
 # *******************************
 # 	STATUS GENERAL REGISTER (during sleep)
 # *******************************
-# 
-#                          	 link_up=0, 
-# 
-#                          	 link_training=1, 
-# 
-#                          	 sleep_mode=1, 
-# 
-#                          	 FERR_N=1, 
-# 
-#                          	 lanes_reversed=0, 
-# 
-#                          	 phy_tx_ready=1, 
-# 
-#                          	 phy_rx_ready=0, 
-# 
-#                          	 hmc_tokens_remaining=92, 
-# 
-#                          	 rx_tokens_remaining=75, 
-# 
-#                          	 lane_polarity_reversed=0
+# 	 link_up=0, 
+# 	 link_training=1, 
+# 	 sleep_mode=1, 
+# 	 FERR_N=1, 
+# 	 lanes_reversed=0, 
+# 	 phy_tx_ready=1, 
+# 	 phy_rx_ready=0, 
+# 	 hmc_tokens_remaining=92, 
+# 	 rx_tokens_remaining=75, 
+# 	 lane_polarity_reversed=0
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(94) @ 23994382: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] SLEEP MODE: EXIT
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 24003200: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 24004550: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS 	 vector: 111000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(114) @ 24012801: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(87) @ 23994382: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] SLEEP MODE: EXIT
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 24003200: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 24004550: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(107) @ 24012801: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
 # *******************************
 # 	CONTROL REGISTER (disable sleep)
 # *******************************
@@ -398,18 +417,18 @@
 # 	 irtry_to_send=18
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(115) @ 24012801: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Waiting for Link is Up
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 24570887: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 25084450: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS 	 vector: 111000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 25142450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: TS1 	 vector: 111100
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(386) @ 25148850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_flits()] Requester Link is not reversed
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 25529550: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: TS1 	 vector: 111100
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(386) @ 25535950: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_flits()] Responder Link is not reversed
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 25833650: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS_2 	 vector: 111110
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 25857650: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: LINK_UP 	 vector: 111111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 25862350: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS_2 	 vector: 111110
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 25886350: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: LINK_UP 	 vector: 111111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(121) @ 25888001: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Link is Up! from sleep
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(108) @ 24012801: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Waiting for Link is Up
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 24570887: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 25084450: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 25142450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: TS1 	 vector: 111100
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(390) @ 25148850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_flits()] Requester Link is not reversed
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 25529550: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: TS1 	 vector: 111100
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(390) @ 25535950: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_flits()] Responder Link is not reversed
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 25833650: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS_2 	 vector: 111110
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 25857650: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: LINK_UP 	 vector: 111111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 25862350: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS_2 	 vector: 111110
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 25886350: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: LINK_UP 	 vector: 111111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(114) @ 25888001: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Link is Up! from sleep
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//simple-test/simple_test_vseq.svh(37) @ 25888001: uvm_test_top.m_env.m_vseqr@@m_simple_test_vseq [simple_test_vseq] END TRIAL - SET OpenHMC to Sleep then Re-Init
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//simple-test/simple_test_vseq.svh(30) @ 26888001: uvm_test_top.m_env.m_vseqr@@m_simple_test_vseq [simple_test_vseq] Executing AXI sequence
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 26888001: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_base_seq] HMC Packet #0 command is: P_WR96 tag is: 0
@@ -434,7 +453,7 @@
 # 	 irtry_to_send=18
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 31932800: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: POWER_DOWN 	 vector: 101111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 31932800: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: POWER_DOWN 	 vector: 101111
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(57) @ 31939201: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
 # *******************************
 # 	CONTROL REGISTER (after sleep)
@@ -450,38 +469,28 @@
 # 	 irtry_to_send=18
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 32601909: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 101111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 32601909: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 101111
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(60) @ 32939201: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Checking Sleep mode in status register
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(87) @ 32950401: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(80) @ 32950401: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
 # *******************************
 # 	STATUS GENERAL REGISTER (during sleep)
 # *******************************
-# 
-#                          	 link_up=0, 
-# 
-#                          	 link_training=1, 
-# 
-#                          	 sleep_mode=1, 
-# 
-#                          	 FERR_N=1, 
-# 
-#                          	 lanes_reversed=0, 
-# 
-#                          	 phy_tx_ready=1, 
-# 
-#                          	 phy_rx_ready=0, 
-# 
-#                          	 hmc_tokens_remaining=11d, 
-# 
-#                          	 rx_tokens_remaining=75, 
-# 
-#                          	 lane_polarity_reversed=0
+# 	 link_up=0, 
+# 	 link_training=1, 
+# 	 sleep_mode=1, 
+# 	 FERR_N=1, 
+# 	 lanes_reversed=0, 
+# 	 phy_tx_ready=1, 
+# 	 phy_rx_ready=0, 
+# 	 hmc_tokens_remaining=11d, 
+# 	 rx_tokens_remaining=75, 
+# 	 lane_polarity_reversed=0
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(94) @ 38047496: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] SLEEP MODE: EXIT
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 38054400: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 38055750: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS 	 vector: 111000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(114) @ 38064001: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(87) @ 38047496: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] SLEEP MODE: EXIT
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 38054400: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 38055750: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(107) @ 38064001: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
 # *******************************
 # 	CONTROL REGISTER (disable sleep)
 # *******************************
@@ -496,18 +505,18 @@
 # 	 irtry_to_send=18
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(115) @ 38064001: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Waiting for Link is Up
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 39027672: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 39899014: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS 	 vector: 111000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 39958450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: TS1 	 vector: 111100
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(386) @ 39964850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_flits()] Requester Link is not reversed
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 40560914: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: TS1 	 vector: 111100
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(386) @ 40567314: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_flits()] Responder Link is not reversed
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 41862450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS_2 	 vector: 111110
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 41866514: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS_2 	 vector: 111110
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 41886450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: LINK_UP 	 vector: 111111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 41890514: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: LINK_UP 	 vector: 111111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(121) @ 41891201: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Link is Up! from sleep
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(108) @ 38064001: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Waiting for Link is Up
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 39027672: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 39899014: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 39958450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: TS1 	 vector: 111100
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(390) @ 39964850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_flits()] Requester Link is not reversed
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 40560914: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: TS1 	 vector: 111100
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(390) @ 40567314: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_flits()] Responder Link is not reversed
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 41862450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS_2 	 vector: 111110
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 41866514: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS_2 	 vector: 111110
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 41886450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: LINK_UP 	 vector: 111111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 41890514: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: LINK_UP 	 vector: 111111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(114) @ 41891201: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Link is Up! from sleep
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//simple-test/simple_test_vseq.svh(37) @ 41891201: uvm_test_top.m_env.m_vseqr@@m_simple_test_vseq [simple_test_vseq] END TRIAL - SET OpenHMC to Sleep then Re-Init
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//simple-test/simple_test_vseq.svh(30) @ 42891201: uvm_test_top.m_env.m_vseqr@@m_simple_test_vseq [simple_test_vseq] Executing AXI sequence
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 42891201: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_base_seq] HMC Packet #0 command is: WR48 tag is: 1
@@ -532,7 +541,7 @@
 # 	 irtry_to_send=18
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 47936000: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: POWER_DOWN 	 vector: 101111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 47936000: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: POWER_DOWN 	 vector: 101111
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(57) @ 47942401: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
 # *******************************
 # 	CONTROL REGISTER (after sleep)
@@ -549,37 +558,27 @@
 # **************************************************************
 # 
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(60) @ 48942401: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Checking Sleep mode in status register
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 49053429: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 101111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(87) @ 49068801: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 49053429: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 101111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(80) @ 49068801: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
 # *******************************
 # 	STATUS GENERAL REGISTER (during sleep)
 # *******************************
-# 
-#                          	 link_up=0, 
-# 
-#                          	 link_training=1, 
-# 
-#                          	 sleep_mode=1, 
-# 
-#                          	 FERR_N=1, 
-# 
-#                          	 lanes_reversed=0, 
-# 
-#                          	 phy_tx_ready=1, 
-# 
-#                          	 phy_rx_ready=0, 
-# 
-#                          	 hmc_tokens_remaining=1a8, 
-# 
-#                          	 rx_tokens_remaining=75, 
-# 
-#                          	 lane_polarity_reversed=0
+# 	 link_up=0, 
+# 	 link_training=1, 
+# 	 sleep_mode=1, 
+# 	 FERR_N=1, 
+# 	 lanes_reversed=0, 
+# 	 phy_tx_ready=1, 
+# 	 phy_rx_ready=0, 
+# 	 hmc_tokens_remaining=1a8, 
+# 	 rx_tokens_remaining=75, 
+# 	 lane_polarity_reversed=0
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(94) @ 68883921: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] SLEEP MODE: EXIT
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 68892800: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 68894150: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS 	 vector: 111000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(114) @ 68902401: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(87) @ 68883921: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] SLEEP MODE: EXIT
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 68892800: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 68894150: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(107) @ 68902401: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
 # *******************************
 # 	CONTROL REGISTER (disable sleep)
 # *******************************
@@ -594,18 +593,18 @@
 # 	 irtry_to_send=18
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(115) @ 68902401: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Waiting for Link is Up
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 69912261: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 71110814: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS 	 vector: 111000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 71171250: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: TS1 	 vector: 111100
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(386) @ 71177650: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_flits()] Requester Link is not reversed
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 71768514: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: TS1 	 vector: 111100
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(386) @ 71774914: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_flits()] Responder Link is not reversed
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 72636850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS_2 	 vector: 111110
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 72660850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: LINK_UP 	 vector: 111111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 72664514: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS_2 	 vector: 111110
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 72688514: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: LINK_UP 	 vector: 111111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(121) @ 72691201: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Link is Up! from sleep
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(108) @ 68902401: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Waiting for Link is Up
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 69912261: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 71110814: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 71171250: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: TS1 	 vector: 111100
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(390) @ 71177650: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_flits()] Requester Link is not reversed
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 71768514: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: TS1 	 vector: 111100
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(390) @ 71774914: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_flits()] Responder Link is not reversed
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 72636850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS_2 	 vector: 111110
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 72660850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: LINK_UP 	 vector: 111111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 72664514: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS_2 	 vector: 111110
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 72688514: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: LINK_UP 	 vector: 111111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(114) @ 72691201: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Link is Up! from sleep
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//simple-test/simple_test_vseq.svh(37) @ 72691201: uvm_test_top.m_env.m_vseqr@@m_simple_test_vseq [simple_test_vseq] END TRIAL - SET OpenHMC to Sleep then Re-Init
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//simple-test/simple_test_vseq.svh(30) @ 73691201: uvm_test_top.m_env.m_vseqr@@m_simple_test_vseq [simple_test_vseq] Executing AXI sequence
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 73691201: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_base_seq] HMC Packet #0 command is: P_WR96 tag is: 0
@@ -630,7 +629,7 @@
 # 	 irtry_to_send=18
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 78739200: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: POWER_DOWN 	 vector: 101111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 78739200: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: POWER_DOWN 	 vector: 101111
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(57) @ 78745601: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
 # *******************************
 # 	CONTROL REGISTER (after sleep)
@@ -647,37 +646,27 @@
 # **************************************************************
 # 
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(60) @ 79745601: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Checking Sleep mode in status register
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 80230896: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 101111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(87) @ 80243201: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 80230896: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 101111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(80) @ 80243201: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
 # *******************************
 # 	STATUS GENERAL REGISTER (during sleep)
 # *******************************
-# 
-#                          	 link_up=0, 
-# 
-#                          	 link_training=1, 
-# 
-#                          	 sleep_mode=1, 
-# 
-#                          	 FERR_N=1, 
-# 
-#                          	 lanes_reversed=0, 
-# 
-#                          	 phy_tx_ready=1, 
-# 
-#                          	 phy_rx_ready=0, 
-# 
-#                          	 hmc_tokens_remaining=231, 
-# 
-#                          	 rx_tokens_remaining=75, 
-# 
-#                          	 lane_polarity_reversed=0
+# 	 link_up=0, 
+# 	 link_training=1, 
+# 	 sleep_mode=1, 
+# 	 FERR_N=1, 
+# 	 lanes_reversed=0, 
+# 	 phy_tx_ready=1, 
+# 	 phy_rx_ready=0, 
+# 	 hmc_tokens_remaining=231, 
+# 	 rx_tokens_remaining=75, 
+# 	 lane_polarity_reversed=0
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(94) @ 93650439: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] SLEEP MODE: EXIT
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 93657600: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 93658950: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS 	 vector: 111000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(114) @ 93667201: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(87) @ 93650439: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] SLEEP MODE: EXIT
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 93657600: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 93658950: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(107) @ 93667201: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
 # *******************************
 # 	CONTROL REGISTER (disable sleep)
 # *******************************
@@ -692,18 +681,18 @@
 # 	 irtry_to_send=18
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(115) @ 93667201: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Waiting for Link is Up
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 94970016: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 95702950: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS 	 vector: 111000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 95763250: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: TS1 	 vector: 111100
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(386) @ 95769650: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_flits()] Requester Link is not reversed
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 95868750: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: TS1 	 vector: 111100
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(386) @ 95875150: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_flits()] Responder Link is not reversed
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 96140850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS_2 	 vector: 111110
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 96150350: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS_2 	 vector: 111110
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 96164850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: LINK_UP 	 vector: 111111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 96174350: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: LINK_UP 	 vector: 111111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(121) @ 96176001: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Link is Up! from sleep
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(108) @ 93667201: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Waiting for Link is Up
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 94970016: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 95702950: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 95763250: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: TS1 	 vector: 111100
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(390) @ 95769650: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_flits()] Requester Link is not reversed
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 95868750: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: TS1 	 vector: 111100
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(390) @ 95875150: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_flits()] Responder Link is not reversed
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 96140850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS_2 	 vector: 111110
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 96150350: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS_2 	 vector: 111110
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 96164850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: LINK_UP 	 vector: 111111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 96174350: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: LINK_UP 	 vector: 111111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(114) @ 96176001: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Link is Up! from sleep
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//simple-test/simple_test_vseq.svh(37) @ 96176001: uvm_test_top.m_env.m_vseqr@@m_simple_test_vseq [simple_test_vseq] END TRIAL - SET OpenHMC to Sleep then Re-Init
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//simple-test/simple_test_vseq.svh(30) @ 97176001: uvm_test_top.m_env.m_vseqr@@m_simple_test_vseq [simple_test_vseq] Executing AXI sequence
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 97176001: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_base_seq] HMC Packet #0 command is: P_WR64 tag is: 0
@@ -728,7 +717,7 @@
 # 	 irtry_to_send=18
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 102217600: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: POWER_DOWN 	 vector: 101111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 102217600: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: POWER_DOWN 	 vector: 101111
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(57) @ 102224001: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
 # *******************************
 # 	CONTROL REGISTER (after sleep)
@@ -744,38 +733,28 @@
 # 	 irtry_to_send=18
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 103206895: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 101111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 103206895: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 101111
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(60) @ 103224001: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Checking Sleep mode in status register
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(87) @ 103235201: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(80) @ 103235201: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
 # *******************************
 # 	STATUS GENERAL REGISTER (during sleep)
 # *******************************
-# 
-#                          	 link_up=0, 
-# 
-#                          	 link_training=1, 
-# 
-#                          	 sleep_mode=1, 
-# 
-#                          	 FERR_N=1, 
-# 
-#                          	 lanes_reversed=0, 
-# 
-#                          	 phy_tx_ready=1, 
-# 
-#                          	 phy_rx_ready=0, 
-# 
-#                          	 hmc_tokens_remaining=2c2, 
-# 
-#                          	 rx_tokens_remaining=75, 
-# 
-#                          	 lane_polarity_reversed=0
+# 	 link_up=0, 
+# 	 link_training=1, 
+# 	 sleep_mode=1, 
+# 	 FERR_N=1, 
+# 	 lanes_reversed=0, 
+# 	 phy_tx_ready=1, 
+# 	 phy_rx_ready=0, 
+# 	 hmc_tokens_remaining=2c2, 
+# 	 rx_tokens_remaining=75, 
+# 	 lane_polarity_reversed=0
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(94) @ 110555299: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] SLEEP MODE: EXIT
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 110563200: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 110564550: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS 	 vector: 111000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(114) @ 110572801: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(87) @ 110555299: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] SLEEP MODE: EXIT
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 110563200: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 110564550: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(107) @ 110572801: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
 # *******************************
 # 	CONTROL REGISTER (disable sleep)
 # *******************************
@@ -790,18 +769,18 @@
 # 	 irtry_to_send=18
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(115) @ 110572801: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Waiting for Link is Up
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 111540624: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 112563850: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS 	 vector: 111000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 112624050: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: TS1 	 vector: 111100
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(386) @ 112630450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_flits()] Requester Link is not reversed
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 113352650: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: TS1 	 vector: 111100
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(386) @ 113359050: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_flits()] Responder Link is not reversed
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 114374450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS_2 	 vector: 111110
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 114398450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: LINK_UP 	 vector: 111111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 114402250: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS_2 	 vector: 111110
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 114426250: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: LINK_UP 	 vector: 111111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(121) @ 114432001: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Link is Up! from sleep
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(108) @ 110572801: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Waiting for Link is Up
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 111540624: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 112563850: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 112624050: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: TS1 	 vector: 111100
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(390) @ 112630450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_flits()] Requester Link is not reversed
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 113352650: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: TS1 	 vector: 111100
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(390) @ 113359050: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_flits()] Responder Link is not reversed
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 114374450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS_2 	 vector: 111110
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 114398450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: LINK_UP 	 vector: 111111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 114402250: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS_2 	 vector: 111110
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 114426250: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: LINK_UP 	 vector: 111111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(114) @ 114432001: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Link is Up! from sleep
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//simple-test/simple_test_vseq.svh(37) @ 114432001: uvm_test_top.m_env.m_vseqr@@m_simple_test_vseq [simple_test_vseq] END TRIAL - SET OpenHMC to Sleep then Re-Init
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//simple-test/simple_test_vseq.svh(30) @ 115432001: uvm_test_top.m_env.m_vseqr@@m_simple_test_vseq [simple_test_vseq] Executing AXI sequence
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//axi_base_seq.svh(85) @ 115432001: uvm_test_top.m_env.axi_agent_h.a_sequencer@@axi_seq_h [axi_base_seq] HMC Packet #0 command is: P_WR32 tag is: 0
@@ -826,7 +805,7 @@
 # 	 irtry_to_send=18
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 120473600: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: POWER_DOWN 	 vector: 101111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 120473600: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: POWER_DOWN 	 vector: 101111
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(57) @ 120480001: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
 # *******************************
 # 	CONTROL REGISTER (after sleep)
@@ -843,37 +822,27 @@
 # **************************************************************
 # 
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(60) @ 121480001: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Checking Sleep mode in status register
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 121570476: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 101111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(87) @ 121580801: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 121570476: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 101111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(80) @ 121580801: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
 # *******************************
 # 	STATUS GENERAL REGISTER (during sleep)
 # *******************************
-# 
-#                          	 link_up=0, 
-# 
-#                          	 link_training=1, 
-# 
-#                          	 sleep_mode=1, 
-# 
-#                          	 FERR_N=1, 
-# 
-#                          	 lanes_reversed=0, 
-# 
-#                          	 phy_tx_ready=1, 
-# 
-#                          	 phy_rx_ready=0, 
-# 
-#                          	 hmc_tokens_remaining=352, 
-# 
-#                          	 rx_tokens_remaining=75, 
-# 
-#                          	 lane_polarity_reversed=0
+# 	 link_up=0, 
+# 	 link_training=1, 
+# 	 sleep_mode=1, 
+# 	 FERR_N=1, 
+# 	 lanes_reversed=0, 
+# 	 phy_tx_ready=1, 
+# 	 phy_rx_ready=0, 
+# 	 hmc_tokens_remaining=352, 
+# 	 rx_tokens_remaining=75, 
+# 	 lane_polarity_reversed=0
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(94) @ 125830349: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] SLEEP MODE: EXIT
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 125836800: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 125838150: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS 	 vector: 111000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(114) @ 125846401: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(87) @ 125830349: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] SLEEP MODE: EXIT
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 125836800: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 125838150: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(107) @ 125846401: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] 
 # *******************************
 # 	CONTROL REGISTER (disable sleep)
 # *******************************
@@ -888,64 +857,48 @@
 # 	 irtry_to_send=18
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(115) @ 125846401: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Waiting for Link is Up
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 127319792: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 127932450: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS 	 vector: 111000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 127990450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: TS1 	 vector: 111100
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(386) @ 127996850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_flits()] Requester Link is not reversed
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 128398550: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: TS1 	 vector: 111100
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(386) @ 128404950: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_flits()] Responder Link is not reversed
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 128867250: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS_2 	 vector: 111110
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 128884950: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS_2 	 vector: 111110
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 128891250: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: LINK_UP 	 vector: 111111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 128908950: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: LINK_UP 	 vector: 111111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(121) @ 128912001: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Link is Up! from sleep
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(108) @ 125846401: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Waiting for Link is Up
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 127319792: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 127932450: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 127990450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: TS1 	 vector: 111100
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(390) @ 127996850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_flits()] Requester Link is not reversed
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 128398550: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: TS1 	 vector: 111100
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(390) @ 128404950: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_flits()] Responder Link is not reversed
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 128867250: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS_2 	 vector: 111110
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 128884950: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS_2 	 vector: 111110
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 128891250: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: LINK_UP 	 vector: 111111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 128908950: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: LINK_UP 	 vector: 111111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_sleep_seq.svh(114) @ 128912001: uvm_test_top.m_env.m_rf_agent.m_seqr@@sleep [SLEEP_SEQ] Link is Up! from sleep
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//simple-test/simple_test_vseq.svh(37) @ 128912001: uvm_test_top.m_env.m_vseqr@@m_simple_test_vseq [simple_test_vseq] END TRIAL - SET OpenHMC to Sleep then Re-Init
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//simple-test/simple_test.svh(27) @ 129912001: uvm_test_top [SIMPLE_TEST] simple_test_vseq complete
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//simple-test/simple_test.svh(29) @ 130912001: uvm_test_top [SIMPLE_TEST] Executing rf_check_vseq
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//simple-test/rf_check_vseq.svh(34) @ 130912001: uvm_test_top.m_env.m_vseqr@@m_rf_check_vseq [rf_check_vseq] Executing sequence
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_status_general_seq.svh(45) @ 130924801: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_status_general_seq_h [rf_status_general_seq] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_status_general_seq.svh(38) @ 130924801: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_status_general_seq_h [rf_status_general_seq] 
 # *******************************
 # 	STATUS GENERAL REGISTER
 # *******************************
-# 
-#                          	 link_up=1, 
-# 
-#                          	 link_training=0, 
-# 
-#                          	 sleep_mode=0, 
-# 
-#                          	 FERR_N=1, 
-# 
-#                          	 lanes_reversed=0, 
-# 
-#                          	 phy_tx_ready=1, 
-# 
-#                          	 phy_rx_ready=1, 
-# 
-#                          	 hmc_tokens_remaining=3f5, 
-# 
-#                          	 rx_tokens_remaining=75, 
-# 
-#                          	 lane_polarity_reversed=0
+# 	 link_up=1, 
+# 	 link_training=0, 
+# 	 sleep_mode=0, 
+# 	 FERR_N=1, 
+# 	 lanes_reversed=0, 
+# 	 phy_tx_ready=1, 
+# 	 phy_rx_ready=1, 
+# 	 hmc_tokens_remaining=3f5, 
+# 	 rx_tokens_remaining=75, 
+# 	 lane_polarity_reversed=0
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_status_init_seq.svh(37) @ 130937601: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_status_init_seq_h [rf_control_read_seq] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_status_init_seq.svh(34) @ 130937601: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_status_init_seq_h [rf_control_read_seq] 
 # *******************************
 # 	STATUS INIT REGISTER
 # *******************************
-# 
-#                          	 lane_descramblers_locked=ff, 
-# 
-#                          	 descrambler_part_alligned=ff, 
-# 
-#                          	 descrambler_alligned=ff, 
-# 
-#                          	 all_descramblers_alligned=1, 
-# 
-#                          	 status_init_rx_init_state=111, 
-# 
-#                          	 status_init_tx_init_state=10
+# 	 lane_descramblers_locked=ff, 
+# 	 descrambler_part_alligned=ff, 
+# 	 descrambler_alligned=ff, 
+# 	 all_descramblers_alligned=1, 
+# 	 status_init_rx_init_state=111, 
+# 	 status_init_tx_init_state=10
 # **************************************************************
 # 
 # UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_control_read_seq.svh(37) @ 130950401: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_control_read_seq_h [rf_control_read_seq] 
@@ -963,44 +916,39 @@
 # 	 irtry_to_send=18
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_counters_seq.svh(24) @ 130963201: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_counters_seq_h [rf_counters_seq] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_counters_seq.svh(23) @ 130963201: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_counters_seq_h [rf_counters_seq] 
 # *******************************
 # 	POSTED WRITE REQ COUNTER
 # *******************************
-# 
-#                          	 sent_p=000000000000000e
+# 	 sent_p=000000000000000e
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_counters_seq.svh(31) @ 130976001: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_counters_seq_h [rf_counters_seq] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_counters_seq.svh(29) @ 130976001: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_counters_seq_h [rf_counters_seq] 
 # *******************************
 # 	READ REQ COUNTER
 # *******************************
-# 
-#                          	 sent_r=0000000000000005
+# 	 sent_r=0000000000000005
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_counters_seq.svh(38) @ 130988801: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_counters_seq_h [rf_counters_seq] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_counters_seq.svh(35) @ 130988801: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_counters_seq_h [rf_counters_seq] 
 # *******************************
 # 	NON POSTED REQ COUNTER
 # *******************************
-# 
-#                          	 sent_np=000000000000000f
+# 	 sent_np=000000000000000f
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_counters_seq.svh(45) @ 131001601: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_counters_seq_h [rf_counters_seq] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_counters_seq.svh(41) @ 131001601: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_counters_seq_h [rf_counters_seq] 
 # *******************************
 # 	POISONED PKTS RECEIVED COUNTER
 # *******************************
-# 
-#                          	 poisoned_packets=0000000000000000
+# 	 poisoned_packets=0000000000000000
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_counters_seq.svh(53) @ 131014401: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_counters_seq_h [rf_counters_seq] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//rf_counters_seq.svh(48) @ 131014401: uvm_test_top.m_env.m_rf_agent.m_seqr@@rf_counters_seq_h [rf_counters_seq] 
 # *******************************
 # 	NON POISONED PKTS RECEIVED COUNTER
 # *******************************
-# 
-#                          	 rcvd_rsp=000000000000000f
+# 	 rcvd_rsp=000000000000000f
 # **************************************************************
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//simple-test/rf_check_vseq.svh(41) @ 131065601: uvm_test_top.m_env.m_vseqr@@m_rf_check_vseq [rf_check_vseq] Sequence complete
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//simple-test/simple_test.svh(31) @ 131065601: uvm_test_top [SIMPLE_TEST] rf_check_vseq complete
@@ -1012,19 +960,19 @@
 # UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 132641601: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
 # UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_link_status.svh(193) @ 132641601: uvm_test_top.m_env.hmc_agent_h.h_status.Requester_link_status [HMC_LINK_STATUS_report_phase()] Token_count 0
 # UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_link_status.svh(193) @ 132641601: uvm_test_top.m_env.hmc_agent_h.h_status.Responder_link_status [HMC_LINK_STATUS_report_phase()] Token_count 0
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(102) @ 132641601: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] LNG error count  1
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(103) @ 132641601: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] CRC error count  0
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(104) @ 132641601: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] SEQ error count  0
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(105) @ 132641601: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] poisoned packets 0
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(102) @ 132641601: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] LNG error count  1
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(103) @ 132641601: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] CRC error count  0
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(104) @ 132641601: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] SEQ error count  0
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(105) @ 132641601: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] poisoned packets 0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(106) @ 132641601: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] LNG error count  1
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(107) @ 132641601: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] CRC error count  0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(108) @ 132641601: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] SEQ error count  0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(109) @ 132641601: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] poisoned packets 0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(106) @ 132641601: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] LNG error count  1
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(107) @ 132641601: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] CRC error count  0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(108) @ 132641601: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] SEQ error count  0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(109) @ 132641601: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] poisoned packets 0
 # 
 # --- UVM Report Summary ---
 # 
 # ** Report counts by severity
-# UVM_INFO :  248
+# UVM_INFO :  250
 # UVM_WARNING :    0
 # UVM_ERROR :    0
 # UVM_FATAL :    0
@@ -1035,7 +983,7 @@
 # [HMC_AGENT_MONITOR_link_states()]    83
 # [HMC_AGENT_MONITOR_report_phase()]     8
 # [HMC_LINK_STATUS_report_phase()]     2
-# [INITIALiZATION_SEQ]    10
+# [INITIALiZATION_SEQ]    12
 # [Questa UVM]     2
 # [RNTST]     1
 # [SIMPLE_TEST]     8

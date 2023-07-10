@@ -65,8 +65,18 @@ run -all
 coverage attribute -name TESTNAME -value write_only_test
 coverage save coverage/write_only_test.ucdb
 
-#********************************** 4. RESET TESTS ***********************************#
+#********************************** 5. RESET TESTS ***********************************#
 do scripts/reset_tests.do
+
+#******************************* 6. HMC RETRY TEST ***********************************#
+transcript file log/hmc_retry_test.log
+vsim top_opt -c -assertdebug -debugDB -fsmdebug -coverage +UVM_TESTNAME=hmc_retry_test
+set NoQuitOnFinish 1
+onbreak {resume}
+log /* -r
+run -all
+coverage attribute -name TESTNAME -value hmc_retry_test
+coverage save coverage/hmc_retry_test.ucdb
 
 #***************************************************#
 # Close the Transcript file
@@ -86,7 +96,8 @@ vcover merge  coverage/openhmc.ucdb \
               coverage/read_only_test.ucdb \
               coverage/posted_only_test.ucdb \
               coverage/write_only_test.ucdb \
-              coverage/reset_tests.ucdb
+              coverage/reset_tests.ucdb \
+              coverage/hmc_retry_test.ucdb
               
               
               

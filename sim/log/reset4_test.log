@@ -1,13 +1,14 @@
 # ** Error: Acs sdne.
 # 
+
 #        Unable to replace existing ini file (D:/Ali/College/Graduation_project/sim/comp.mpf).  File can not be renamed.
 # ** Error: Acs sdne.
 # 
 #        Unable to replace existing ini file (D:/Ali/College/Graduation_project/sim/comp.mpf).  File can not be renamed.
-# End time: 12:28:21 on Jul 07,2023, Elapsed time: 0:01:34
+# End time: 11:35:42 on Jul 10,2023, Elapsed time: 0:00:32
 # Errors: 2, Warnings: 1
 # vsim top_opt -c -assertdebug -debugDB -fsmdebug -coverage "+UVM_TESTNAME=reset4_test" 
-# Start time: 12:28:26 on Jul 07,2023
+# Start time: 11:35:42 on Jul 10,2023
 # Loading sv_std.std
 # Loading work.system_if(fast)
 # Loading work.rf_if(fast)
@@ -172,7 +173,7 @@
 # 
 #   No instance or type overrides are registered with this factory
 # 
-# All types registered with the factory: 122 total
+# All types registered with the factory: 127 total
 # (types without type names will not be printed)
 # 
 #   Type Name
@@ -191,6 +192,8 @@
 #   hmc_pkt_item
 #   hmc_pkt_item_request
 #   hmc_retry_buffer
+#   hmc_retry_test
+#   hmc_retry_test_vseq
 #   hmc_status
 #   hmc_token_handler
 #   initialization_seq
@@ -224,6 +227,9 @@
 #   reset4_seq
 #   reset4_test
 #   reset4_test_vseq
+#   reset5_seq
+#   reset5_test
+#   reset5_test_vseq
 #   rf_agent_cfg
 #   rf_check_vseq
 #   rf_control_read_seq
@@ -274,7 +280,7 @@
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//reset-tests/reset4_test.svh(19) @ 502400: uvm_test_top [RESET4_TEST] Starting test
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//reset-tests/reset4_test.svh(21) @ 502400: uvm_test_top [RESET4_TEST] Executing m_reset_test_vseq
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//reset-tests/reset4_test_vseq.svh(18) @ 502400: uvm_test_top.m_env.m_vseqr@@m_reset4_test_vseq [reset4_test_vseq] Executing sequence
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(123) @ 2524801: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(115) @ 2524801: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] 
 # *******************************
 # 	CONTROL REGISTER
 # *******************************
@@ -289,26 +295,26 @@
 # 	 irtry_to_send=18
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(135) @ 3548801: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] Waiting for the PHY TX to get ready
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(135) @ 4553601: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] Waiting for the PHY TX to get ready
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(137) @ 4553601: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] Phy TX ready
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 4560000: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 4560000: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 100000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 4561450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS 	 vector: 111000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 5560000: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 5792450: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS 	 vector: 111000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 6108850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: TS1 	 vector: 111100
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(386) @ 6115250: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_flits()] Requester Link is not reversed
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(149) @ 6566401: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] Waiting for PHY RX to get ready
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 6821350: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: TS1 	 vector: 111100
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(386) @ 6827750: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_flits()] Responder Link is not reversed
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(149) @ 7571201: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] Waiting for PHY RX to get ready
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(151) @ 7571201: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] Phy RX is ready
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 7700850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS_2 	 vector: 111110
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 7715750: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS_2 	 vector: 111110
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 7724850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: LINK_UP 	 vector: 111111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 7739750: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: LINK_UP 	 vector: 111111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(40) @ 7744001: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(127) @ 3548801: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] Waiting for the PHY TX to get ready
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(127) @ 4553601: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] Waiting for the PHY TX to get ready
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(129) @ 4553601: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] Phy TX ready
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 4560000: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 4560000: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 100000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 4561450: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 5560000: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 5792450: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 6108850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: TS1 	 vector: 111100
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(390) @ 6115250: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_collect_flits()] Requester Link is not reversed
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(141) @ 6566401: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] Waiting for PHY RX to get ready
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 6821350: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: TS1 	 vector: 111100
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(390) @ 6827750: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_collect_flits()] Responder Link is not reversed
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(141) @ 7571201: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] Waiting for PHY RX to get ready
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(143) @ 7571201: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] Phy RX is ready
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 7700850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS_2 	 vector: 111110
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 7715750: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS_2 	 vector: 111110
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 7724850: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: LINK_UP 	 vector: 111111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 7739750: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: LINK_UP 	 vector: 111111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(40) @ 7744001: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] 
 # *******************************
 # 	STATUS INIT REGISTER
 # *******************************
@@ -316,12 +322,12 @@
 # 	 status_init_tx_init_state=11
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(76) @ 7744001: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] ENTER RESET MODE
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 7747200: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: RESET 	 vector: 011111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 7747200: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: RESET 	 vector: 011111
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 7747200: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: RESET 	 vector: 000000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(81) @ 8246400: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] EXIT RESET MODE
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(190) @ 10268801: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//base_seq.svh(28) @ 7744001: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] ENTER RESET MODE
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 7747200: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: RESET 	 vector: 011111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 7747200: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: RESET 	 vector: 011111
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 7747200: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: RESET 	 vector: 000000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//base_seq.svh(33) @ 8246400: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] EXIT RESET MODE
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(182) @ 10268801: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] 
 # *******************************
 # 	CONTROL REGISTER
 # *******************************
@@ -336,14 +342,14 @@
 # 	 irtry_to_send=18
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(198) @ 11280001: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] Waiting for the PHY TX to get ready
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(200) @ 11280001: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] Phy TX ready
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 11286400: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 100000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 11286400: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 11287950: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS 	 vector: 111000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 12288000: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 13262350: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS 	 vector: 111000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(54) @ 13289601: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(190) @ 11280001: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] Waiting for the PHY TX to get ready
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(192) @ 11280001: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] Phy TX ready
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 11286400: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 100000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 11286400: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 11287950: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 12288000: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 13262350: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: NULL_FLITS 	 vector: 111000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(54) @ 13289601: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] 
 # *******************************
 # 	STATUS INIT REGISTER
 # *******************************
@@ -351,12 +357,12 @@
 # 	 status_init_tx_init_state=00
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(76) @ 13289601: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] ENTER RESET MODE
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 13292800: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: RESET 	 vector: 011000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 13292800: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: RESET 	 vector: 011000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 13292800: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: RESET 	 vector: 000000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(81) @ 13792000: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] EXIT RESET MODE
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(190) @ 15814401: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//base_seq.svh(28) @ 13289601: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] ENTER RESET MODE
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 13292800: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: RESET 	 vector: 011000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 13292800: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: RESET 	 vector: 011000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 13292800: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: RESET 	 vector: 000000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//base_seq.svh(33) @ 13792000: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] EXIT RESET MODE
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(182) @ 15814401: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] 
 # *******************************
 # 	CONTROL REGISTER
 # *******************************
@@ -371,12 +377,12 @@
 # 	 irtry_to_send=18
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(198) @ 16825601: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] Waiting for the PHY TX to get ready
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(200) @ 16825601: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] Phy TX ready
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 16832000: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 100000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 16832000: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 17832000: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(68) @ 18348801: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] 
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(190) @ 16825601: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] Waiting for the PHY TX to get ready
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(192) @ 16825601: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] Phy TX ready
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 16832000: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: POWER_DOWN 	 vector: 100000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 16832000: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 17832000: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: PRBS 	 vector: 110000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(68) @ 18348801: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] 
 # *******************************
 # 	STATUS INIT REGISTER
 # *******************************
@@ -384,24 +390,24 @@
 # 	 status_init_tx_init_state=00
 # **************************************************************
 # 
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(76) @ 18348801: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] ENTER RESET MODE
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 18352000: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: RESET 	 vector: 010000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 18352000: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: RESET 	 vector: 010000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(667) @ 18352000: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: RESET 	 vector: 000000
-# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//reset-sequences/reset4_seq.svh(81) @ 18851200: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET_SEQ] EXIT RESET MODE
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//base_seq.svh(28) @ 18348801: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] ENTER RESET MODE
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 18352000: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: RESET 	 vector: 010000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 18352000: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_link_states()] Requester Link current State: RESET 	 vector: 010000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(671) @ 18352000: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_link_states()] Responder Link current State: RESET 	 vector: 000000
+# UVM_INFO D:/Ali/College/Graduation_project/tb/seq_lib//base_seq.svh(33) @ 18851200: uvm_test_top.m_env.m_rf_agent.m_seqr@@reset4 [RESET4_SEQ] EXIT RESET MODE
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//reset-tests/reset4_test.svh(23) @ 18851200: uvm_test_top [RESET4_TEST] m_reset_test_vseq complete
 # UVM_INFO D:/Ali/College/Graduation_project/tb/test_lib//reset-tests/reset4_test.svh(25) @ 18851200: uvm_test_top [RESET4_TEST] Ending test
 # UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 18851200: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
 # UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_link_status.svh(193) @ 18851200: uvm_test_top.m_env.hmc_agent_h.h_status.Requester_link_status [HMC_LINK_STATUS_report_phase()] Token_count 0
 # UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_link_status.svh(193) @ 18851200: uvm_test_top.m_env.hmc_agent_h.h_status.Responder_link_status [HMC_LINK_STATUS_report_phase()] Token_count 0
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(102) @ 18851200: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] LNG error count  0
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(103) @ 18851200: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] CRC error count  0
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(104) @ 18851200: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] SEQ error count  0
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(105) @ 18851200: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] poisoned packets 0
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(102) @ 18851200: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] LNG error count  0
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(103) @ 18851200: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] CRC error count  0
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(104) @ 18851200: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] SEQ error count  0
-# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(105) @ 18851200: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] poisoned packets 0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(106) @ 18851200: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] LNG error count  0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(107) @ 18851200: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] CRC error count  0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(108) @ 18851200: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] SEQ error count  0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(109) @ 18851200: uvm_test_top.m_env.hmc_agent_h.m_req_monitor [HMC_AGENT_MONITOR_report_phase()] poisoned packets 0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(106) @ 18851200: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] LNG error count  0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(107) @ 18851200: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] CRC error count  0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(108) @ 18851200: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] SEQ error count  0
+# UVM_INFO D:/Ali/College/Graduation_project/tb/hmc_agent//hmc_agent_monitor.svh(109) @ 18851200: uvm_test_top.m_env.hmc_agent_h.m_rsp_monitor [HMC_AGENT_MONITOR_report_phase()] poisoned packets 0
 # 
 # --- UVM Report Summary ---
 # 
@@ -417,8 +423,8 @@
 # [HMC_AGENT_MONITOR_report_phase()]     8
 # [HMC_LINK_STATUS_report_phase()]     2
 # [Questa UVM]     2
+# [RESET4_SEQ]    22
 # [RESET4_TEST]     4
-# [RESET_SEQ]    22
 # [RNTST]     1
 # [TEST_DONE]     1
 # [env_connect_phase]     1
